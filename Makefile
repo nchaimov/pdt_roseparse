@@ -7,7 +7,7 @@
 
 
 # Location of include directory after "make install"
-ROSE_INCLUDE_DIR = /mnt/netapp/home2/nchaimov/src/rose-svn/compileTree/include
+ROSE_INCLUDE_DIR = /mnt/netapp/home2/nchaimov/src/rose-0.9.5a-15023/compileTree/include
 
 # Location of Boost include directory
 BOOST_CPPFLAGS = -I/mnt/netapp/home2/nchaimov/boost/include
