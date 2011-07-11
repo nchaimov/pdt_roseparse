@@ -34,7 +34,7 @@ LDFLAGS               =
 ROSE_SOURCE_DIR = ./src
  
 
-executableFiles = functionLocator printRoseAST roseparse preproc
+executableFiles = functionLocator printRoseAST roseparse preproc upcparse
 
 
 # Default make rule to use
