@@ -65,7 +65,10 @@ public:
 		// FORTRAN
 		STMT_FALLOCATE, STMT_FIO, STMT_FDEALLOCATE, STMT_FSINGLE_IF, STMT_FSTOP,
 		STMT_FARITHIF, STMT_FENTRY, STMT_FPAUSE, STMT_FLABELASSIGN, STMT_FPOINTERASSIGN,
-		STMT_FWHERE, STMT_FFORALL, STMT_FCALL
+		STMT_FWHERE, STMT_FFORALL, STMT_FCALL,
+
+        // UPC
+        STMT_UPC_FORALL, STMT_UPC_BARRIER, STMT_UPC_FENCE, STMT_UPC_NOTIFY, STMT_UPC_WAIT
 	};
 	
 	StatementType kind;
@@ -137,6 +140,11 @@ public:
 			case STMT_FWHERE			: s << "where"; 							break;
 			case STMT_FFORALL			: s << "forall"; 							break;
 			case STMT_FCALL				: s << "call"; 								break;
+            case STMT_UPC_FORALL        : s << "upc_forall";                        break;
+            case STMT_UPC_BARRIER       : s << "upc_barrier";                       break;
+            case STMT_UPC_FENCE         : s << "upc_fence";                         break;
+            case STMT_UPC_NOTIFY        : s << "upc_notify";                        break;
+            case STMT_UPC_WAIT          : s << "upc_wait";                          break;
             default						: std::cerr << "WARNING: Unknown statement type encountered." << std::endl;
 		} 
 		s << " ";
@@ -179,6 +187,7 @@ public:
 				case STMT_CONTINUE:
 				case STMT_CASE:
 	            case STMT_DECL:
+                case STMT_UPC_FORALL:
 					if(extra < 0) {
 						s << "NA";
 					} else {

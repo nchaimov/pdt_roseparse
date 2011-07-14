@@ -204,6 +204,12 @@ public:
 	// FORTRAN CHARACTER
 	int yclen;
 	
+    // UPC SHARED TYPES
+    bool yshared;
+    int yblocksize;
+    bool ystrict;
+    bool yrelaxed;
+
 	friend std::ostream & operator<<(std::ostream & out, const Type & t);
 
 	Type(int i, std::string n) : id(i), fortran(false), name(n), yloc(NULL), ynspace(-1), ykind(NA), yikind(INT_NA), ysigned(false),
@@ -211,7 +217,8 @@ public:
 								 yqual(false), yelem(-1), yelem_group(false), ystat(false), ynelem(-3),
 								 yshape(AS_NA), yrank(-1), ydim(""),
 								 ytref(-1), ytref_group(false), yqual_volatile(false), yqual_restrict(false),
-								 ympgroup(-1), ymptype(-1), ymptype_group(false), yclen(-1) {};
+								 ympgroup(-1), ymptype(-1), ymptype_group(false), yclen(-1),
+                                 yshared(false), yblocksize(-1), ystrict(false), yrelaxed(false) {};
 	
 	const std::string typeString(void) const {
 		std::stringstream s;
@@ -414,6 +421,22 @@ public:
 				std::cerr << "Name: " << name << "\n";
 				std::cerr << std::endl;
 		}
+
+        if(yshared) {
+            s << "yshared T\n";
+        }
+
+        if(yblocksize >= 0) {
+            s << "yblocksize " << yblocksize << "\n";
+        }
+
+        if(ystrict) {
+            s << "ystrict T\n";
+        }
+
+        if(yrelaxed) {
+            s << "yrelaxed T\n";
+        }
 
 		s << "\n";
 		

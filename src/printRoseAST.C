@@ -49,6 +49,9 @@ visitorTraversal::evaluateInheritedAttribute(SgNode* n, InheritedAttribute inher
                }
             }
         }
+        if(isSgFunctionDeclaration(n)) {
+            printf(" [declares function: %s]", isSgFunctionDeclaration(n)->get_name().str());
+        }
         SgStatement * sgStmt = isSgStatement(n);
         if(sgStmt != NULL) {
             printf(" [scope: %s, %p]", sgStmt->get_scope()->sage_class_name(), sgStmt->get_scope());

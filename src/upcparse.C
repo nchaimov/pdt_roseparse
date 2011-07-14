@@ -1,7 +1,7 @@
 /*
- *  roseparse
- *  This program uses the ROSE compiler framework to read in C, C++ or
- *  Fortran code, generates an abstract syntax tree, and uses ROSE to
+ *  upcparse
+ *  This program uses the ROSE compiler framework to read in UPC
+ *  code, generates an abstract syntax tree, and uses ROSE to
  *  traverse the AST, extract the data needed to produce a PDB (Program
  *  Database, used by PDT) file.
  */
@@ -9,7 +9,7 @@
 #include "rose.h"
 
 enum Language {
-	LANG_NONE, LANG_C, LANG_CPP, LANG_C_CPP, LANG_FORTRAN, LANG_JAVA, LANG_MULTI
+	LANG_NONE, LANG_C, LANG_CPP, LANG_C_CPP, LANG_FORTRAN, LANG_JAVA, LANG_MULTI, LANG_UPC
 };
 
 #include "taurose.h"
@@ -42,7 +42,7 @@ using std::vector;
 using std::stringstream;
 using std::fstream;
 
-const int PDB_VERSION = 3;
+const int PDB_VERSION = 4;
 const string PDT_ATTRIBUTE = "PDT_ATTRIBUTE";
 
 // Different types of entries the PDB file are numbered separately.
@@ -132,6 +132,7 @@ TypeID handleType(SgType * type, Namespace * parentNamespace, bool isGroup = fal
 		st = type->unparseToString();
 	}
 		
+
 	std::string mangledName = type->get_mangled().str();
 	
 	// Find out if we've already handled this type...
@@ -156,6 +157,7 @@ TypeID handleType(SgType * type, Namespace * parentNamespace, bool isGroup = fal
 			t->ykind = Type::TREF;
 			const SgTypeModifier & typeMod = modType->get_typeModifier();
 			const SgConstVolatileModifier & constMod = typeMod.get_constVolatileModifier();
+            const SgUPC_AccessModifier & upcMod = typeMod.get_upcModifier();
 			if(constMod.isConst()) {
 				t->yqual = true;
 			}
@@ -164,7 +166,13 @@ TypeID handleType(SgType * type, Namespace * parentNamespace, bool isGroup = fal
 			}
 			if(typeMod.isRestrict()) {
 				t->yqual_restrict = true;
-			}
+			}                                                               
+            if(upcMod.get_isShared()) {
+                t->yshared = true;
+                t->yblocksize = SageInterface::getUpcSharedBlockSize(type);
+                t->ystrict = upcMod.isUPC_Strict();
+                t->yrelaxed = upcMod.isUPC_Relaxed();
+            }
 			// Now that we've processed the modifiers, we want to continue
 			// with the type that it wraps.
 			TypeID baseTypeID = handleType(modType->get_base_type(), parentNamespace);
@@ -592,6 +600,7 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
 			const string & linkage = dec->get_linkage();
 			if(linkage.empty()) {
 					switch(lang) {
+                        case LANG_UPC:      // fallthrough
 						case LANG_C:  		r->rlink = Routine::C; 		 break;
 						case LANG_CPP: 		r->rlink = Routine::CPP;	 break;
 						case LANG_FORTRAN: 	r->rlink = Routine::FORTRAN; break;
@@ -912,7 +921,14 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
 					}
 				}
 
-            
+            // UPC FORALL
+            } else if(isSgUpcForAllStatement(n)) {
+                SgUpcForAllStatement * forStmt = isSgUpcForAllStatement(n);
+                stmt->kind = Statement::STMT_UPC_FORALL;
+                // DOWN should point to the body of the loop.
+                stmt->downSgStmt = forStmt->get_loop_body();
+                // EXTRA should point to the initializer.
+                stmt->extraSgStmt = forStmt->get_for_init_stmt();
    
             // For initialization statement (treat as BLOCK)
             } else if(isSgForInitStatement(n)) {
@@ -1199,6 +1215,23 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
 			} else if(isSgEntryStatement(n)) {
 				stmt->kind = Statement::STMT_FENTRY;
 			
+            // UPC BARRIER
+            } else if(isSgUpcBarrierStatement(n)) {
+                stmt->kind = Statement::STMT_UPC_BARRIER;
+            
+            // UPC FENCE
+            } else if(isSgUpcFenceStatement(n)) {
+                stmt->kind = Statement::STMT_UPC_FENCE;
+
+            // UPC NOTIFY
+            } else if(isSgUpcNotifyStatement(n)) {
+                stmt->kind = Statement::STMT_UPC_NOTIFY;
+             
+            // UPC WAIT    
+            } else if(isSgUpcWaitStatement(n)) {
+                stmt->kind = Statement::STMT_UPC_WAIT;
+
+
 			
 			// PRAGMA
 			// Despite being preprocessor directives, these are statements
@@ -1777,17 +1810,13 @@ int main ( int argc, char* argv[] ) {
     // Determine language of the project
 	lang = LANG_NONE;
 	
-	if(project->get_C_only() || project->get_C99_only()) {
-		lang = LANG_C;
-	} else if(project->get_Cxx_only()) {
-		lang = LANG_CPP;
-	} else if(project->get_Fortran_only() || project->get_F77_only() || project->get_F90_only()
-			  || project->get_F95_only() || project->get_F2003_only()) {
-		lang = LANG_FORTRAN;
-	} else {
-		lang = LANG_MULTI;
-	} // The PDT specification says Java is a possible language, but ROSE
-      // doesn't (yet?) support Java.
+    if(SageInterface::is_UPC_language()) {
+        lang = LANG_UPC;
+    } else {
+        std::cerr << "ERROR: input file was not in UPC format!" << std::endl;
+        return EXIT_FAILURE;
+    }
+
 	
 	
 	// Determine which files were part of the project.
@@ -1819,6 +1848,7 @@ int main ( int argc, char* argv[] ) {
 			case LANG_FORTRAN: outfile << "fortran"; break;
 			case LANG_JAVA: outfile << "java"; break;
 			case LANG_MULTI: outfile << "multi"; break;
+            case LANG_UPC: outfile << "upc"; break;
             default: if(SgProject::get_verbose() > 0) {
 				std::cerr << "WARNING: Unknown language type encountered." << std::endl;
 			}
@@ -1979,6 +2009,5 @@ int main ( int argc, char* argv[] ) {
 
     outfile.close();
 
-	
-	return 0;
+	return EXIT_SUCCESS;
 }                                  
