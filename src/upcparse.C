@@ -158,20 +158,30 @@ TypeID handleType(SgType * type, Namespace * parentNamespace, bool isGroup = fal
 			const SgTypeModifier & typeMod = modType->get_typeModifier();
 			const SgConstVolatileModifier & constMod = typeMod.get_constVolatileModifier();
             const SgUPC_AccessModifier & upcMod = typeMod.get_upcModifier();
+            // const
 			if(constMod.isConst()) {
 				t->yqual = true;
 			}
+            // volatile
 			if(constMod.isVolatile()) {
 				t->yqual_volatile = true;
 			}
+            // restrict
 			if(typeMod.isRestrict()) {
 				t->yqual_restrict = true;
-			}                                                               
+			}          
+            // UPC shared
             if(upcMod.get_isShared()) {
                 t->yshared = true;
                 t->yblocksize = SageInterface::getUpcSharedBlockSize(type);
                 t->ystrict = upcMod.isUPC_Strict();
                 t->yrelaxed = upcMod.isUPC_Relaxed();
+            }
+            if(upcMod.isUPC_Strict()) {
+                t->ystrict = true;
+            }
+            if(upcMod.isUPC_Relaxed()) {
+                t->yrelaxed = true;
             }
 			// Now that we've processed the modifiers, we want to continue
 			// with the type that it wraps.
@@ -415,6 +425,12 @@ TypeID handleType(SgType * type, Namespace * parentNamespace, bool isGroup = fal
 // can get these names.
 int handleFunctionType(SgFunctionType * type, SgFunctionParameterList * params, bool cgen, Namespace * parentNamespace) {
 	string st = type->unparseToString();
+    // ROSE unparses function types as retType(param1, param2)
+    // but we want a space between retType and the parameters
+    size_t parenLoc = st.find_first_of("(");
+    if(parenLoc != string::npos) {
+        st.insert(parenLoc, " ");
+    }
 	int id = nextTypeID++;
     TypeID fnTypeID(id, false);
 	Type * t = new Type(id, st);
@@ -467,6 +483,7 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
 
     Sg_File_Info * s = n->get_startOfConstruct();
     Sg_File_Info * e = n->get_endOfConstruct();
+
 
 	// MACROS and COMMENTS
 	SgLocatedNode * locatedNode = isSgLocatedNode(n);
@@ -929,6 +946,21 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
                 stmt->downSgStmt = forStmt->get_loop_body();
                 // EXTRA should point to the initializer.
                 stmt->extraSgStmt = forStmt->get_for_init_stmt();
+                // AFFINITY should point to the affinity expression.
+                // Affinity is a bare expression, not an expression statement,
+                // so it will ordinarily not have an entry in the PDB file;
+                // we generate one for it here.
+                stmt->affinitySgExpr = forStmt->get_affinity(); 
+                if(stmt->affinitySgExpr != NULL && !isSgNullExpression(stmt->affinitySgExpr)) {
+                    Statement * affinityStmt = new Statement(parentRoutine->stmtId++, NULL);
+                    affinityStmt->kind = Statement::STMT_EXPR;
+                    affinityStmt->start = new SourceLocation(stmt->affinitySgExpr->get_startOfConstruct());
+                    affinityStmt->end   = new SourceLocation(stmt->affinitySgExpr->get_endOfConstruct());
+                    parentRoutine->rstmts.push_back(affinityStmt);
+                    stmt->affinity = affinityStmt->id;
+                }
+
+                
    
             // For initialization statement (treat as BLOCK)
             } else if(isSgForInitStatement(n)) {

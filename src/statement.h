@@ -78,14 +78,17 @@ public:
 	int next;
     int down;
     int extra;
+    int affinity;
 
     SgStatement * nextSgStmt;
     SgStatement * downSgStmt;
     SgStatement * extraSgStmt;
+    SgExpression * affinitySgExpr;
 	
-	Statement(int i, SgStatement * n, StatementType k = STMT_NONE) : node(n), id(i), depth(-1), fortran(false), kind(k), start(NULL), end(NULL),
-                                                                     next(-1), down(-1), extra(-1), nextSgStmt(NULL), 
-                                                                     downSgStmt(NULL), extraSgStmt(NULL) {};
+	Statement(int i, SgStatement * n, StatementType k = STMT_NONE) : node(n), id(i), depth(-1), fortran(false),
+                                                                     kind(k), start(NULL), end(NULL), next(-1), down(-1),
+                                                                     extra(-1), affinity(-1), nextSgStmt(NULL), downSgStmt(NULL),
+                                                                     extraSgStmt(NULL), affinitySgExpr(NULL) {};
 	
 	friend std::ostream & operator<<(std::ostream & out, const Statement & s);
 	
@@ -208,6 +211,15 @@ public:
 			}
 			s << " ";
 		}
+
+        if(kind == STMT_UPC_FORALL) {
+            if(affinity < 0) {
+                s << "NA";
+            } else {
+                s << "st#" << affinity;
+            }
+            s << " ";
+        }
 		
 		s << "\n";
 		return s.str();
