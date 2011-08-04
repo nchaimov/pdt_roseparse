@@ -1,6 +1,6 @@
 /*
  *  roseparse
- *  This program uses the ROSE compiler framework to read in C, C++ or
+ *  This program uses the ROSE compiler framework to read in C, C++, UPC or
  *  Fortran code, generates an abstract syntax tree, and uses ROSE to
  *  traverse the AST, extract the data needed to produce a PDB (Program
  *  Database, used by PDT) file.
@@ -9,7 +9,7 @@
 #include "rose.h"
 
 enum Language {
-	LANG_NONE, LANG_C, LANG_CPP, LANG_C_CPP, LANG_FORTRAN, LANG_JAVA, LANG_MULTI
+	LANG_NONE, LANG_C, LANG_CPP, LANG_C_CPP, LANG_FORTRAN, LANG_JAVA, LANG_MULTI, LANG_UPC
 };
 
 #include "taurose.h"
@@ -40,8 +40,10 @@ using std::string;
 using std::map;
 using std::vector;
 using std::stringstream;
+using std::fstream;
 
 const int PDB_VERSION = 3;
+const int UPC_PDB_VERSION = 4;
 const string PDT_ATTRIBUTE = "PDT_ATTRIBUTE";
 
 // Different types of entries the PDB file are numbered separately.
@@ -155,15 +157,34 @@ TypeID handleType(SgType * type, Namespace * parentNamespace, bool isGroup = fal
 			t->ykind = Type::TREF;
 			const SgTypeModifier & typeMod = modType->get_typeModifier();
 			const SgConstVolatileModifier & constMod = typeMod.get_constVolatileModifier();
+            const SgUPC_AccessModifier & upcMod = typeMod.get_upcModifier();
+            // const
 			if(constMod.isConst()) {
 				t->yqual = true;
 			}
+            // volatile
 			if(constMod.isVolatile()) {
 				t->yqual_volatile = true;
 			}
+            // restrict
 			if(typeMod.isRestrict()) {
 				t->yqual_restrict = true;
 			}
+            // UPC shared
+            if(upcMod.get_isShared()) {
+                t->yshared = true;
+                t->yblocksize = SageInterface::getUpcSharedBlockSize(type);
+                t->ystrict = upcMod.isUPC_Strict();
+                t->yrelaxed = upcMod.isUPC_Relaxed();
+            }
+            // UPC strict
+            if(upcMod.isUPC_Strict()) {
+                t->ystrict = true;
+            }
+            // UPC relaxed
+            if(upcMod.isUPC_Relaxed()) {
+                t->yrelaxed = true;
+            }
 			// Now that we've processed the modifiers, we want to continue
 			// with the type that it wraps.
 			TypeID baseTypeID = handleType(modType->get_base_type(), parentNamespace);
@@ -467,6 +488,7 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
 		// they occur.
 		AttachedPreprocessingInfoType* preproc = locatedNode->getAttachedPreprocessingInfo();
         if(preproc != NULL) {
+            std::cerr << "preproc: " << preproc->class_name() << std::endl;
 			for(AttachedPreprocessingInfoType::iterator it = preproc->begin(); it != preproc->end(); it++ ) {
 				switch((*it)->getTypeOfDirective()) {
 					
@@ -519,6 +541,8 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
 							}
 						}
 					}
+                    break;
+
 					
 					default: ; // Ignore other types of preproc info
 				}
@@ -591,6 +615,7 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
 			const string & linkage = dec->get_linkage();
 			if(linkage.empty()) {
 					switch(lang) {
+                        case LANG_UPC:      // fallthrough
 						case LANG_C:  		r->rlink = Routine::C; 		 break;
 						case LANG_CPP: 		r->rlink = Routine::CPP;	 break;
 						case LANG_FORTRAN: 	r->rlink = Routine::FORTRAN; break;
@@ -912,6 +937,27 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
 				}
 
             
+            // UPC FORALL
+            } else if(isSgUpcForAllStatement(n)) {
+                SgUpcForAllStatement * forStmt = isSgUpcForAllStatement(n);
+                stmt->kind = Statement::STMT_UPC_FORALL;
+                // DOWN should point to the body of the loop.
+                stmt->downSgStmt = forStmt->get_loop_body();
+                // EXTRA should point to the initializer.
+                stmt->extraSgStmt = forStmt->get_for_init_stmt();
+                // AFFINITY should point to the affinity expression.
+                // Affinity is a bare expression, not an expression statement,
+                // so it will ordinarily not have an entry in the PDB file;
+                // we generate one for it here.
+                stmt->affinitySgExpr = forStmt->get_affinity(); 
+                if(stmt->affinitySgExpr != NULL && !isSgNullExpression(stmt->affinitySgExpr)) {
+                    Statement * affinityStmt = new Statement(parentRoutine->stmtId++, NULL);
+                    affinityStmt->kind = Statement::STMT_EXPR;
+                    affinityStmt->start = new SourceLocation(stmt->affinitySgExpr->get_startOfConstruct());
+                    affinityStmt->end   = new SourceLocation(stmt->affinitySgExpr->get_endOfConstruct());
+                    parentRoutine->rstmts.push_back(affinityStmt);
+                    stmt->affinity = affinityStmt->id;
+                }
    
             // For initialization statement (treat as BLOCK)
             } else if(isSgForInitStatement(n)) {
@@ -1199,6 +1245,43 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
 				stmt->kind = Statement::STMT_FENTRY;
 			
 			
+            // UPC BARRIER
+            } else if(isSgUpcBarrierStatement(n)) {
+                stmt->kind = Statement::STMT_UPC_BARRIER;
+                SgExpression * expr = isSgUpcBarrierStatement(n)->get_barrier_expression();
+                if(expr != NULL) {
+                    if(stmt->end != NULL) {
+                        delete stmt->end;
+                    }
+                    stmt->end = new SourceLocation(expr->get_endOfConstruct());
+                }
+            
+            // UPC FENCE
+            } else if(isSgUpcFenceStatement(n)) {
+                stmt->kind = Statement::STMT_UPC_FENCE;
+
+            // UPC NOTIFY
+            } else if(isSgUpcNotifyStatement(n)) {
+                stmt->kind = Statement::STMT_UPC_NOTIFY;
+                SgExpression * expr = isSgUpcNotifyStatement(n)->get_notify_expression();
+                if(expr != NULL) {
+                    if(stmt->end != NULL) {
+                        delete stmt->end;
+                    }
+                    stmt->end = new SourceLocation(expr->get_endOfConstruct());
+                }
+
+            // UPC WAIT    
+            } else if(isSgUpcWaitStatement(n)) {
+                stmt->kind = Statement::STMT_UPC_WAIT;
+                SgExpression * expr = isSgUpcWaitStatement(n)->get_wait_expression();
+                if(expr != NULL) {
+                    if(stmt->end != NULL) {
+                        delete stmt->end;
+                    }
+                    stmt->end = new SourceLocation(expr->get_endOfConstruct());
+                }
+
 			// PRAGMA
 			// Despite being preprocessor directives, these are statements
 			// in ROSE, whereas other preprocessor directives are not
@@ -1750,6 +1833,12 @@ SynthesizedAttribute VisitorTraversal::evaluateSynthesizedAttribute(SgNode * n, 
     return SynthesizedAttribute();
  }
 
+inline std::string generatePDBFileName(SgFile * f) {
+    const std::string & fileName = f->get_file_info()->get_filenameString();
+    const std::string & baseName = StringUtility::stripPathFromFileName(fileName);
+    const std::string & noExt = StringUtility::stripFileSuffixFromFileName(baseName);
+    return noExt + ".pdb";
+}
 
 int main ( int argc, char* argv[] ) {
 	
@@ -1758,10 +1847,23 @@ int main ( int argc, char* argv[] ) {
 	ROSE_ASSERT (project != NULL);
     AstTests::runAllTests(project);
 	
+	const SgFilePtrList & fileList = project->get_fileList();
+    std::string outName = project->get_outputFileName();
+    if(outName.compare("a.out") == 0) {
+        outName = generatePDBFileName(fileList.front());
+    }
+
+    fstream outfile;
+    outfile.open(outName.c_str(), fstream::out | fstream::trunc);
+
     // Determine language of the project
 	lang = LANG_NONE;
+    int version = PDB_VERSION;
 	
-	if(project->get_C_only() || project->get_C99_only()) {
+    if(SageInterface::is_UPC_language()) {
+        lang = LANG_UPC;
+        version = UPC_PDB_VERSION;
+    } else if(project->get_C_only() || project->get_C99_only()) {
 		lang = LANG_C;
 	} else if(project->get_Cxx_only()) {
 		lang = LANG_CPP;
@@ -1772,10 +1874,9 @@ int main ( int argc, char* argv[] ) {
 		lang = LANG_MULTI;
 	} // The PDT specification says Java is a possible language, but ROSE
       // doesn't (yet?) support Java.
-	
+
 	
 	// Determine which files were part of the project.
-	const SgFilePtrList & fileList = project->get_fileList();
 	for(SgFilePtrList::const_iterator i = fileList.begin(); i != fileList.end(); ++i) {
 		new SourceLocation((*i)->get_file_info());
 	}
@@ -1792,24 +1893,25 @@ int main ( int argc, char* argv[] ) {
 
 
     // Start printing PDB formatted output: print version number
-	cout << "<PDB " << PDB_VERSION << ".0>\n";
+	outfile << "<PDB " << version << ".0>\n";
 	
     // Print language used
 	if(lang != LANG_NONE) {
-		cout << "lang ";
+		outfile << "lang ";
 		switch(lang) {
-			case LANG_C: cout << "c"; break;
-			case LANG_CPP: cout << "c++"; break;
-            case LANG_C_CPP: cout << "c_or_c++"; break;
-			case LANG_FORTRAN: cout << "fortran"; break;
-			case LANG_JAVA: cout << "java"; break;
-			case LANG_MULTI: cout << "multi"; break;
+			case LANG_C: outfile << "c"; break;
+			case LANG_CPP: outfile << "c++"; break;
+            case LANG_C_CPP: outfile << "c_or_c++"; break;
+			case LANG_FORTRAN: outfile << "fortran"; break;
+			case LANG_JAVA: outfile << "java"; break;
+			case LANG_MULTI: outfile << "multi"; break;
+            case LANG_UPC:   outfile << "upc"; break;
             default: if(SgProject::get_verbose() > 0) {
 				std::cerr << "WARNING: Unknown language type encountered." << std::endl;
 			}
 		}
 	}
-	cout << "\n\n";
+	outfile << "\n\n";
 		    
     // Post-processing to make sure we have all the data needed for routines and groups:
     
@@ -1924,42 +2026,42 @@ int main ( int argc, char* argv[] ) {
  
 	// Print file entries
 	for(std::vector<SourceFile*>::const_iterator it = files.begin(); it!=files.end(); ++it) {
-		cout << *(*it);
+		outfile << *(*it);
 	}
 
     // Print routines to the PDB file
 	for(std::vector<Routine*>::const_iterator it = routines.begin(); it!=routines.end(); ++it) {
-		cout << *(*it);
+		outfile << *(*it);
 	}
 	
 	// Print groups to the PDB file
     for(std::vector<Group*>::const_iterator it = groups.begin(); it!=groups.end(); ++it) {
-		cout << *(*it);
+		outfile << *(*it);
 	} 
 
     // Print types to the PDB file
 	for(std::vector<Type*>::const_iterator it = types.begin(); it!=types.end(); ++it) {
-		cout << *(*it);
+		outfile << *(*it);
 	}
 
 	// Print templates to the PDB file
 	for(std::vector<Template*>::const_iterator it = templates.begin(); it!=templates.end(); ++it) {
-		cout << *(*it);
+		outfile << *(*it);
 	}
     
     // Print namespaces to the PDB file.
     for(std::vector<Namespace*>::const_iterator it = namespaces.begin(); it != namespaces.end(); ++it) {
-        cout << *(*it);
+        outfile << *(*it);
     }
 
     // Print macros to the PDB file.
     for(std::vector<Macro*>::const_iterator it = macros.begin(); it != macros.end(); ++it) {
-        cout << *(*it);
+        outfile << *(*it);
     }
 
     // Print pragmas to the PDB file.
     for(std::vector<Pragma*>::const_iterator it = pragmas.begin(); it != pragmas.end(); ++it) {
-        cout << *(*it);
+        outfile << *(*it);
     }
 
 

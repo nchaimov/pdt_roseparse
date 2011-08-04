@@ -1250,6 +1250,13 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
             // UPC BARRIER
             } else if(isSgUpcBarrierStatement(n)) {
                 stmt->kind = Statement::STMT_UPC_BARRIER;
+                SgExpression * expr = isSgUpcBarrierStatement(n)->get_barrier_expression();
+                if(expr != NULL) {
+                    if(stmt->end != NULL) {
+                        delete stmt->end;
+                    }
+                    stmt->end = new SourceLocation(expr->get_endOfConstruct());
+                }
             
             // UPC FENCE
             } else if(isSgUpcFenceStatement(n)) {
@@ -1258,10 +1265,24 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
             // UPC NOTIFY
             } else if(isSgUpcNotifyStatement(n)) {
                 stmt->kind = Statement::STMT_UPC_NOTIFY;
-             
+                SgExpression * expr = isSgUpcNotifyStatement(n)->get_notify_expression();
+                if(expr != NULL) {
+                    if(stmt->end != NULL) {
+                        delete stmt->end;
+                    }
+                    stmt->end = new SourceLocation(expr->get_endOfConstruct());
+                }
+
             // UPC WAIT    
             } else if(isSgUpcWaitStatement(n)) {
                 stmt->kind = Statement::STMT_UPC_WAIT;
+                SgExpression * expr = isSgUpcWaitStatement(n)->get_wait_expression();
+                if(expr != NULL) {
+                    if(stmt->end != NULL) {
+                        delete stmt->end;
+                    }
+                    stmt->end = new SourceLocation(expr->get_endOfConstruct());
+                }
 
 
 			
@@ -1826,7 +1847,8 @@ inline std::string generatePDBFileName(SgFile * f) {
 int main ( int argc, char* argv[] ) {
 	
 	// Parses the input files and generates the AST
-	SgProject* project = frontend(argc,argv);
+    
+    SgProject* project = frontend(argc, argv);
 	ROSE_ASSERT (project != NULL);
     AstTests::runAllTests(project);
 	
