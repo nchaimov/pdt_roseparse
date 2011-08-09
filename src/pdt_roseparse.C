@@ -1365,6 +1365,27 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
             }
         }
 
+
+        
+    } else if(isSgFunctionCallExp(n))  {
+        if(lang != LANG_FORTRAN) {
+            SgFunctionCallExp * fcall = isSgFunctionCallExp(n);
+            SgFunctionDeclaration * fdecl = fcall->getAssociatedFunctionDeclaration();
+            if(fdecl != NULL) {
+                int routineId = -1;
+                if(routineMap.count(fdecl->get_mangled_name().getString()) != 0) {
+                    routineId = routineMap[fdecl->get_mangled_name().getString()]->id;
+                }
+                RoutineCall * rc = new RoutineCall();
+                rc->sgRoutine = fdecl->get_definition();
+                rc->loc = new SourceLocation(s);
+                rc->id = routineId;
+                parentRoutine->rcalls.push_back(rc);
+                calls.push_back(rc);
+            }
+        }
+    
+
     // *** INITIALIZERS (INIT) ***
     // (SgInitializers are not a type of SgStatement, but we want to treat
     // them as statements since they're represented by rstmts.)
