@@ -1,0 +1,5 @@
+#!/bin/sh
+
+ROSEPARSE_DIR="@ROSEPARSE_DIR@"
+
+exec $ROSEPARSE_DIR/roseparse -rose:UPC -rose:upc_threads 4 $@ 
