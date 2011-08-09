@@ -112,6 +112,14 @@ public:
 };
 
 
+string normalizeTypeName(const string & name) {
+    string result(name);    
+    boost::algorithm::replace_all(result, "(", " (");
+    boost::algorithm::replace_all(result, " )", ")");
+    boost::algorithm::replace_all(result, " ,", ",");
+    return result;
+}
+
 // handletype()
 // If we've already handled this type before, we return the ID of the
 // previously generated PDB TYPE entry. Otherwise, we generate an entry
@@ -130,13 +138,14 @@ TypeID handleType(SgType * type, Namespace * parentNamespace, bool isGroup = fal
 	if(namedType != NULL) {
 		st = namedType->get_name();
 	} else {
-		st = type->unparseToString();
+		st = normalizeTypeName(type->unparseToString());
 	}
 		
 	std::string mangledName = type->get_mangled().str();
 	
 	// Find out if we've already handled this type...
 	if(typeMap.count(mangledName) != 0) {
+        // If so, look up the previously generated ID...
 		TypeID prevtid = typeMap[mangledName];
 		return typeMap[mangledName];
 		
@@ -426,7 +435,7 @@ TypeID handleType(SgType * type, Namespace * parentNamespace, bool isGroup = fal
 // As such, we need an SgFunctionParameterList as well, from which we
 // can get these names.
 int handleFunctionType(SgFunctionType * type, SgFunctionParameterList * params, bool cgen, Namespace * parentNamespace) {
-	string st = type->unparseToString();
+	string st = normalizeTypeName(type->unparseToString());
 	int id = nextTypeID++;
     TypeID fnTypeID(id, false);
 	Type * t = new Type(id, st);
@@ -734,7 +743,7 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
 				SgBasicBlock * body = def->get_body();
 				Sg_File_Info * bodyStart = body->get_startOfConstruct();
 		        Sg_File_Info * bodyEnd = body->get_endOfConstruct();
-				if(!lang == LANG_FORTRAN) {
+				if(lang != LANG_FORTRAN) {
 					Statement * stmt = new Statement(r->stmtId++, def, Statement::STMT_BLOCK);
 					stmt->start = new SourceLocation(bodyStart);
 					stmt->end = new SourceLocation(bodyEnd);
@@ -860,24 +869,8 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
                 // FUNCTION CALL
                 } else if(isSgFunctionCallExp(cExpr)) {
                     // These are handled as rcalls, not rstmts, in C/C++.
-					if(lang != LANG_FORTRAN) {
-                    	stmt->kind = Statement::STMT_IGNORE;
-	                    SgFunctionCallExp * fcall = isSgFunctionCallExp(cExpr);
-	                    SgFunctionDeclaration * fdecl = fcall->getAssociatedFunctionDeclaration();
-	                    if(fdecl != NULL) {
-							int routineId = -1;
-							if(routineMap.count(fdecl->get_mangled_name().getString()) != 0) {
-								routineId = routineMap[fdecl->get_mangled_name().getString()]->id;
-							}
-	                        RoutineCall * rc = new RoutineCall();
-	                        rc->sgRoutine = fdecl->get_definition();
-	                        rc->loc = new SourceLocation(s);
-							rc->id = routineId;
-	                        parentRoutine->rcalls.push_back(rc);
-	                        calls.push_back(rc);
-	                    }
-					} else {
-						// In FORTRAN, these are regular statements.
+                    // In FORTRAN, these are regular statements.
+					if(lang == LANG_FORTRAN) {
 						stmt->kind = Statement::STMT_FCALL;
 					}
 
