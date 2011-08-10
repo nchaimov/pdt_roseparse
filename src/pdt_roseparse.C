@@ -475,6 +475,7 @@ int handleFunctionType(SgFunctionType * type, SgFunctionParameterList * params, 
 // we store in the InheritedAttribute is passed down to children of this node.
 InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, InheritedAttribute inheritedAttribute) {
 	
+
 	// Grab information about our parent.
 	Routine * parentRoutine = inheritedAttribute.routine;
     Statement * parentStatement = inheritedAttribute.statement;
@@ -488,6 +489,10 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
 
     Sg_File_Info * s = n->get_startOfConstruct();
     Sg_File_Info * e = n->get_endOfConstruct();
+
+#ifdef DEBUG
+    std::cerr << "Now processing: " << n->class_name() << " parent routine: " << parentRoutine << " " << (parentRoutine != NULL ? parentRoutine->name : std::string()) << "          " << n->unparseToString() << std::endl;
+#endif
 
 	// MACROS and COMMENTS
 	SgLocatedNode * locatedNode = isSgLocatedNode(n);
@@ -767,8 +772,13 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
 	            nm->name = dec->get_mangled_name().getString();
 	            parentNamespace->nmems.push_back(nm);
 	        }
-		}
+		} else {
+#ifdef DEBUG
+            std::cerr << "Already processed this routine." << std::endl;    
+#endif
+            parentRoutine = routineMap[dec->get_mangled_name().getString()]; 
 
+        }
 
     // *** STATEMENTS ***    
 	} else if(isSgStatement(n)) {
@@ -1362,19 +1372,23 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
         
     } else if(isSgFunctionCallExp(n))  {
         if(lang != LANG_FORTRAN) {
-            SgFunctionCallExp * fcall = isSgFunctionCallExp(n);
-            SgFunctionDeclaration * fdecl = fcall->getAssociatedFunctionDeclaration();
-            if(fdecl != NULL) {
-                int routineId = -1;
-                if(routineMap.count(fdecl->get_mangled_name().getString()) != 0) {
-                    routineId = routineMap[fdecl->get_mangled_name().getString()]->id;
+            if(parentRoutine == NULL) {
+                std::cerr << "BUG: function call without parent routine!" << std::endl;
+            } else {                                                            
+                SgFunctionCallExp * fcall = isSgFunctionCallExp(n);
+                SgFunctionDeclaration * fdecl = fcall->getAssociatedFunctionDeclaration();
+                if(fdecl != NULL) {
+                    int routineId = -1;
+                    if(routineMap.count(fdecl->get_mangled_name().getString()) != 0) {
+                        routineId = routineMap[fdecl->get_mangled_name().getString()]->id;
+                    }
+                    RoutineCall * rc = new RoutineCall();
+                    rc->sgRoutine = fdecl->get_definition();
+                    rc->loc = new SourceLocation(s);
+                    rc->id = routineId;
+                    parentRoutine->rcalls.push_back(rc);
+                    calls.push_back(rc);
                 }
-                RoutineCall * rc = new RoutineCall();
-                rc->sgRoutine = fdecl->get_definition();
-                rc->loc = new SourceLocation(s);
-                rc->id = routineId;
-                parentRoutine->rcalls.push_back(rc);
-                calls.push_back(rc);
             }
         }
     
