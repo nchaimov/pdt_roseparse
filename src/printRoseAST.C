@@ -55,6 +55,17 @@ visitorTraversal::evaluateInheritedAttribute(SgNode* n, InheritedAttribute inher
         SgStatement * sgStmt = isSgStatement(n);
         if(sgStmt != NULL) {
             printf(" [scope: %s, %p]", sgStmt->get_scope()->sage_class_name(), sgStmt->get_scope());
+            if(isSgBasicBlock(sgStmt->get_scope())
+                    && !isSgForInitStatement(sgStmt) && !isSgBasicBlock(sgStmt)
+                    && !isSgClassDefinition(sgStmt) && !isSgFunctionDefinition(sgStmt) 
+                    && !isSgFunctionParameterList(sgStmt) && !isSgCatchOptionStmt(sgStmt)) {
+                SgStatement * nextStmt = SageInterface::getNextStatement(isSgStatement(n));
+                if(nextStmt != NULL) {
+                    printf(" [next: %s, %p]", nextStmt->class_name().c_str(), nextStmt);
+                } else {
+                    printf(" [next: NULL]");
+                }                 
+            }
         }
         //SgLabelStatement * lblStmt = isSgLabelStatement(n);
         //if(lblStmt != NULL) {

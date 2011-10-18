@@ -32,6 +32,7 @@ enum Language {
 #include <algorithm>
 
 #include <boost/algorithm/string.hpp>
+#include <boost/foreach.hpp>
 
 using std::cout;
 using std::cerr;
@@ -583,6 +584,10 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
 			def = dec->get_definition();
 		}
 				
+#ifdef DEBUG
+        std::cerr << "Encountering routine: " << dec->get_mangled_name().getString() << std::endl;
+#endif
+
 		// First check to see if we've handled this function already.
 		if(routineMap.count(dec->get_mangled_name().getString()) == 0) { 
 			Routine * r = new Routine(nextFunctionID++, def, dec->get_name().getString());
@@ -774,10 +779,68 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
 	        }
 		} else {
 #ifdef DEBUG
-            std::cerr << "Already processed this routine." << std::endl;    
+            std::cerr << "Already processed this routine: " << dec->get_mangled_name().getString() << std::endl;    
 #endif
             parentRoutine = routineMap[dec->get_mangled_name().getString()]; 
+            ROSE_ASSERT(parentRoutine != NULL);
 
+			// If this is a defining declaration, reset rpos with the definition's position
+			if(def != NULL) {
+				Sg_File_Info * decStart = dec->get_startOfConstruct();
+		        Sg_File_Info * decEnd = dec->get_endOfConstruct();
+				SgBasicBlock * body = def->get_body();
+				Sg_File_Info * bodyStart = body->get_startOfConstruct();
+		        Sg_File_Info * bodyEnd = body->get_endOfConstruct();
+
+                if(parentRoutine->rpos_rtype != NULL) {
+                    delete parentRoutine->rpos_rtype;
+                }
+				parentRoutine->rpos_rtype = new SourceLocation(decStart);
+
+                if(parentRoutine->rloc != NULL) {
+                    delete parentRoutine->rloc;
+                }
+                parentRoutine->rloc = new SourceLocation(decStart);
+
+                if(parentRoutine->rpos_endDecl != NULL) {
+                    delete parentRoutine->rpos_endDecl;
+                }
+				parentRoutine->rpos_endDecl = new SourceLocation(decEnd);
+                
+                if(parentRoutine->rpos_startBlock != NULL) {
+                    delete parentRoutine->rpos_startBlock;
+                }
+                parentRoutine->rpos_startBlock = new SourceLocation(bodyStart);
+                
+                if(parentRoutine->rpos_endBlock != NULL) {
+                    delete parentRoutine->rpos_endBlock;
+                }
+				parentRoutine->rpos_endBlock = new SourceLocation(bodyEnd);
+			
+                parentRoutine->node = def;
+            }
+		
+			// body of function
+			if(parentRoutine->rbody < 0 && def != NULL) {
+				SgBasicBlock * body = def->get_body();
+				Sg_File_Info * bodyStart = body->get_startOfConstruct();
+		        Sg_File_Info * bodyEnd = body->get_endOfConstruct();
+				if(lang != LANG_FORTRAN) {
+					Statement * stmt = new Statement(parentRoutine->stmtId++, def, Statement::STMT_BLOCK);
+					stmt->start = new SourceLocation(bodyStart);
+					stmt->end = new SourceLocation(bodyEnd);
+		            const SgStatementPtrList & l = body->get_statements();
+		            if(l.size() > 0) {
+		                stmt->downSgStmt = l.front();
+		            }
+					parentRoutine->rstmts.push_back(stmt);
+					parentRoutine->rbody = stmt->id;
+				} else {
+					// FORTRAN doesn't use blocks
+					parentRoutine->rbody = 0;
+					parentRoutine->rstart = NULL;
+				}
+			}
         }
 
     // *** STATEMENTS ***    
@@ -882,7 +945,9 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
                     // In FORTRAN, these are regular statements.
 					if(lang == LANG_FORTRAN) {
 						stmt->kind = Statement::STMT_FCALL;
-					}
+					} else {
+                        stmt->kind = Statement::STMT_EXPR;
+                    }
 
                 // EXPR    
                 } else {
@@ -1263,11 +1328,28 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
                         delete stmt->end;
                     }
                     stmt->end = new SourceLocation(expr->get_endOfConstruct());
+                } else if (stmt->start->line == stmt->end->line && stmt->start->column == stmt->end->column){
+                    // Work around a bug in ROSE where upc_barrier has the wrong end location.
+                    std::string barrierStr = n->unparseToCompleteString();
+                    size_t found = barrierStr.find(";");
+                    if(found != std::string::npos) {
+                        stmt->end->column += found;
+                    }
                 }
+                
+                
             
             // UPC FENCE
             } else if(isSgUpcFenceStatement(n)) {
                 stmt->kind = Statement::STMT_UPC_FENCE;
+                if (stmt->start->line == stmt->end->line && stmt->start->column == stmt->end->column){
+                    // Work around a bug in ROSE where upc_barrier has the wrong end location.
+                    std::string barrierStr = n->unparseToCompleteString();
+                    size_t found = barrierStr.find(";");
+                    if(found != std::string::npos) {
+                        stmt->end->column += found;
+                    }
+                }
 
             // UPC NOTIFY
             } else if(isSgUpcNotifyStatement(n)) {
@@ -1278,6 +1360,14 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
                         delete stmt->end;
                     }
                     stmt->end = new SourceLocation(expr->get_endOfConstruct());
+                }
+                if (stmt->start->line == stmt->end->line && stmt->start->column == stmt->end->column){
+                    // Work around a bug in ROSE where upc_barrier has the wrong end location.
+                    std::string barrierStr = n->unparseToCompleteString();
+                    size_t found = barrierStr.find(";");
+                    if(found != std::string::npos) {
+                        stmt->end->column += found;
+                    }
                 }
 
             // UPC WAIT    
@@ -1290,6 +1380,24 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
                     }
                     stmt->end = new SourceLocation(expr->get_endOfConstruct());
                 }
+                if (stmt->start->line == stmt->end->line && stmt->start->column == stmt->end->column){
+                    // Work around a bug in ROSE where upc_barrier has the wrong end location.
+                    std::string barrierStr = n->unparseToCompleteString();
+                    size_t found = barrierStr.find(";");
+                    if(found != std::string::npos) {
+                        stmt->end->column += found;
+                    }
+                }
+
+            // EMPTY
+            } else if(isSgNullStatement(n)) {
+                stmt->kind = Statement::STMT_EMPTY;
+                // Due to a bug in ROSE, the end of empty statements are not correct.
+                // (They indicate an end location of (0,0))
+                if(stmt->end != NULL) {
+                    delete stmt->end;
+                }
+                stmt->end = new SourceLocation(n->get_startOfConstruct());
 
 			// PRAGMA
 			// Despite being preprocessor directives, these are statements
@@ -1874,6 +1982,7 @@ inline std::string generatePDBFileName(SgFile * f) {
     return noExt + ".pdb";
 }
 
+
 int main ( int argc, char* argv[] ) {
 	
 	// Parses the input files and generates the AST
@@ -1918,6 +2027,8 @@ int main ( int argc, char* argv[] ) {
 	for(SgFilePtrList::const_iterator i = fileList.begin(); i != fileList.end(); ++i) {
 		new SourceLocation((*i)->get_file_info());
 	}
+
+    //insertMissingReturns(project);
 	
 	// At the start, we're at depth zero and not contained inside anything.
 	InheritedAttribute inheritedAttribute(0, NULL, NULL, NULL );

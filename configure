@@ -5864,7 +5864,7 @@ $as_echo_n "checking for jar... " >&6; }
     { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 $as_echo "yes" >&6; }
   else
-    as_fn_error $? "jar not found in $JAVA_PATH" "$LINENO" 5
+      1
   fi
 
   JAVAC="${JAVA_BIN}/javac"
@@ -5874,7 +5874,7 @@ $as_echo_n "checking for javac... " >&6; }
     { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 $as_echo "yes" >&6; }
   else
-    as_fn_error $? "javac not found in $JAVA_PATH" "$LINENO" 5
+      1
   fi
 
   JAVAH="${JAVA_BIN}/javah"
@@ -5884,7 +5884,7 @@ $as_echo_n "checking for javah... " >&6; }
     { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 $as_echo "yes" >&6; }
   else
-    as_fn_error $? "javah not found in $JAVA_PATH" "$LINENO" 5
+      1
   fi
 fi
 
