@@ -75,7 +75,7 @@ visitorTraversal::evaluateInheritedAttribute(SgNode* n, InheritedAttribute inher
 		SgInitializedName * iname = isSgInitializedName(n);
 		if(iname != NULL) {
             SgType* inameType = iname->get_type();
-			printf("%s (%d, %d, %d): %s [type: %s", n->sage_class_name(),f->get_file_id()+1,f->get_raw_line(),f->get_raw_col(),n->unparseToString().c_str(),inameType->class_name().c_str());
+			printf("%s (%d, %d, %d): %s [type: %s", n->sage_class_name(),f->get_file_id()+1,f->get_raw_line(),f->get_raw_col(),n->unparseToCompleteString().c_str(),inameType->class_name().c_str());
 			SgDeclarationStatement * ds = isSgDeclarationStatement(iname->get_parent());
 			if(ds != NULL) {
 				if(ds->get_declarationModifier().get_storageModifier().isStatic()) {

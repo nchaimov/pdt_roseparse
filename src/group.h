@@ -117,7 +117,6 @@ class Member {
         bool gmtype_group;
         int gmtype;
 
-        //gmtempl
         //gmspecl
 
         bool gmconst;
@@ -125,10 +124,12 @@ class Member {
         bool gmisbit;
         bool gmmut;
 
+        int gmtempl;
+
         Member(std::string n, SourceLocation * loc) : name(n), gmloc(loc), gmacs(GMACS_NA),
                                                       gmkind(GMKIND_NA), gmtype_group(false), 
                                                       gmtype(-1), gmconst(false), gmisbit(false),
-                                                      gmmut(false) {};
+                                                      gmmut(false), gmtempl(-1) {};
 };
 
 class Group {
@@ -309,6 +310,10 @@ public:
                     s << "ty#";
                 }
                 s << m->gmtype << "\n";
+            }
+
+            if(m->gmtempl > 0) {
+                s << "gmtempl te#" << m->gmtempl << "\n";
             }
 
             if(m->gmisbit) {

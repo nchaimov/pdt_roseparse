@@ -69,8 +69,9 @@ class TypeID {
 public:
     int id;
     bool group;
+    Type * type;
     
-    TypeID(int i = -1, bool g = false) : id(i), group(g) {};
+    TypeID(int i = -1, bool g = false, Type * t = NULL) : id(i), group(g), type(t) {};
 };
 
 // We maintain maps from the unique name ROSE produces for each entity in the
@@ -155,7 +156,7 @@ TypeID handleType(SgType * type, Namespace * parentNamespace, bool isGroup = fal
 		int id = nextTypeID++;
 		Type * t = new Type(id, st); // (id number, name)
 		t->fortran = (lang == LANG_FORTRAN);
-        TypeID typeID(id, isGroup);    // (id number, is a group)
+        TypeID typeID(id, isGroup, t);    // (id number, is a group)
 
 		// TYPE REFERENCE TYPES (modifiers)
 		// Determine if the type is declared const, volatile, or restrict.
@@ -335,7 +336,13 @@ TypeID handleType(SgType * type, Namespace * parentNamespace, bool isGroup = fal
 			t->id = -6;
 			typeID.id = -6;
 			return typeID;
-						
+
+        // ENUM TYPE
+        } else if(isSgEnumType(type)) {
+           t->ykind = Type::ENUM;
+           // The enum type doesn't carry information on the values of the enum;
+           // the declaration has that, so we can't fill out the rest of the
+           // fields until we encounter the declaration.
 		
 		// ARRAY TYPE
 		} else if(isSgArrayType(type)) {
@@ -438,8 +445,8 @@ TypeID handleType(SgType * type, Namespace * parentNamespace, bool isGroup = fal
 int handleFunctionType(SgFunctionType * type, SgFunctionParameterList * params, bool cgen, Namespace * parentNamespace) {
 	string st = normalizeTypeName(type->unparseToString());
 	int id = nextTypeID++;
-    TypeID fnTypeID(id, false);
 	Type * t = new Type(id, st);
+    TypeID fnTypeID(id, false, t);
 	t->ykind = Type::FUNC;
 	TypeID tid = typeMap[type->get_return_type()->get_mangled().str()];
 	t->yrett = tid.id;
@@ -469,6 +476,150 @@ int handleFunctionType(SgFunctionType * type, SgFunctionParameterList * params, 
 	types.push_back(t);
 	return id;
 	
+}
+
+Template * handleTemplate(SgTemplateDeclaration * tDecl, Namespace * parentNamespace) {
+		std::string mangledName = tDecl->get_mangled_name().getString();
+		std::string qualifiedName = tDecl->get_name().getString();
+		std::string uniqueName = SageInterface::generateUniqueName(tDecl, true);
+		Template * templ = new Template(nextTemplateID++, qualifiedName);
+				
+		// Check if we previously encountered a forward declaration.
+		if(templateMap.count(mangledName) != 0) {
+			templateMap[mangledName]->tdef = templ->id;
+			templ->tdecl = templateMap[mangledName]->id;
+		}
+		
+		templateMap[mangledName] = templ;
+		templates.push_back(templ);
+		
+		// If template was declared in a namespace, make note of this.
+		if(parentNamespace != NULL) {
+            templ->tnspace = parentNamespace->id;       
+            NamespaceMember * nm = new NamespaceMember(templ->id, NamespaceMember::NS_TEMPL);
+            parentNamespace->nmems.push_back(nm);
+        }
+
+		templ->tloc = new SourceLocation(tDecl->get_startOfConstruct());
+		// TODO Is there any way to get the first character location for
+		// tpos_templateToken? There isn't an obvious one.
+		// Probably don't have to worry about tpos_tokenEnd,
+		// as cxxparse omits it.
+		templ->tpos_templateStart = new SourceLocation(tDecl->get_startOfConstruct());
+		templ->tpos_templateEnd = new SourceLocation(tDecl->get_endOfConstruct());
+		
+
+		switch(tDecl->get_template_kind()) {
+			case SgTemplateDeclaration::e_template_none: {
+				if(SgProject::get_verbose() > 0) {
+					std::cerr << "WARNING: ROSE template declaration has no type.\n" << tDecl->unparseToString() << std::endl;
+				}
+				templ->tkind = Template::TKIND_NA;
+			};
+			break;
+			
+			case SgTemplateDeclaration::e_template_class: 		
+				templ->tkind = Template::TKIND_CLASS; 		break;
+			case SgTemplateDeclaration::e_template_m_class: 	
+				templ->tkind = Template::TKIND_MEMCLASS; 	break;
+			case SgTemplateDeclaration::e_template_function: 	
+				templ->tkind = Template::TKIND_FUNC; 		break;
+			case SgTemplateDeclaration::e_template_m_function: 	
+				templ->tkind = Template::TKIND_MEMFUNC;		break;
+			case SgTemplateDeclaration::e_template_m_data:
+				templ->tkind = Template::TKIND_STATMEM;		break;
+				
+			default: {
+				if(SgProject::get_verbose() > 0) {
+					std::cerr << "WARNING: Unknown ROSE template declaration type encountered.\n" << tDecl->unparseToString() << std::endl;
+				}
+			};
+		}
+				
+		// This function doesn't return a reference to a list, unlike
+		// every other ptrList-returning function I've encountered in ROSE.
+		SgTemplateParameterPtrList pList = tDecl->get_templateParameters();
+				
+		for(SgTemplateParameterPtrList::const_iterator it = pList.begin(); it != pList.end(); ++it) {
+			SgTemplateParameter * sgParam = *it;
+			TemplateParameter * tparam = new TemplateParameter();
+			templ->tparams.push_back(tparam);
+			
+			switch(sgParam->get_parameterType()) {
+				case SgTemplateParameter::parameter_undefined: {
+					tparam->tparam_kind = TemplateParameter::TPARAM_NA;
+					if(SgProject::get_verbose() > 0) {
+						std::cerr << "WARNING: ROSE template parameter had no type.\n" << sgParam->unparseToString() << std::endl;
+					}
+				};
+				break;
+				
+				case SgTemplateParameter::type_parameter: {
+					tparam->tparam_kind = TemplateParameter::TPARAM_TYPE;
+					SgType * pType = sgParam->get_type();
+					SgType * defType = sgParam->get_defaultTypeParameter();
+					if(pType != NULL) {
+						TypeID pTypeID = handleType(pType, parentNamespace);
+						tparam->id = pTypeID.id;
+						tparam->id_group = pTypeID.group;
+					}
+					TypeID defTypeID = handleType(defType, parentNamespace);
+					if(defType != NULL) {
+						TypeID defTypeID = handleType(defType, parentNamespace);
+						tparam->defaultId = defTypeID.id;
+						tparam->defaultId_group = defTypeID.group;
+					}
+				};
+				break;
+				
+				case SgTemplateParameter::nontype_parameter: {
+					tparam->tparam_kind = TemplateParameter::TPARAM_NTYPE;
+					SgType * pType = sgParam->get_type();
+					if(pType != NULL) {
+						TypeID pTypeID = handleType(pType, parentNamespace);
+						tparam->id = pTypeID.id;
+						tparam->id_group = pTypeID.group;
+					}
+					SgExpression * pExpr = sgParam->get_expression();
+					SgExpression * defExpr = sgParam->get_defaultExpressionParameter();
+					if(pExpr != NULL) {
+						tparam->name = pExpr->unparseToString();
+					} else {
+						tparam->name = "-";
+					}
+					if(defExpr != NULL) {
+						tparam->defaultValue = defExpr->unparseToString();
+					} else {
+						tparam->defaultValue = "";
+					}
+				};
+				break;
+				
+				case SgTemplateParameter::template_parameter: {
+					tparam->tparam_kind = TemplateParameter::TPARAM_TEMPL;
+					SgTemplateDeclaration * defTempl = sgParam->get_defaultTemplateDeclarationParameter();
+					if(defTempl != NULL) {
+						if(templateMap.count(defTempl->get_mangled_name().getString()) != 0) {
+							tparam->id = templateMap[defTempl->get_mangled_name().getString()]->id;
+						}
+					}
+				};
+				break;
+				
+				default: {
+					if(SgProject::get_verbose() > 0) {
+						std::cerr << "WARNING: Unknown ROSE template parameter type encountered." << sgParam->unparseToString() << std::endl;
+					}
+				}
+			}
+		}
+		
+		templ->ttext = tDecl->get_string().getString();
+		boost::algorithm::replace_all(templ->ttext, "\\\n", " ");
+		boost::algorithm::replace_all(templ->ttext, "\n", " ");
+		
+        return templ;
+		
 }
 
 // This is where we actually gather data from the AST. This function is
@@ -1328,12 +1479,14 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
                         delete stmt->end;
                     }
                     stmt->end = new SourceLocation(expr->get_endOfConstruct());
+                    // We want the end column to point at the semicolon.
+                    ++stmt->end->column;
                 } else if (stmt->start->line == stmt->end->line && stmt->start->column == stmt->end->column){
                     // Work around a bug in ROSE where upc_barrier has the wrong end location.
-                    std::string barrierStr = n->unparseToCompleteString();
+                    std::string barrierStr = n->unparseToString();
                     size_t found = barrierStr.find(";");
                     if(found != std::string::npos) {
-                        stmt->end->column += found;
+                        stmt->end->column += found - 1;
                     }
                 }
                 
@@ -1343,11 +1496,11 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
             } else if(isSgUpcFenceStatement(n)) {
                 stmt->kind = Statement::STMT_UPC_FENCE;
                 if (stmt->start->line == stmt->end->line && stmt->start->column == stmt->end->column){
-                    // Work around a bug in ROSE where upc_barrier has the wrong end location.
-                    std::string barrierStr = n->unparseToCompleteString();
+                    // Work around a bug in ROSE where upc_fence has the wrong end location.
+                    std::string barrierStr = n->unparseToString();
                     size_t found = barrierStr.find(";");
                     if(found != std::string::npos) {
-                        stmt->end->column += found;
+                        stmt->end->column += found - 1;
                     }
                 }
 
@@ -1360,13 +1513,15 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
                         delete stmt->end;
                     }
                     stmt->end = new SourceLocation(expr->get_endOfConstruct());
+                    // We want the end column to point at the semicolon.
+                    ++stmt->end->column;
                 }
                 if (stmt->start->line == stmt->end->line && stmt->start->column == stmt->end->column){
                     // Work around a bug in ROSE where upc_barrier has the wrong end location.
-                    std::string barrierStr = n->unparseToCompleteString();
+                    std::string barrierStr = n->unparseToString();
                     size_t found = barrierStr.find(";");
                     if(found != std::string::npos) {
-                        stmt->end->column += found;
+                        stmt->end->column += found - 1;
                     }
                 }
 
@@ -1379,13 +1534,15 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
                         delete stmt->end;
                     }
                     stmt->end = new SourceLocation(expr->get_endOfConstruct());
+                    // We want the end column to point at the semicolon.
+                    ++stmt->end->column;
                 }
                 if (stmt->start->line == stmt->end->line && stmt->start->column == stmt->end->column){
                     // Work around a bug in ROSE where upc_barrier has the wrong end location.
-                    std::string barrierStr = n->unparseToCompleteString();
+                    std::string barrierStr = n->unparseToString();
                     size_t found = barrierStr.find(";");
                     if(found != std::string::npos) {
-                        stmt->end->column += found;
+                        stmt->end->column += found - 1;
                     }
                 }
 
@@ -1463,6 +1620,10 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
 				
                 stmt->id = parentRoutine->stmtId++;
                 parentRoutine->rstmts.push_back(stmt);
+                
+                if(SgProject::get_verbose() > 2) {
+                    std::cerr << "Added a statement " << (*stmt) << " for " << n->unparseToString() << std::endl;
+                }
 
                 pdtAttr->statement = stmt;
                 parentStatement = stmt;
@@ -1478,6 +1639,8 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
 
 
         
+    // FUNCTION CALLs
+    // (Handled as rcalls)
     } else if(isSgFunctionCallExp(n))  {
         if(lang != LANG_FORTRAN) {
             if(parentRoutine == NULL) {
@@ -1650,7 +1813,9 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
                     // gmem (data member)
                     } else {
                         Member * member = new Member(SageInterface::get_name(memDecl), new SourceLocation(memDecl->get_startOfConstruct()));
-                        
+
+                        //std::cerr << member->name << " " << memDecl->class_name() << std::endl;
+
                         // access modifier
                         if(memAccMod.isPublic()) {
                             member->gmacs = Member::GMACS_PUB;
@@ -1660,10 +1825,36 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
                             member->gmacs = Member::GMACS_PRIV;
                         }
 
-                        if(memStorMod.isStatic()) {
+                        // type members
+                        // typedef
+                        if(isSgTypedefDeclaration(memDecl)) {
+                            member->gmkind = Member::GMKIND_TYPE;
+                            TypeID t = handleType(isSgTypedefDeclaration(memDecl)->get_type(), parentNamespace);
+                            member->gmtype = t.id;
+                            member->gmtype_group = t.group;
+
+                        // enum
+                        } else if(isSgEnumDeclaration(memDecl)) {
+                            member->gmkind = Member::GMKIND_TYPE;
+                            TypeID t = handleType(isSgEnumDeclaration(memDecl)->get_type(), parentNamespace);
+                            member->gmtype = t.id;
+                            member->gmtype_group = t.group;
+
+                        // template member
+                        } else if(isSgTemplateDeclaration(memDecl)) {
+                            member->gmkind = Member::GMKIND_TEMPL;
+                            std::string mangledName = isSgTemplateDeclaration(memDecl)->get_mangled_name().getString();
+                            if(templateMap.count(mangledName) > 0) {
+                                member->gmtempl = templateMap[mangledName]->id;
+                            } else {
+                                Template * templ = handleTemplate(isSgTemplateDeclaration(memDecl), parentNamespace);
+                                member->gmtempl = templ->id;
+                            }
+                        // static var member
+                        } else if(memStorMod.isStatic()) {
                             member->gmkind = Member::GMKIND_STATVAR;
+                        // var member
                         } else {
-                            // TODO type, templ
                             member->gmkind = Member::GMKIND_VAR;
                         }
 
@@ -1773,184 +1964,47 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
 		std::string enumName = enumType->get_name();
 		std::string mangledName = enumType->get_mangled().str();
 		
-		// If we haven't processed this type already...
+        Type * t = NULL;
+		// If we haven't processed this type already, make a TypeID for it.
 		if(typeMap.count(mangledName) == 0) {
 			int id = nextTypeID++;
-			Type * t = new Type(id, enumName);
-	        TypeID typeID(id, false);
+			t = new Type(id, enumName);
+	        TypeID typeID(id, false, t);
 			t->yloc = new SourceLocation(enumDecl->get_startOfConstruct());
 			t->ykind = Type::ENUM;
 			t->yikind = Type::INT_INT;
+            typeMap.insert( std::pair<string,TypeID>(mangledName,typeID) );
+            types.push_back(t);
+        } else {
+            t = typeMap[mangledName].type;
+            ROSE_ASSERT( t != NULL);
+        }
 			
-			// The initialized names store the name and value of each entry.
-			const SgInitializedNamePtrList & enumerators = enumDecl->get_enumerators();
-			int curValue = 0;
-			for(SgInitializedNamePtrList::const_iterator j = enumerators.begin(); j != enumerators.end(); j++) {
-				SgInitializedName * initName = (*j);
-				std::string qualName = initName->get_name().getString();
-				SgInitializer * enumInit = initName->get_initializer();
-				if(enumInit != NULL) {
-					SgAssignInitializer * assignInit = isSgAssignInitializer(enumInit);
-					if(assignInit != NULL) {
-						SgExpression * assignExpr = assignInit->get_operand();
-						SgValueExp * valueExpr = isSgValueExp(assignExpr);
-						if(valueExpr != NULL) {
-							curValue = SageInterface::getIntegerConstantValue(valueExpr);
-						}
-					}
-				}
-				t->yenums.push_back(new EnumEntry(qualName, curValue++));
-			}
-			typeMap.insert( std::pair<string,TypeID>(mangledName,typeID) );
-			types.push_back(t);
-			parentEnum = t;
-		}
+        // The initialized names store the name and value of each entry.
+        const SgInitializedNamePtrList & enumerators = enumDecl->get_enumerators();
+        int curValue = 0;
+        for(SgInitializedNamePtrList::const_iterator j = enumerators.begin(); j != enumerators.end(); j++) {
+            SgInitializedName * initName = (*j);
+            std::string qualName = initName->get_name().getString();
+            SgInitializer * enumInit = initName->get_initializer();
+            if(enumInit != NULL) {
+                SgAssignInitializer * assignInit = isSgAssignInitializer(enumInit);
+                if(assignInit != NULL) {
+                    SgExpression * assignExpr = assignInit->get_operand();
+                    SgValueExp * valueExpr = isSgValueExp(assignExpr);
+                    if(valueExpr != NULL) {
+                        curValue = SageInterface::getIntegerConstantValue(valueExpr);
+                    }
+                }
+            }
+            t->yenums.push_back(new EnumEntry(qualName, curValue++));
+        }
+        parentEnum = t;
 	} // end enum
 	
 	// TEMPLATES
 	if(isSgTemplateDeclaration(n)) {
-		SgTemplateDeclaration * tDecl = isSgTemplateDeclaration(n);
-		std::string mangledName = tDecl->get_mangled_name().getString();
-		std::string qualifiedName = tDecl->get_name().getString();
-		std::string uniqueName = SageInterface::generateUniqueName(tDecl, true);
-		Template * templ = new Template(nextTemplateID++, qualifiedName);
-				
-		// Check if we previously encountered a forward declaration.
-		if(templateMap.count(mangledName) != 0) {
-			templateMap[mangledName]->tdef = templ->id;
-			templ->tdecl = templateMap[mangledName]->id;
-		}
-		
-		templateMap[mangledName] = templ;
-		templates.push_back(templ);
-		parentTemplate = templ;
-		
-		// If template was declared in a namespace, make note of this.
-		if(parentNamespace != NULL) {
-            templ->tnspace = parentNamespace->id;       
-            NamespaceMember * nm = new NamespaceMember(templ->id, NamespaceMember::NS_TEMPL);
-            parentNamespace->nmems.push_back(nm);
-        }
-
-		templ->tloc = new SourceLocation(tDecl->get_startOfConstruct());
-		// TODO Is there any way to get the first character location for
-		// tpos_templateToken? There isn't an obvious one.
-		// Probably don't have to worry about tpos_tokenEnd,
-		// as cxxparse omits it.
-		templ->tpos_templateStart = new SourceLocation(tDecl->get_startOfConstruct());
-		templ->tpos_templateEnd = new SourceLocation(tDecl->get_endOfConstruct());
-		
-
-		switch(tDecl->get_template_kind()) {
-			case SgTemplateDeclaration::e_template_none: {
-				if(SgProject::get_verbose() > 0) {
-					std::cerr << "WARNING: ROSE template declaration has no type.\n" << tDecl->unparseToString() << std::endl;
-				}
-				templ->tkind = Template::TKIND_NA;
-			};
-			break;
-			
-			case SgTemplateDeclaration::e_template_class: 		
-				templ->tkind = Template::TKIND_CLASS; 		break;
-			case SgTemplateDeclaration::e_template_m_class: 	
-				templ->tkind = Template::TKIND_MEMCLASS; 	break;
-			case SgTemplateDeclaration::e_template_function: 	
-				templ->tkind = Template::TKIND_FUNC; 		break;
-			case SgTemplateDeclaration::e_template_m_function: 	
-				templ->tkind = Template::TKIND_MEMFUNC;		break;
-			case SgTemplateDeclaration::e_template_m_data:
-				templ->tkind = Template::TKIND_STATMEM;		break;
-				
-			default: {
-				if(SgProject::get_verbose() > 0) {
-					std::cerr << "WARNING: Unknown ROSE template declaration type encountered.\n" << tDecl->unparseToString() << std::endl;
-				}
-			};
-		}
-				
-		// This function doesn't return a reference to a list, unlike
-		// every other ptrList-returning function I've encountered in ROSE.
-		SgTemplateParameterPtrList pList = tDecl->get_templateParameters();
-				
-		for(SgTemplateParameterPtrList::const_iterator it = pList.begin(); it != pList.end(); ++it) {
-			SgTemplateParameter * sgParam = *it;
-			TemplateParameter * tparam = new TemplateParameter();
-			templ->tparams.push_back(tparam);
-			
-			switch(sgParam->get_parameterType()) {
-				case SgTemplateParameter::parameter_undefined: {
-					tparam->tparam_kind = TemplateParameter::TPARAM_NA;
-					if(SgProject::get_verbose() > 0) {
-						std::cerr << "WARNING: ROSE template parameter had no type.\n" << sgParam->unparseToString() << std::endl;
-					}
-				};
-				break;
-				
-				case SgTemplateParameter::type_parameter: {
-					tparam->tparam_kind = TemplateParameter::TPARAM_TYPE;
-					SgType * pType = sgParam->get_type();
-					SgType * defType = sgParam->get_defaultTypeParameter();
-					if(pType != NULL) {
-						TypeID pTypeID = handleType(pType, parentNamespace);
-						tparam->id = pTypeID.id;
-						tparam->id_group = pTypeID.group;
-					}
-					TypeID defTypeID = handleType(defType, parentNamespace);
-					if(defType != NULL) {
-						TypeID defTypeID = handleType(defType, parentNamespace);
-						tparam->defaultId = defTypeID.id;
-						tparam->defaultId_group = defTypeID.group;
-					}
-				};
-				break;
-				
-				case SgTemplateParameter::nontype_parameter: {
-					tparam->tparam_kind = TemplateParameter::TPARAM_NTYPE;
-					SgType * pType = sgParam->get_type();
-					if(pType != NULL) {
-						TypeID pTypeID = handleType(pType, parentNamespace);
-						tparam->id = pTypeID.id;
-						tparam->id_group = pTypeID.group;
-					}
-					SgExpression * pExpr = sgParam->get_expression();
-					SgExpression * defExpr = sgParam->get_defaultExpressionParameter();
-					if(pExpr != NULL) {
-						tparam->name = pExpr->unparseToString();
-					} else {
-						tparam->name = "-";
-					}
-					if(defExpr != NULL) {
-						tparam->defaultValue = defExpr->unparseToString();
-					} else {
-						tparam->defaultValue = "";
-					}
-				};
-				break;
-				
-				case SgTemplateParameter::template_parameter: {
-					tparam->tparam_kind = TemplateParameter::TPARAM_TEMPL;
-					SgTemplateDeclaration * defTempl = sgParam->get_defaultTemplateDeclarationParameter();
-					if(defTempl != NULL) {
-						if(templateMap.count(defTempl->get_mangled_name().getString()) != 0) {
-							tparam->id = templateMap[defTempl->get_mangled_name().getString()]->id;
-						}
-					}
-				};
-				break;
-				
-				default: {
-					if(SgProject::get_verbose() > 0) {
-						std::cerr << "WARNING: Unknown ROSE template parameter type encountered." << sgParam->unparseToString() << std::endl;
-					}
-				}
-			}
-		}
-		
-		templ->ttext = tDecl->get_string().getString();
-		boost::algorithm::replace_all(templ->ttext, "\\\n", " ");
-		boost::algorithm::replace_all(templ->ttext, "\n", " ");
-		
-		
+        parentTemplate = handleTemplate(isSgTemplateDeclaration(n), parentNamespace);
 	} // end templates
 	
 	
