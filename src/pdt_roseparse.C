@@ -32,7 +32,9 @@ enum Language {
 #include <algorithm>
 
 #include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/predicate.hpp>
 #include <boost/foreach.hpp>
+#include <boost/filesystem.hpp>
 
 using std::cout;
 using std::cerr;
@@ -42,6 +44,7 @@ using std::map;
 using std::vector;
 using std::stringstream;
 using std::fstream;
+using std::ifstream;
 
 const int PDB_VERSION = 3;
 const int UPC_PDB_VERSION = 4;
@@ -2044,6 +2047,87 @@ int main ( int argc, char* argv[] ) {
 	ROSE_ASSERT (project != NULL);
     AstTests::runAllTests(project);
 	
+    SgStringList args = project->get_originalCommandLineArgumentList();
+
+    std::string confPath = "./";
+    BOOST_FOREACH(string s, args) {
+        if( boost::starts_with(s, "-pdtConfDir=") ) {
+            confPath = s.substr(12, string::npos);     
+            break;
+        }
+    }
+    if( !boost::ends_with(confPath, "/") ) {
+        confPath += "/";
+    }
+
+    std::string cIncludeName = "rose_c_includes";
+    BOOST_FOREACH(string s, args) {
+        if( boost::starts_with(s, "-pdtCInc=") ) {
+            cIncludeName = s.substr(9, string::npos);
+            break;
+        }
+    }
+
+    std::string cxxIncludeName = "rose_cxx_includes";
+    BOOST_FOREACH(string s, args) {
+        if( boost::starts_with(s, "-pdtCxxInc=") ) {
+            cxxIncludeName = s.substr(11, string::npos);
+            break;
+        }
+    }
+
+    std::string c_includes = confPath + cIncludeName;
+    std::string cxx_includes = confPath + cxxIncludeName;
+
+    if( SgProject::get_verbose() > 1 ) {
+        std::cerr << "Rose C configuration file: " << c_includes << std::endl;
+        std::cerr << "Rose CXX configuration file: " << cxx_includes << std::endl;
+    }
+
+    
+     Rose_STL_Container<string> Cxx_ConfigIncludeDirs;
+     Rose_STL_Container<string> C_ConfigIncludeDirs;
+
+     if(boost::filesystem::exists(c_includes.c_str())) {
+        ifstream incfile(c_includes.c_str());
+        ROSE_ASSERT(incfile.is_open());
+        C_ConfigIncludeDirs.clear();
+        string line;
+        while( !(getline(incfile, line).eof()) ) {
+            if(line != ".") {
+                if(boost::starts_with(line, "gcc_HEADERS") || boost::starts_with(line, "g++_HEADERS")) {
+                    line = std::string("./include/") + line;
+                }
+                C_ConfigIncludeDirs.push_back(StringUtility::getAbsolutePathFromRelativePath(line, false));    
+            }
+            if(SgProject::get_verbose() > 1) {
+                std::cerr << "Added C include path from config file: " << line << std::endl;
+            }
+        } 
+        incfile.close();
+     }
+
+     if(boost::filesystem::exists(cxx_includes.c_str())) {
+        ifstream incfile(cxx_includes.c_str());
+        ROSE_ASSERT(incfile.is_open());
+        Cxx_ConfigIncludeDirs.clear();
+        string line;
+        while( !(getline(incfile, line).eof()) ) {
+            if( line != "." ) {
+                if(boost::starts_with(line, "gcc_HEADERS") || boost::starts_with(line, "g++_HEADERS")) {
+                    line = std::string("./include/") + line;
+                }
+                Cxx_ConfigIncludeDirs.push_back(StringUtility::getAbsolutePathFromRelativePath(line, false));    
+            }
+            if(SgProject::get_verbose() > 1) {
+                std::cerr << "Added CXX include path from config file: " << line << std::endl;
+            }
+        } 
+        incfile.close();
+     }
+
+     Rose_STL_Container<string> * sysIncludes = NULL;
+
 	const SgFilePtrList & fileList = project->get_fileList();
     if(fileList.size() <= 0) {
         std::cerr << "ERROR: No input files provided!" << std::endl;
@@ -2060,19 +2144,25 @@ int main ( int argc, char* argv[] ) {
     // Determine language of the project
 	lang = LANG_NONE;
     int version = PDB_VERSION;
+
+
 	
     if(SageInterface::is_UPC_language()) {
         lang = LANG_UPC;
         version = UPC_PDB_VERSION;
+        sysIncludes = &C_ConfigIncludeDirs;
     } else if(project->get_C_only() || project->get_C99_only()) {
 		lang = LANG_C;
+        sysIncludes = &C_ConfigIncludeDirs;
 	} else if(project->get_Cxx_only()) {
 		lang = LANG_CPP;
+        sysIncludes = &Cxx_ConfigIncludeDirs;
 	} else if(project->get_Fortran_only() || project->get_F77_only() || project->get_F90_only()
 			  || project->get_F95_only() || project->get_F2003_only()) {
 		lang = LANG_FORTRAN;
 	} else {
 		lang = LANG_MULTI;
+        std::cerr << "WARNING: Source language not determined to be UPC, C, C++ or Fortran." << std::endl;
 	} // The PDT specification says Java is a possible language, but ROSE
       // doesn't (yet?) support Java.
 
@@ -2227,6 +2317,21 @@ int main ( int argc, char* argv[] ) {
         }
     }
  
+    // Fix paths of files to be absolute paths and mark system headers
+    for(std::vector<SourceFile*>::iterator it = files.begin(); it != files.end(); ++it) {
+        SourceFile * f = (*it);
+        f->path = StringUtility::getAbsolutePathFromRelativePath(f->path, false);
+        if(sysIncludes != NULL) {
+            BOOST_FOREACH(std::string s, *sysIncludes) {
+                if(boost::starts_with(f->path, s)) {
+                    f->ssys = true;
+                    break;
+                }
+            }
+        }
+
+    }
+
 	// Print file entries
 	for(std::vector<SourceFile*>::const_iterator it = files.begin(); it!=files.end(); ++it) {
 		outfile << *(*it);

@@ -50,7 +50,7 @@ clean:
 # the "-lrose -ledg" libraries, and one using the many separate ROSE libraries.
 $(executableFiles): 
 #	g++ -m32 -I$(ROSE_INCLUDE_DIR) -o $@ $(ROSE_SOURCE_DIR)/$@.C -L$(ROSE_LIB_DIR) -Wl,-rpath $(ROSE_LIB_DIR) $(ROSE_LIBS)
-	$(CXX) -I$(ROSE_INCLUDE_DIR) $(CPPFLAGS) $(CXXFLAGS) -o $@ $(ROSE_SOURCE_DIR)/$@.C $(LIBS_WITH_RPATH) -L/mnt/netapp/home2/nchaimov/src/rose-0.9.5a-15163/compileTreeNoJava/lib -L/mnt/netapp/home2/nchaimov/boost/lib -L$(ROSE_LIB_DIR) -static -pthread -Wl,--start-group -lpthread -lboost_system -lboost_wave -lhpdf -lrose -lm -lboost_date_time -lboost_thread -lboost_filesystem -lgcrypt -lgpg-error -lboost_program_options -lboost_regex dlstubs.o -Wl,--end-group
+	$(CXX) -I$(ROSE_INCLUDE_DIR) $(CPPFLAGS) $(CXXFLAGS) -o $@ $(ROSE_SOURCE_DIR)/$@.C $(LIBS_WITH_RPATH) -L/mnt/netapp/home2/nchaimov/src/rose-current/compileTreeNoJava/lib -L/mnt/netapp/home2/nchaimov/boost/lib -L$(ROSE_LIB_DIR) -static -pthread -Wl,--start-group -lpthread -lboost_system -lboost_wave -lhpdf -lrose -lm -lboost_date_time -lboost_thread -lboost_filesystem -lgcrypt -lgpg-error -lboost_program_options -lboost_regex dlstubs.o -Wl,--end-group
 #	/bin/sh ../libtool --mode=link $(CXX) $(CPPFLAGS) $(CXXFLAGS)  $(LDFLAGS) -I$(ROSE_INCLUDE_DIR) $(BOOST_CPPFLAGS) -o $@ $(ROSE_SOURCE_DIR)/$@.C $(ROSE_LIBS)
 #	/bin/sh $(ROSE_HOME)/libtool --mode=link $(CXX) $(CPPFLAGS) $(CXXFLAGS)  $(LDFLAGS) -I$(ROSE_INCLUDE_DIR) $(BOOST_CPPFLAGS) $(ROSE_DWARF_INCLUDES) -o $@ $(ROSE_SOURCE_DIR)/$@.C $(ROSE_LIBS) $(ROSE_DWARF_LIBS_WITH_PATH)
 
