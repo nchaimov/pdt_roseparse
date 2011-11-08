@@ -563,42 +563,6 @@ PACKAGE_BUGREPORT=''
 PACKAGE_URL=''
 
 ac_unique_file="README"
-# Factoring default headers for most tests.
-ac_includes_default="\
-#include <stdio.h>
-#ifdef HAVE_SYS_TYPES_H
-# include <sys/types.h>
-#endif
-#ifdef HAVE_SYS_STAT_H
-# include <sys/stat.h>
-#endif
-#ifdef STDC_HEADERS
-# include <stdlib.h>
-# include <stddef.h>
-#else
-# ifdef HAVE_STDLIB_H
-#  include <stdlib.h>
-# endif
-#endif
-#ifdef HAVE_STRING_H
-# if !defined STDC_HEADERS && defined HAVE_MEMORY_H
-#  include <memory.h>
-# endif
-# include <string.h>
-#endif
-#ifdef HAVE_STRINGS_H
-# include <strings.h>
-#endif
-#ifdef HAVE_INTTYPES_H
-# include <inttypes.h>
-#endif
-#ifdef HAVE_STDINT_H
-# include <stdint.h>
-#endif
-#ifdef HAVE_UNISTD_H
-# include <unistd.h>
-#endif"
-
 ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
@@ -638,28 +602,20 @@ ROSE_USING_ALTERNATE_BACKEND_CXX_COMPILER_FALSE
 ROSE_USING_ALTERNATE_BACKEND_CXX_COMPILER_TRUE
 ALTERNATE_BACKEND_C_CROSS_COMPILER_FALSE
 ALTERNATE_BACKEND_C_CROSS_COMPILER_TRUE
-ROSE_USING_GFORTRAN_VERSION_4_6_FALSE
-ROSE_USING_GFORTRAN_VERSION_4_6_TRUE
-ROSE_USING_GFORTRAN_VERSION_4_5_FALSE
-ROSE_USING_GFORTRAN_VERSION_4_5_TRUE
-ROSE_USING_GFORTRAN_VERSION_4_4_FALSE
-ROSE_USING_GFORTRAN_VERSION_4_4_TRUE
-ROSE_USING_GFORTRAN_VERSION_4_2_FALSE
-ROSE_USING_GFORTRAN_VERSION_4_2_TRUE
-ROSE_USING_GFORTRAN_VERSION_4_1_FALSE
-ROSE_USING_GFORTRAN_VERSION_4_1_TRUE
-ROSE_USING_GFORTRAN_VERSION_4_0_FALSE
-ROSE_USING_GFORTRAN_VERSION_4_0_TRUE
 BACKEND_JAVA_COMPILER
-BACKEND_FORTRAN_COMPILER
 BACKEND_C_COMPILER
 BACKEND_CXX_COMPILER
 ROSE_HOME
+ROSE_USE_UNIFORM_ADVANCED_WARNINGS_SUPPORT
+ROSE_USE_UNIFORM_ADVANCED_WARNINGS_SUPPORT_FALSE
+ROSE_USE_UNIFORM_ADVANCED_WARNINGS_SUPPORT_TRUE
 CXX_TEMPLATE_OBJECTS
 CXX_TEMPLATE_REPOSITORY_PATH
 CXX_WARNINGS
 CXX_OPTIMIZE
 CXX_DEBUG
+EGREP
+GREP
 CXXCPP
 am__fastdepCXX_FALSE
 am__fastdepCXX_TRUE
@@ -670,45 +626,6 @@ CXX
 C_WARNINGS
 C_OPTIMIZE
 C_DEBUG
-host_os
-host_vendor
-host_cpu
-host
-HAS_LIBRARY_CURL_FALSE
-HAS_LIBRARY_CURL_TRUE
-ROSE_BUILD_OPENCL_LANGUAGE_SUPPORT_FALSE
-ROSE_BUILD_OPENCL_LANGUAGE_SUPPORT_TRUE
-ROSE_BUILD_CUDA_LANGUAGE_SUPPORT_FALSE
-ROSE_BUILD_CUDA_LANGUAGE_SUPPORT_TRUE
-ROSE_BUILD_BINARY_ANALYSIS_SUPPORT_FALSE
-ROSE_BUILD_BINARY_ANALYSIS_SUPPORT_TRUE
-ROSE_BUILD_PYTHON_LANGUAGE_SUPPORT_FALSE
-ROSE_BUILD_PYTHON_LANGUAGE_SUPPORT_TRUE
-ROSE_BUILD_PHP_LANGUAGE_SUPPORT_FALSE
-ROSE_BUILD_PHP_LANGUAGE_SUPPORT_TRUE
-ROSE_BUILD_JAVA_LANGUAGE_SUPPORT_FALSE
-ROSE_BUILD_JAVA_LANGUAGE_SUPPORT_TRUE
-ROSE_BUILD_FORTRAN_LANGUAGE_SUPPORT_FALSE
-ROSE_BUILD_FORTRAN_LANGUAGE_SUPPORT_TRUE
-ROSE_BUILD_CXX_LANGUAGE_SUPPORT_FALSE
-ROSE_BUILD_CXX_LANGUAGE_SUPPORT_TRUE
-ROSE_BUILD_C_LANGUAGE_SUPPORT_FALSE
-ROSE_BUILD_C_LANGUAGE_SUPPORT_TRUE
-GFORTRAN_PATH
-JAR
-JAVAH
-JAVAC
-JAVA
-JAVA_JVM_INCLUDE
-JAVA_JVM_LINK
-JAVA_PATH
-ROSE_USE_INTERNAL_JAVA_SUPPORT_FALSE
-ROSE_USE_INTERNAL_JAVA_SUPPORT_TRUE
-ROSE_USE_INTERNAL_JAVA_SUPPORT_AM_CONDITIONAL_FALSE
-ROSE_USE_INTERNAL_JAVA_SUPPORT_AM_CONDITIONAL_TRUE
-EGREP
-GREP
-CPP
 am__fastdepCC_FALSE
 am__fastdepCC_TRUE
 CCDEPMODE
@@ -725,9 +642,11 @@ CPPFLAGS
 LDFLAGS
 CFLAGS
 CC
+host_os
+host_vendor
+host_cpu
+host
 configure_date
-ROSE_USE_SSL_SUPPORT_FALSE
-ROSE_USE_SSL_SUPPORT_TRUE
 OS_release
 OS_vendor
 OS_VENDOR_REDHAT_32BIT_FALSE
@@ -827,39 +746,16 @@ SHELL'
 ac_subst_files=''
 ac_user_opts='
 enable_option_checking
-enable_ssl
-with_java
 enable_dependency_tracking
-with_gfortran
-enable_only_binary_analysis
-enable_only_c
-enable_only_cxx
-enable_only_fortran
-enable_only_java
-enable_only_php
-enable_only_python
-enable_only_cuda
-enable_only_opencl
-enable_languages
-enable_binary_analysis
-enable_c
-enable_cxx
-enable_cuda
-enable_fortran
-enable_java
-enable_php
-enable_python
-enable_opencl
-enable_gcc_version_check
 with_C_DEBUG
 with_C_OPTIMIZE
 with_C_WARNINGS
 with_CXX_DEBUG
 with_CXX_OPTIMIZE
 with_CXX_WARNINGS
+enable_advanced_warnings
 with_alternate_backend_Cxx_compiler
 with_alternate_backend_C_compiler
-with_alternate_backend_fortran_compiler
 with_alternate_backend_java_compiler
 '
       ac_precious_vars='build_alias
@@ -870,8 +766,6 @@ CFLAGS
 LDFLAGS
 LIBS
 CPPFLAGS
-CPP
-GFORTRAN_PATH
 CXX
 CXXFLAGS
 CCC
@@ -1496,95 +1390,15 @@ Optional Features:
   --disable-option-checking  ignore unrecognized --enable/--with options
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
-  --enable-ssl ................................ Enable use of SSL library (MD5 checksums)
   --disable-dependency-tracking  speeds up one-time build
   --enable-dependency-tracking   do not reject slow dependency extractors
-#########################################################################################
-                --enable-only-binary-analysis(=yes)
-                          Enable ONLY Java support in ROSE (Warning:
-                          '--enable-only-binary-analysis=no' and
-                          '--disable-only-binary-analysis' are no longer
-                          supported)
-#########################################################################################
-                --enable-only-c(=yes)   Enable ONLY C support in ROSE (Warning:
-                          '--enable-only-c=no' and '--disable-only-c' are no
-                          longer supported)
-#########################################################################################
-                --enable-only-cxx(=yes) Enable ONLY C++ support in ROSE (Warning:
-                          '--enable-only-cxx=no' and '--disable-only-cxx' are
-                          no longer supported)
-#########################################################################################
-                --enable-only-fortran(=yes)
-                          Enable ONLY Fortran support in ROSE (Warning:
-                          '--enable-only-fortran=no' and
-                          '--disable-only-fortran' are no longer supported)
-#########################################################################################
-                --enable-only-java(=yes)
-                          Enable ONLY Java support in ROSE (Warning:
-                          '--enable-only-java=no' and '--disable-only-java'
-                          are no longer supported)
-#########################################################################################
-                --enable-only-php(=yes) Enable ONLY PHP support in ROSE (Warning:
-                          '--enable-only-php=no' and '--disable-only-php' are
-                          no longer supported)
-#########################################################################################
-                --enable-only-python(=yes)
-                          Enable ONLY Python support in ROSE (Warning:
-                          '--enable-only-python=no' and
-                          '--disable-only-python' are no longer supported)
-#########################################################################################
-                --enable-only-cuda(=yes)
-                          Enable ONLY Cuda support in ROSE (Warning:
-                          '--enable-only-cuda=no' and '--disable-only-cuda'
-                          are no longer supported)
-#########################################################################################
-                --enable-only-opencl(=yes)
-                          Enable ONLY OpenCL support in ROSE (Warning:
-                          '--enable-only-opencl=no' and
-                          '--disable-only-opencl' are no longer supported)
-#########################################################################################
-                 --enable-languages=LIST Build specific languages:
-                          all,none,binary-analysis,c,c++,cuda,fortran,java,opencl,php,python
-                          (default=all)
-#########################################################################################
-                 --enable-binary-analysis
-                          Enable binary analysis support in ROSE (default=yes)
-#########################################################################################
-                 --enable-c              Enable C language support in ROSE (default=yes).
-                          Note: C++ support must currently be simultaneously
-                          enabled/disabled
-#########################################################################################
-                 --enable-cxx            Enable C++ language support in ROSE (default=yes).
-                          Note: C support must currently be simultaneously
-                          enabled/disabled
-#########################################################################################
-                 --enable-cuda           Enable Cuda language support in ROSE (default=yes)
-#########################################################################################
-                 --enable-fortran        Enable Fortran language support in ROSE
-                          (default=yes)
-#########################################################################################
-                 --enable-java           Enable Java language support in ROSE (default=yes).
-                          Note: --without-java turns off support for ALL
-                          components in ROSE that depend on Java, including
-                          Java language support
-#########################################################################################
-                 --enable-php            Enable PHP language support in ROSE (default=yes)
-#########################################################################################
-                 --enable-python         Enable Python language support in ROSE (default=no)
-#########################################################################################
-                 --enable-opencl         Enable OpenCL language support in ROSE (default=yes)
-  --disable-gcc-version-check
-                          Disable GCC version 4.0.x - 4.4.x verification check
+  --enable-advanced-warnings
+                          Support for an advanced uniform warning level for
+                          ROSE development
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
-  --with-java             use Java for Fortran and Java language support in
-                          ROSE and/or Javaport support to build Java wrapers
-                          of ROSE functions (default is YES if Java can be
-                          found)
-  --with-gfortran=[[PATH]]
-                          absolute path to gfortran executable
   --with-C_DEBUG          manually set the C compiler debug flags to ARG
                           (leave blank to choose automatically)
   --with-C_OPTIMIZE=ARG   manually set the C compiler optimization
@@ -1601,8 +1415,6 @@ Optional Packages:
                                 Specify an alternative C++ back-end compiler
   --with-alternate_backend_C_compiler=<compiler name>
                                 Specify an alternative C back-end compiler
-  --with-alternate_backend_fortran_compiler=<compiler name>
-                                Specify an alternative fortran back-end compiler
   --with-alternate_backend_java_compiler=<compiler name>
                                 Specify an alternative java back-end compiler
 
@@ -1614,9 +1426,6 @@ Some influential environment variables:
   LIBS        libraries to pass to the linker, e.g. -l<library>
   CPPFLAGS    (Objective) C/C++ preprocessor flags, e.g. -I<include dir> if
               you have headers in a nonstandard directory <include dir>
-  CPP         C preprocessor
-  GFORTRAN_PATH
-              Absolute path to gfortran executable
   CXX         C++ compiler command
   CXXFLAGS    C++ compiler flags
   CXXCPP      C++ preprocessor
@@ -1739,249 +1548,6 @@ fi
 
 } # ac_fn_c_try_compile
 
-# ac_fn_c_try_cpp LINENO
-# ----------------------
-# Try to preprocess conftest.$ac_ext, and return whether this succeeded.
-ac_fn_c_try_cpp ()
-{
-  as_lineno=${as_lineno-"$1"} as_lineno_stack=as_lineno_stack=$as_lineno_stack
-  if { { ac_try="$ac_cpp conftest.$ac_ext"
-case "(($ac_try" in
-  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
-  *) ac_try_echo=$ac_try;;
-esac
-eval ac_try_echo="\"\$as_me:${as_lineno-$LINENO}: $ac_try_echo\""
-$as_echo "$ac_try_echo"; } >&5
-  (eval "$ac_cpp conftest.$ac_ext") 2>conftest.err
-  ac_status=$?
-  if test -s conftest.err; then
-    grep -v '^ *+' conftest.err >conftest.er1
-    cat conftest.er1 >&5
-    mv -f conftest.er1 conftest.err
-  fi
-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; } > conftest.i && {
-	 test -z "$ac_c_preproc_warn_flag$ac_c_werror_flag" ||
-	 test ! -s conftest.err
-       }; then :
-  ac_retval=0
-else
-  $as_echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-    ac_retval=1
-fi
-  eval $as_lineno_stack; ${as_lineno_stack:+:} unset as_lineno
-  as_fn_set_status $ac_retval
-
-} # ac_fn_c_try_cpp
-
-# ac_fn_c_check_header_mongrel LINENO HEADER VAR INCLUDES
-# -------------------------------------------------------
-# Tests whether HEADER exists, giving a warning if it cannot be compiled using
-# the include files in INCLUDES and setting the cache variable VAR
-# accordingly.
-ac_fn_c_check_header_mongrel ()
-{
-  as_lineno=${as_lineno-"$1"} as_lineno_stack=as_lineno_stack=$as_lineno_stack
-  if eval \${$3+:} false; then :
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $2" >&5
-$as_echo_n "checking for $2... " >&6; }
-if eval \${$3+:} false; then :
-  $as_echo_n "(cached) " >&6
-fi
-eval ac_res=\$$3
-	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
-$as_echo "$ac_res" >&6; }
-else
-  # Is the header compilable?
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking $2 usability" >&5
-$as_echo_n "checking $2 usability... " >&6; }
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-$4
-#include <$2>
-_ACEOF
-if ac_fn_c_try_compile "$LINENO"; then :
-  ac_header_compiler=yes
-else
-  ac_header_compiler=no
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_header_compiler" >&5
-$as_echo "$ac_header_compiler" >&6; }
-
-# Is the header present?
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking $2 presence" >&5
-$as_echo_n "checking $2 presence... " >&6; }
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <$2>
-_ACEOF
-if ac_fn_c_try_cpp "$LINENO"; then :
-  ac_header_preproc=yes
-else
-  ac_header_preproc=no
-fi
-rm -f conftest.err conftest.i conftest.$ac_ext
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_header_preproc" >&5
-$as_echo "$ac_header_preproc" >&6; }
-
-# So?  What about this header?
-case $ac_header_compiler:$ac_header_preproc:$ac_c_preproc_warn_flag in #((
-  yes:no: )
-    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: $2: accepted by the compiler, rejected by the preprocessor!" >&5
-$as_echo "$as_me: WARNING: $2: accepted by the compiler, rejected by the preprocessor!" >&2;}
-    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: $2: proceeding with the compiler's result" >&5
-$as_echo "$as_me: WARNING: $2: proceeding with the compiler's result" >&2;}
-    ;;
-  no:yes:* )
-    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: $2: present but cannot be compiled" >&5
-$as_echo "$as_me: WARNING: $2: present but cannot be compiled" >&2;}
-    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: $2:     check for missing prerequisite headers?" >&5
-$as_echo "$as_me: WARNING: $2:     check for missing prerequisite headers?" >&2;}
-    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: $2: see the Autoconf documentation" >&5
-$as_echo "$as_me: WARNING: $2: see the Autoconf documentation" >&2;}
-    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: $2:     section \"Present But Cannot Be Compiled\"" >&5
-$as_echo "$as_me: WARNING: $2:     section \"Present But Cannot Be Compiled\"" >&2;}
-    { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: $2: proceeding with the compiler's result" >&5
-$as_echo "$as_me: WARNING: $2: proceeding with the compiler's result" >&2;}
-    ;;
-esac
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $2" >&5
-$as_echo_n "checking for $2... " >&6; }
-if eval \${$3+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  eval "$3=\$ac_header_compiler"
-fi
-eval ac_res=\$$3
-	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
-$as_echo "$ac_res" >&6; }
-fi
-  eval $as_lineno_stack; ${as_lineno_stack:+:} unset as_lineno
-
-} # ac_fn_c_check_header_mongrel
-
-# ac_fn_c_try_run LINENO
-# ----------------------
-# Try to link conftest.$ac_ext, and return whether this succeeded. Assumes
-# that executables *can* be run.
-ac_fn_c_try_run ()
-{
-  as_lineno=${as_lineno-"$1"} as_lineno_stack=as_lineno_stack=$as_lineno_stack
-  if { { ac_try="$ac_link"
-case "(($ac_try" in
-  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
-  *) ac_try_echo=$ac_try;;
-esac
-eval ac_try_echo="\"\$as_me:${as_lineno-$LINENO}: $ac_try_echo\""
-$as_echo "$ac_try_echo"; } >&5
-  (eval "$ac_link") 2>&5
-  ac_status=$?
-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; } && { ac_try='./conftest$ac_exeext'
-  { { case "(($ac_try" in
-  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
-  *) ac_try_echo=$ac_try;;
-esac
-eval ac_try_echo="\"\$as_me:${as_lineno-$LINENO}: $ac_try_echo\""
-$as_echo "$ac_try_echo"; } >&5
-  (eval "$ac_try") 2>&5
-  ac_status=$?
-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }; }; then :
-  ac_retval=0
-else
-  $as_echo "$as_me: program exited with status $ac_status" >&5
-       $as_echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-       ac_retval=$ac_status
-fi
-  rm -rf conftest.dSYM conftest_ipa8_conftest.oo
-  eval $as_lineno_stack; ${as_lineno_stack:+:} unset as_lineno
-  as_fn_set_status $ac_retval
-
-} # ac_fn_c_try_run
-
-# ac_fn_c_check_header_compile LINENO HEADER VAR INCLUDES
-# -------------------------------------------------------
-# Tests whether HEADER exists and can be compiled using the include files in
-# INCLUDES, setting the cache variable VAR accordingly.
-ac_fn_c_check_header_compile ()
-{
-  as_lineno=${as_lineno-"$1"} as_lineno_stack=as_lineno_stack=$as_lineno_stack
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $2" >&5
-$as_echo_n "checking for $2... " >&6; }
-if eval \${$3+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-$4
-#include <$2>
-_ACEOF
-if ac_fn_c_try_compile "$LINENO"; then :
-  eval "$3=yes"
-else
-  eval "$3=no"
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-fi
-eval ac_res=\$$3
-	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
-$as_echo "$ac_res" >&6; }
-  eval $as_lineno_stack; ${as_lineno_stack:+:} unset as_lineno
-
-} # ac_fn_c_check_header_compile
-
-# ac_fn_c_try_link LINENO
-# -----------------------
-# Try to link conftest.$ac_ext, and return whether this succeeded.
-ac_fn_c_try_link ()
-{
-  as_lineno=${as_lineno-"$1"} as_lineno_stack=as_lineno_stack=$as_lineno_stack
-  rm -f conftest.$ac_objext conftest$ac_exeext
-  if { { ac_try="$ac_link"
-case "(($ac_try" in
-  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
-  *) ac_try_echo=$ac_try;;
-esac
-eval ac_try_echo="\"\$as_me:${as_lineno-$LINENO}: $ac_try_echo\""
-$as_echo "$ac_try_echo"; } >&5
-  (eval "$ac_link") 2>conftest.err
-  ac_status=$?
-  if test -s conftest.err; then
-    grep -v '^ *+' conftest.err >conftest.er1
-    cat conftest.er1 >&5
-    mv -f conftest.er1 conftest.err
-  fi
-  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; } && {
-	 test -z "$ac_c_werror_flag" ||
-	 test ! -s conftest.err
-       } && test -s conftest$ac_exeext && {
-	 test "$cross_compiling" = yes ||
-	 $as_test_x conftest$ac_exeext
-       }; then :
-  ac_retval=0
-else
-  $as_echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-	ac_retval=1
-fi
-  # Delete the IPA/IPO (Inter Procedural Analysis/Optimization) information
-  # created by the PGI compiler (conftest_ipa8_conftest.oo), as it would
-  # interfere with the next link command; also delete a directory that is
-  # left behind by Apple's compiler.  We do this before executing the actions.
-  rm -rf conftest.dSYM conftest_ipa8_conftest.oo
-  eval $as_lineno_stack; ${as_lineno_stack:+:} unset as_lineno
-  as_fn_set_status $ac_retval
-
-} # ac_fn_c_try_link
-
 # ac_fn_cxx_try_compile LINENO
 # ----------------------------
 # Try to compile conftest.$ac_ext, and return whether this succeeded.
@@ -2056,6 +1622,48 @@ fi
   as_fn_set_status $ac_retval
 
 } # ac_fn_cxx_try_cpp
+
+# ac_fn_c_try_run LINENO
+# ----------------------
+# Try to link conftest.$ac_ext, and return whether this succeeded. Assumes
+# that executables *can* be run.
+ac_fn_c_try_run ()
+{
+  as_lineno=${as_lineno-"$1"} as_lineno_stack=as_lineno_stack=$as_lineno_stack
+  if { { ac_try="$ac_link"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:${as_lineno-$LINENO}: $ac_try_echo\""
+$as_echo "$ac_try_echo"; } >&5
+  (eval "$ac_link") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; } && { ac_try='./conftest$ac_exeext'
+  { { case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:${as_lineno-$LINENO}: $ac_try_echo\""
+$as_echo "$ac_try_echo"; } >&5
+  (eval "$ac_try") 2>&5
+  ac_status=$?
+  $as_echo "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; }; }; then :
+  ac_retval=0
+else
+  $as_echo "$as_me: program exited with status $ac_status" >&5
+       $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+       ac_retval=$ac_status
+fi
+  rm -rf conftest.dSYM conftest_ipa8_conftest.oo
+  eval $as_lineno_stack; ${as_lineno_stack:+:} unset as_lineno
+  as_fn_set_status $ac_retval
+
+} # ac_fn_c_try_run
 cat >config.log <<_ACEOF
 This file contains any messages produced by compilers while
 running configure, to aid debugging if configure makes a mistake.
@@ -3053,6 +2661,39 @@ IFS=$ac_save_IFS
 case $build_os in *\ *) build_os=`echo "$build_os" | sed 's/ /-/g'`;; esac
 
 
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking host system type" >&5
+$as_echo_n "checking host system type... " >&6; }
+if ${ac_cv_host+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test "x$host_alias" = x; then
+  ac_cv_host=$ac_cv_build
+else
+  ac_cv_host=`$SHELL "$ac_aux_dir/config.sub" $host_alias` ||
+    as_fn_error $? "$SHELL $ac_aux_dir/config.sub $host_alias failed" "$LINENO" 5
+fi
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_host" >&5
+$as_echo "$ac_cv_host" >&6; }
+case $ac_cv_host in
+*-*-*) ;;
+*) as_fn_error $? "invalid value of canonical host" "$LINENO" 5;;
+esac
+host=$ac_cv_host
+ac_save_IFS=$IFS; IFS='-'
+set x $ac_cv_host
+shift
+host_cpu=$1
+host_vendor=$2
+shift; shift
+# Remember, the first character of IFS is used to create $*,
+# except with old shells:
+host_os=$*
+IFS=$ac_save_IFS
+case $host_os in *\ *) host_os=`echo "$host_os" | sed 's/ /-/g'`;; esac
+
+
 DEPDIR="${am__leading_dot}deps"
 
 ac_config_commands="$ac_config_commands depfiles"
@@ -4032,437 +3673,6 @@ else
 fi
 
 
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking how to run the C preprocessor" >&5
-$as_echo_n "checking how to run the C preprocessor... " >&6; }
-# On Suns, sometimes $CPP names a directory.
-if test -n "$CPP" && test -d "$CPP"; then
-  CPP=
-fi
-if test -z "$CPP"; then
-  if ${ac_cv_prog_CPP+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-      # Double quotes because CPP needs to be expanded
-    for CPP in "$CC -E" "$CC -E -traditional-cpp" "/lib/cpp"
-    do
-      ac_preproc_ok=false
-for ac_c_preproc_warn_flag in '' yes
-do
-  # Use a header file that comes with gcc, so configuring glibc
-  # with a fresh cross-compiler works.
-  # Prefer <limits.h> to <assert.h> if __STDC__ is defined, since
-  # <limits.h> exists even on freestanding compilers.
-  # On the NeXT, cc -E runs the code through the compiler's parser,
-  # not just through cpp. "Syntax error" is here to catch this case.
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#ifdef __STDC__
-# include <limits.h>
-#else
-# include <assert.h>
-#endif
-		     Syntax error
-_ACEOF
-if ac_fn_c_try_cpp "$LINENO"; then :
-
-else
-  # Broken: fails on valid input.
-continue
-fi
-rm -f conftest.err conftest.i conftest.$ac_ext
-
-  # OK, works on sane cases.  Now check whether nonexistent headers
-  # can be detected and how.
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <ac_nonexistent.h>
-_ACEOF
-if ac_fn_c_try_cpp "$LINENO"; then :
-  # Broken: success on invalid input.
-continue
-else
-  # Passes both tests.
-ac_preproc_ok=:
-break
-fi
-rm -f conftest.err conftest.i conftest.$ac_ext
-
-done
-# Because of `break', _AC_PREPROC_IFELSE's cleaning code was skipped.
-rm -f conftest.i conftest.err conftest.$ac_ext
-if $ac_preproc_ok; then :
-  break
-fi
-
-    done
-    ac_cv_prog_CPP=$CPP
-
-fi
-  CPP=$ac_cv_prog_CPP
-else
-  ac_cv_prog_CPP=$CPP
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $CPP" >&5
-$as_echo "$CPP" >&6; }
-ac_preproc_ok=false
-for ac_c_preproc_warn_flag in '' yes
-do
-  # Use a header file that comes with gcc, so configuring glibc
-  # with a fresh cross-compiler works.
-  # Prefer <limits.h> to <assert.h> if __STDC__ is defined, since
-  # <limits.h> exists even on freestanding compilers.
-  # On the NeXT, cc -E runs the code through the compiler's parser,
-  # not just through cpp. "Syntax error" is here to catch this case.
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#ifdef __STDC__
-# include <limits.h>
-#else
-# include <assert.h>
-#endif
-		     Syntax error
-_ACEOF
-if ac_fn_c_try_cpp "$LINENO"; then :
-
-else
-  # Broken: fails on valid input.
-continue
-fi
-rm -f conftest.err conftest.i conftest.$ac_ext
-
-  # OK, works on sane cases.  Now check whether nonexistent headers
-  # can be detected and how.
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <ac_nonexistent.h>
-_ACEOF
-if ac_fn_c_try_cpp "$LINENO"; then :
-  # Broken: success on invalid input.
-continue
-else
-  # Passes both tests.
-ac_preproc_ok=:
-break
-fi
-rm -f conftest.err conftest.i conftest.$ac_ext
-
-done
-# Because of `break', _AC_PREPROC_IFELSE's cleaning code was skipped.
-rm -f conftest.i conftest.err conftest.$ac_ext
-if $ac_preproc_ok; then :
-
-else
-  { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "C preprocessor \"$CPP\" fails sanity check
-See \`config.log' for more details" "$LINENO" 5; }
-fi
-
-ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for grep that handles long lines and -e" >&5
-$as_echo_n "checking for grep that handles long lines and -e... " >&6; }
-if ${ac_cv_path_GREP+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  if test -z "$GREP"; then
-  ac_path_GREP_found=false
-  # Loop through the user's path and test for each of PROGNAME-LIST
-  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH$PATH_SEPARATOR/usr/xpg4/bin
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_prog in grep ggrep; do
-    for ac_exec_ext in '' $ac_executable_extensions; do
-      ac_path_GREP="$as_dir/$ac_prog$ac_exec_ext"
-      { test -f "$ac_path_GREP" && $as_test_x "$ac_path_GREP"; } || continue
-# Check for GNU ac_path_GREP and select it if it is found.
-  # Check for GNU $ac_path_GREP
-case `"$ac_path_GREP" --version 2>&1` in
-*GNU*)
-  ac_cv_path_GREP="$ac_path_GREP" ac_path_GREP_found=:;;
-*)
-  ac_count=0
-  $as_echo_n 0123456789 >"conftest.in"
-  while :
-  do
-    cat "conftest.in" "conftest.in" >"conftest.tmp"
-    mv "conftest.tmp" "conftest.in"
-    cp "conftest.in" "conftest.nl"
-    $as_echo 'GREP' >> "conftest.nl"
-    "$ac_path_GREP" -e 'GREP$' -e '-(cannot match)-' < "conftest.nl" >"conftest.out" 2>/dev/null || break
-    diff "conftest.out" "conftest.nl" >/dev/null 2>&1 || break
-    as_fn_arith $ac_count + 1 && ac_count=$as_val
-    if test $ac_count -gt ${ac_path_GREP_max-0}; then
-      # Best one so far, save it but keep looking for a better one
-      ac_cv_path_GREP="$ac_path_GREP"
-      ac_path_GREP_max=$ac_count
-    fi
-    # 10*(2^10) chars as input seems more than enough
-    test $ac_count -gt 10 && break
-  done
-  rm -f conftest.in conftest.tmp conftest.nl conftest.out;;
-esac
-
-      $ac_path_GREP_found && break 3
-    done
-  done
-  done
-IFS=$as_save_IFS
-  if test -z "$ac_cv_path_GREP"; then
-    as_fn_error $? "no acceptable grep could be found in $PATH$PATH_SEPARATOR/usr/xpg4/bin" "$LINENO" 5
-  fi
-else
-  ac_cv_path_GREP=$GREP
-fi
-
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_path_GREP" >&5
-$as_echo "$ac_cv_path_GREP" >&6; }
- GREP="$ac_cv_path_GREP"
-
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for egrep" >&5
-$as_echo_n "checking for egrep... " >&6; }
-if ${ac_cv_path_EGREP+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  if echo a | $GREP -E '(a|b)' >/dev/null 2>&1
-   then ac_cv_path_EGREP="$GREP -E"
-   else
-     if test -z "$EGREP"; then
-  ac_path_EGREP_found=false
-  # Loop through the user's path and test for each of PROGNAME-LIST
-  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH$PATH_SEPARATOR/usr/xpg4/bin
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_prog in egrep; do
-    for ac_exec_ext in '' $ac_executable_extensions; do
-      ac_path_EGREP="$as_dir/$ac_prog$ac_exec_ext"
-      { test -f "$ac_path_EGREP" && $as_test_x "$ac_path_EGREP"; } || continue
-# Check for GNU ac_path_EGREP and select it if it is found.
-  # Check for GNU $ac_path_EGREP
-case `"$ac_path_EGREP" --version 2>&1` in
-*GNU*)
-  ac_cv_path_EGREP="$ac_path_EGREP" ac_path_EGREP_found=:;;
-*)
-  ac_count=0
-  $as_echo_n 0123456789 >"conftest.in"
-  while :
-  do
-    cat "conftest.in" "conftest.in" >"conftest.tmp"
-    mv "conftest.tmp" "conftest.in"
-    cp "conftest.in" "conftest.nl"
-    $as_echo 'EGREP' >> "conftest.nl"
-    "$ac_path_EGREP" 'EGREP$' < "conftest.nl" >"conftest.out" 2>/dev/null || break
-    diff "conftest.out" "conftest.nl" >/dev/null 2>&1 || break
-    as_fn_arith $ac_count + 1 && ac_count=$as_val
-    if test $ac_count -gt ${ac_path_EGREP_max-0}; then
-      # Best one so far, save it but keep looking for a better one
-      ac_cv_path_EGREP="$ac_path_EGREP"
-      ac_path_EGREP_max=$ac_count
-    fi
-    # 10*(2^10) chars as input seems more than enough
-    test $ac_count -gt 10 && break
-  done
-  rm -f conftest.in conftest.tmp conftest.nl conftest.out;;
-esac
-
-      $ac_path_EGREP_found && break 3
-    done
-  done
-  done
-IFS=$as_save_IFS
-  if test -z "$ac_cv_path_EGREP"; then
-    as_fn_error $? "no acceptable egrep could be found in $PATH$PATH_SEPARATOR/usr/xpg4/bin" "$LINENO" 5
-  fi
-else
-  ac_cv_path_EGREP=$EGREP
-fi
-
-   fi
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_path_EGREP" >&5
-$as_echo "$ac_cv_path_EGREP" >&6; }
- EGREP="$ac_cv_path_EGREP"
-
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for ANSI C header files" >&5
-$as_echo_n "checking for ANSI C header files... " >&6; }
-if ${ac_cv_header_stdc+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <stdlib.h>
-#include <stdarg.h>
-#include <string.h>
-#include <float.h>
-
-int
-main ()
-{
-
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_compile "$LINENO"; then :
-  ac_cv_header_stdc=yes
-else
-  ac_cv_header_stdc=no
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-
-if test $ac_cv_header_stdc = yes; then
-  # SunOS 4.x string.h does not declare mem*, contrary to ANSI.
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <string.h>
-
-_ACEOF
-if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-  $EGREP "memchr" >/dev/null 2>&1; then :
-
-else
-  ac_cv_header_stdc=no
-fi
-rm -f conftest*
-
-fi
-
-if test $ac_cv_header_stdc = yes; then
-  # ISC 2.0.2 stdlib.h does not declare free, contrary to ANSI.
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <stdlib.h>
-
-_ACEOF
-if (eval "$ac_cpp conftest.$ac_ext") 2>&5 |
-  $EGREP "free" >/dev/null 2>&1; then :
-
-else
-  ac_cv_header_stdc=no
-fi
-rm -f conftest*
-
-fi
-
-if test $ac_cv_header_stdc = yes; then
-  # /bin/cc in Irix-4.0.5 gets non-ANSI ctype macros unless using -ansi.
-  if test "$cross_compiling" = yes; then :
-  :
-else
-  cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-#include <ctype.h>
-#include <stdlib.h>
-#if ((' ' & 0x0FF) == 0x020)
-# define ISLOWER(c) ('a' <= (c) && (c) <= 'z')
-# define TOUPPER(c) (ISLOWER(c) ? 'A' + ((c) - 'a') : (c))
-#else
-# define ISLOWER(c) \
-		   (('a' <= (c) && (c) <= 'i') \
-		     || ('j' <= (c) && (c) <= 'r') \
-		     || ('s' <= (c) && (c) <= 'z'))
-# define TOUPPER(c) (ISLOWER(c) ? ((c) | 0x40) : (c))
-#endif
-
-#define XOR(e, f) (((e) && !(f)) || (!(e) && (f)))
-int
-main ()
-{
-  int i;
-  for (i = 0; i < 256; i++)
-    if (XOR (islower (i), ISLOWER (i))
-	|| toupper (i) != TOUPPER (i))
-      return 2;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_run "$LINENO"; then :
-
-else
-  ac_cv_header_stdc=no
-fi
-rm -f core *.core core.conftest.* gmon.out bb.out conftest$ac_exeext \
-  conftest.$ac_objext conftest.beam conftest.$ac_ext
-fi
-
-fi
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_header_stdc" >&5
-$as_echo "$ac_cv_header_stdc" >&6; }
-if test $ac_cv_header_stdc = yes; then
-
-$as_echo "#define STDC_HEADERS 1" >>confdefs.h
-
-fi
-
-# On IRIX 5.3, sys/types and inttypes.h are conflicting.
-for ac_header in sys/types.h sys/stat.h stdlib.h string.h memory.h strings.h \
-		  inttypes.h stdint.h unistd.h
-do :
-  as_ac_Header=`$as_echo "ac_cv_header_$ac_header" | $as_tr_sh`
-ac_fn_c_check_header_compile "$LINENO" "$ac_header" "$as_ac_Header" "$ac_includes_default
-"
-if eval test \"x\$"$as_ac_Header"\" = x"yes"; then :
-  cat >>confdefs.h <<_ACEOF
-#define `$as_echo "HAVE_$ac_header" | $as_tr_cpp` 1
-_ACEOF
-
-fi
-
-done
-
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking host system type" >&5
-$as_echo_n "checking host system type... " >&6; }
-if ${ac_cv_host+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  if test "x$host_alias" = x; then
-  ac_cv_host=$ac_cv_build
-else
-  ac_cv_host=`$SHELL "$ac_aux_dir/config.sub" $host_alias` ||
-    as_fn_error $? "$SHELL $ac_aux_dir/config.sub $host_alias failed" "$LINENO" 5
-fi
-
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_host" >&5
-$as_echo "$ac_cv_host" >&6; }
-case $ac_cv_host in
-*-*-*) ;;
-*) as_fn_error $? "invalid value of canonical host" "$LINENO" 5;;
-esac
-host=$ac_cv_host
-ac_save_IFS=$IFS; IFS='-'
-set x $ac_cv_host
-shift
-host_cpu=$1
-host_vendor=$2
-shift; shift
-# Remember, the first character of IFS is used to create $*,
-# except with old shells:
-host_os=$*
-IFS=$ac_save_IFS
-case $host_os in *\ *) host_os=`echo "$host_os" | sed 's/ /-/g'`;; esac
-
-
 ac_ext=cpp
 ac_cpp='$CXXCPP $CPPFLAGS'
 ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
@@ -4982,6 +4192,136 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for grep that handles long lines and -e" >&5
+$as_echo_n "checking for grep that handles long lines and -e... " >&6; }
+if ${ac_cv_path_GREP+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test -z "$GREP"; then
+  ac_path_GREP_found=false
+  # Loop through the user's path and test for each of PROGNAME-LIST
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH$PATH_SEPARATOR/usr/xpg4/bin
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_prog in grep ggrep; do
+    for ac_exec_ext in '' $ac_executable_extensions; do
+      ac_path_GREP="$as_dir/$ac_prog$ac_exec_ext"
+      { test -f "$ac_path_GREP" && $as_test_x "$ac_path_GREP"; } || continue
+# Check for GNU ac_path_GREP and select it if it is found.
+  # Check for GNU $ac_path_GREP
+case `"$ac_path_GREP" --version 2>&1` in
+*GNU*)
+  ac_cv_path_GREP="$ac_path_GREP" ac_path_GREP_found=:;;
+*)
+  ac_count=0
+  $as_echo_n 0123456789 >"conftest.in"
+  while :
+  do
+    cat "conftest.in" "conftest.in" >"conftest.tmp"
+    mv "conftest.tmp" "conftest.in"
+    cp "conftest.in" "conftest.nl"
+    $as_echo 'GREP' >> "conftest.nl"
+    "$ac_path_GREP" -e 'GREP$' -e '-(cannot match)-' < "conftest.nl" >"conftest.out" 2>/dev/null || break
+    diff "conftest.out" "conftest.nl" >/dev/null 2>&1 || break
+    as_fn_arith $ac_count + 1 && ac_count=$as_val
+    if test $ac_count -gt ${ac_path_GREP_max-0}; then
+      # Best one so far, save it but keep looking for a better one
+      ac_cv_path_GREP="$ac_path_GREP"
+      ac_path_GREP_max=$ac_count
+    fi
+    # 10*(2^10) chars as input seems more than enough
+    test $ac_count -gt 10 && break
+  done
+  rm -f conftest.in conftest.tmp conftest.nl conftest.out;;
+esac
+
+      $ac_path_GREP_found && break 3
+    done
+  done
+  done
+IFS=$as_save_IFS
+  if test -z "$ac_cv_path_GREP"; then
+    as_fn_error $? "no acceptable grep could be found in $PATH$PATH_SEPARATOR/usr/xpg4/bin" "$LINENO" 5
+  fi
+else
+  ac_cv_path_GREP=$GREP
+fi
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_path_GREP" >&5
+$as_echo "$ac_cv_path_GREP" >&6; }
+ GREP="$ac_cv_path_GREP"
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for egrep" >&5
+$as_echo_n "checking for egrep... " >&6; }
+if ${ac_cv_path_EGREP+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if echo a | $GREP -E '(a|b)' >/dev/null 2>&1
+   then ac_cv_path_EGREP="$GREP -E"
+   else
+     if test -z "$EGREP"; then
+  ac_path_EGREP_found=false
+  # Loop through the user's path and test for each of PROGNAME-LIST
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH$PATH_SEPARATOR/usr/xpg4/bin
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_prog in egrep; do
+    for ac_exec_ext in '' $ac_executable_extensions; do
+      ac_path_EGREP="$as_dir/$ac_prog$ac_exec_ext"
+      { test -f "$ac_path_EGREP" && $as_test_x "$ac_path_EGREP"; } || continue
+# Check for GNU ac_path_EGREP and select it if it is found.
+  # Check for GNU $ac_path_EGREP
+case `"$ac_path_EGREP" --version 2>&1` in
+*GNU*)
+  ac_cv_path_EGREP="$ac_path_EGREP" ac_path_EGREP_found=:;;
+*)
+  ac_count=0
+  $as_echo_n 0123456789 >"conftest.in"
+  while :
+  do
+    cat "conftest.in" "conftest.in" >"conftest.tmp"
+    mv "conftest.tmp" "conftest.in"
+    cp "conftest.in" "conftest.nl"
+    $as_echo 'EGREP' >> "conftest.nl"
+    "$ac_path_EGREP" 'EGREP$' < "conftest.nl" >"conftest.out" 2>/dev/null || break
+    diff "conftest.out" "conftest.nl" >/dev/null 2>&1 || break
+    as_fn_arith $ac_count + 1 && ac_count=$as_val
+    if test $ac_count -gt ${ac_path_EGREP_max-0}; then
+      # Best one so far, save it but keep looking for a better one
+      ac_cv_path_EGREP="$ac_path_EGREP"
+      ac_path_EGREP_max=$ac_count
+    fi
+    # 10*(2^10) chars as input seems more than enough
+    test $ac_count -gt 10 && break
+  done
+  rm -f conftest.in conftest.tmp conftest.nl conftest.out;;
+esac
+
+      $ac_path_EGREP_found && break 3
+    done
+  done
+  done
+IFS=$as_save_IFS
+  if test -z "$ac_cv_path_EGREP"; then
+    as_fn_error $? "no acceptable egrep could be found in $PATH$PATH_SEPARATOR/usr/xpg4/bin" "$LINENO" 5
+  fi
+else
+  ac_cv_path_EGREP=$EGREP
+fi
+
+   fi
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_path_EGREP" >&5
+$as_echo "$ac_cv_path_EGREP" >&6; }
+ EGREP="$ac_cv_path_EGREP"
+
+
 
 
 # Start macro BTNG_INFO_CXX_ID_NAMES
@@ -4993,8 +4333,8 @@ ac_compile='$CXX -c $CXXFLAGS $CPPFLAGS conftest.$ac_ext >&5'
 ac_link='$CXX -o conftest$ac_exeext $CXXFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
-  echo "configure:4996:" CXXP is $CXX >&5
-  echo "configure:4997:" CXXCPP is $CXXCPP >&5
+  echo "configure:4336:" CXXP is $CXX >&5
+  echo "configure:4337:" CXXCPP is $CXXCPP >&5
 
   CXX_ID=unknown
   CXX_VERSION=unknown
@@ -5003,7 +4343,7 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 
   # Check if it is a Sun compiler.
   if test $CXX_ID = unknown; then
-    echo "configure:5006:" checking if $CXX is sunpro >&5
+    echo "configure:4346:" checking if $CXX is sunpro >&5
 
     cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
@@ -5026,7 +4366,7 @@ rm -f conftest*
 
   # Check if it is a GNU compiler.
   if test $CXX_ID = unknown; then
-    echo "configure:5029:" checking if $CXX is gnu >&5
+    echo "configure:4369:" checking if $CXX is gnu >&5
     cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 #ifdef __GNUC__
@@ -5050,7 +4390,7 @@ rm -f conftest*
 
   # Check if it is a DEC compiler.
   if test $CXX_ID = unknown; then
-    echo "configure:5053:" checking if $CXX is dec >&5
+    echo "configure:4393:" checking if $CXX is dec >&5
     cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 __DECCXX
@@ -5071,7 +4411,7 @@ rm -f conftest*
 
   # Check if it is a KAI compiler.
   if test $CXX_ID = unknown; then
-    echo "configure:5074:" checking if $CXX is kai >&5
+    echo "configure:4414:" checking if $CXX is kai >&5
     cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 __KCC
@@ -5092,7 +4432,7 @@ rm -f conftest*
 
   # Check if it is a SGI compiler.
   if test $CXX_ID = unknown; then
-    echo "configure:5095:" checking if $CXX is sgi >&5
+    echo "configure:4435:" checking if $CXX is sgi >&5
     cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 __sgi
@@ -5113,7 +4453,7 @@ rm -f conftest*
 
   # Check if it is a IBM compiler.
   if test $CXX_ID = unknown; then
-    echo "configure:5116:" checking if $CXX is xlc >&5
+    echo "configure:4456:" checking if $CXX is xlc >&5
     cat confdefs.h - <<_ACEOF >conftest.$ac_ext
 /* end confdefs.h.  */
 #ifdef __xlC__
@@ -5151,11 +4491,12 @@ for btng_log_vars_index in $btng_log_vars ; do
   else
     btng_log_vars_value="unset";
   fi
-  echo "configure:5154:" "$btng_log_vars_index is $btng_log_vars_value" >&5;
+  echo "configure:4494:" "$btng_log_vars_index is $btng_log_vars_value" >&5;
 done
 
 
 # End macro BTNG_INFO_CXX_ID_NAMES
+
 
 
 
@@ -5542,56 +4883,11 @@ fi
 
 # This appears to be a problem for Java (and so the Fortran support).
 # CHECK_SSL
-
-# Begin macro ROSE_SUPPORT_SSL.
-
-# Adding support for the SSL library to provide access to MD5 checksum support for binary library identification.
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for ssl" >&5
-$as_echo_n "checking for ssl... " >&6; }
-# Check whether --enable-ssl was given.
-if test "${enable_ssl+set}" = set; then :
-  enableval=$enable_ssl;
-else
-  if test ! "$enable_ssl" ; then
-   enable_ssl=no
-fi
-
-fi
-
-
-#if test "$enable_ssl" = yes ; then
-#  AC_DEFINE([USE_ROSE_SSL_SUPPORT],[],[Support for ssl])
-#fi
-
-echo "In ROSE SSL SUPPORT MACRO: enable_ssl = $enable_ssl"
-
-if test "$enable_ssl" = no; then
-   # If SSL is not specified, then don't use it.
-   echo "Skipping use of SSL (libssl) support!"
-else
-   echo "Setup SSL support in ROSE! path = $enable_ssl"
-
-$as_echo "#define USE_ROSE_SSL_SUPPORT 1" >>confdefs.h
-
-fi
-
-# AC_SUBST(dwarf_path)
-
-# End macro ROSE_SUPPORT_DWARF.
-
-
+# ROSE_SUPPORT_SSL
 
 # Need the SSL automake conditional so that libssl can be added selectively for only those
 # translators that require it (since it conflicts with use of Java, and thus Fortran support).
- if test "x$enable_ssl" = xyes; then
-  ROSE_USE_SSL_SUPPORT_TRUE=
-  ROSE_USE_SSL_SUPPORT_FALSE='#'
-else
-  ROSE_USE_SSL_SUPPORT_TRUE='#'
-  ROSE_USE_SSL_SUPPORT_FALSE=
-fi
-
+# AM_CONDITIONAL(ROSE_USE_SSL_SUPPORT, [test "x$enable_ssl" = xyes])
 
 configure_date=`date '+%A %B %e %H:%M:%S %Y'`
 
@@ -5633,25 +4929,25 @@ fi
 
 
 
-# DQ & PC (11/3/2009): Debugging the Java support.
-if false; then
-  if test "x$JAVA_HOME" = "x"; then
-    JAVA="`which javac`"
-    if test -f /usr/bin/javaconfig; then # Mac Java
-      :
-    else
-      while test `readlink "$JAVA"` ; do
-        JAVA=`readlink "$JAVA"` ;
-     done
-
-     if test $JAVA = "gcj"; then
-        as_fn_error $? "\"Error: gcj not supported. Please configure sun java as javac\" " "$LINENO" 5;
-     fi
-
-    fi
-    JAVA_HOME="`dirname $JAVA`/.."
-  fi
-fi
+## DQ & PC (11/3/2009): Debugging the Java support.
+#if false; then
+#  if test "x$JAVA_HOME" = "x"; then
+#    JAVA="`which javac`"
+#    if test -f /usr/bin/javaconfig; then # Mac Java
+#      :
+#    else
+#      while test `readlink "$JAVA"` ; do
+#        JAVA=`readlink "$JAVA"` ;
+#     done
+#
+#     if test $JAVA = "gcj"; then
+#        AC_MSG_ERROR( "Error: gcj not supported. Please configure sun java as javac" );
+#     fi
+#
+#    fi
+#    JAVA_HOME="`dirname $JAVA`/.."
+#  fi
+#fi
 
 # Call supporting macro for the Java path required by the Open Fortran Parser (for Fortran 2003 support)
 # Use our classpath in case the user's is messed up
@@ -5666,1669 +4962,50 @@ case `pwd` in #((
 esac
 
 # Check for Java support used internally to support both the Fortran language (OFP fortran parser) and Java language (ECJ java parser).
-
-# Begin macro ROSE_SUPPORT_JAVA.
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for Java (javac first, then java, then jvm)" >&5
-$as_echo_n "checking for Java (javac first, then java, then jvm)... " >&6; }
-
-
-# Check whether --with-java was given.
-if test "${with_java+set}" = set; then :
-  withval=$with_java; javasetting=$withval
-else
-  javasetting=try
-fi
-
-
-JAVAC=$javasetting
-USE_JAVA=1
-#echo "JAVA_HOME = ${JAVA_HOME}"
-if test "x$javasetting" = xno; then
-# echo 'test "x$javasetting" = xno;'
-  JAVAC=""
-  USE_JAVA=0
-elif test "x$javasetting" = xyes || test "x$javasetting" = xtry; then
-# echo 'test x$javasetting = xyes || test x$javasetting = xtry;'
-  JAVA_PATH="${JAVA_HOME}"
-# echo "JAVA_PATH = ${JAVA_PATH}"
-  if test "x$JAVA_PATH" = x; then
-#   echo 'test x$JAVA_PATH = x;'
-# DQ & PC (11/3/2009): Search for javac instead of java since we require
-# the JDK and this should detect that it is missign as early as possible.
-    JAVAC="`which javac`"
-  # if which javac > /dev/null; then
-    if test $? -eq 0; then
-    # echo 'which javac;'
-    # echo "java = ${JAVA}"
-    # JAVAC="`which javac`"
-    # echo "javac = ${JAVAC}"
-# DQ & PC (11/3/2009): Fixing support for Java that causes problems for CERT and our new RedHat Release 5 systems.
-
-	JAVAC="${JAVAC}"
-	while test -h "$JAVAC" ; do
-		__rose_canon_symlink_base="`readlink "$JAVAC"`"
-		case "`dirname "$JAVAC"`" in #((
-.) __rose_canon_symlink_full_path="$__rose_canon_symlink_base";;
-*)
-  case "$__rose_canon_symlink_base" in #(((
-  .) __rose_canon_symlink_full_path="`dirname "$JAVAC"`";;
-  [\\/]* | ?:[\\/]* ) __rose_canon_symlink_full_path="$__rose_canon_symlink_base";;
-  *) __rose_canon_symlink_full_path="`dirname "$JAVAC"`"/"$__rose_canon_symlink_base";;
-  esac;;
-esac
-		__rose_canon_symlink_dir="`dirname "$__rose_canon_symlink_full_path"`"
-		__rose_canon_symlink_canon_dir="`cd "$__rose_canon_symlink_dir" && pwd`"
-		case "$__rose_canon_symlink_canon_dir" in #((
-.) JAVAC="`basename $__rose_canon_symlink_full_path`";;
-*)
-  case "`basename $__rose_canon_symlink_full_path`" in #(((
-  .) JAVAC="$__rose_canon_symlink_canon_dir";;
-  [\\/]* | ?:[\\/]* ) JAVAC="`basename $__rose_canon_symlink_full_path`";;
-  *) JAVAC="$__rose_canon_symlink_canon_dir"/"`basename $__rose_canon_symlink_full_path`";;
-  esac;;
-esac
-	done
-
-    # echo "javac = ${JAVAC}"
-      JAVAC_BASENAME=`basename ${JAVAC}`
-      if test x${JAVAC_BASENAME} == "xjavac"; then
-         : # echo "Found Sun or IBM Java (javac)"
-      else
-       # This is likely the Eclipse Java (ecj).
-       # DQ (11/3/2009): If this is IBM Java then it should also work with ROSE and this macro.
-         as_fn_error $? "This is not SUN or IBM Java found by default (likely found ecj - Eclipse Java) -- specify correct java using --with-java=<path>" "$LINENO" 5
-      fi
-    # AS_SET_CATFILE(JAVA_PATH, "`pwd`", "`dirname ${JAVA}`/../..")
-      case "`pwd`" in #((
-.) JAVA_PATH="`dirname ${JAVAC}`/..";;
-*)
-  case "`dirname ${JAVAC}`/.." in #(((
-  .) JAVA_PATH="`pwd`";;
-  [\\/]* | ?:[\\/]* ) JAVA_PATH="`dirname ${JAVAC}`/..";;
-  *) JAVA_PATH="`pwd`"/"`dirname ${JAVAC}`/..";;
-  esac;;
-esac
-
-      # George Vulov (Aug. 25, 2010) On OS X the binaries found under /System/Library/Frameworks/JavaVM.framework/Versions/Current/Commands/
-      # aren't the true Java binaries; instead they check the java preferences app and then instantiate whatever version of Java
-      # is specified there. The actual java binaries are located in /System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home
-      if test "x$build_vendor" = xapple; then
-      	if (( `echo ${JAVA_PATH} | grep -c "/Commands/.."` > 0 )); then
-      		case "`pwd`" in #((
-.) JAVA_PATH="`dirname ${JAVAC}`/../../CurrentJDK/Home";;
-*)
-  case "`dirname ${JAVAC}`/../../CurrentJDK/Home" in #(((
-  .) JAVA_PATH="`pwd`";;
-  [\\/]* | ?:[\\/]* ) JAVA_PATH="`dirname ${JAVAC}`/../../CurrentJDK/Home";;
-  *) JAVA_PATH="`pwd`"/"`dirname ${JAVAC}`/../../CurrentJDK/Home";;
-  esac;;
-esac
-      	fi
-	  fi
-
-    # echo "After setting value: JAVA_PATH = ${JAVA_PATH}"
-    elif "x$javasetting" = "xyes"; then
-      as_fn_error $? "--with-java was given but \"java\" is not in PATH and JAVA_HOME was not set" "$LINENO" 5
-    else # $javasetting is "try", so it is not an error for Java to not be found
-    # echo 'FALSE case: x$javasetting = xyes;'
-      JAVAC=""
-      USE_JAVA=0
-    fi
-  else
-  # echo 'FALSE test x$JAVA_PATH = x;'
-# DQ & PC (11/3/2009): Search for javac instead of java since we require
-# the JDK and this should detect that it is missign as early as possible.
-#   JAVA="${JAVA_PATH}/bin/java"
-    JAVAC="${JAVA_PATH}/bin/javac"
-  fi
-elif test -d "${javasetting}"; then
-# DQ & PC (11/3/2009): Search for javac instead of java since we require
-# the JDK and this should detect that it is missign as early as possible.
-  if test -x "${javasetting}/bin/javac"; then
-    JAVA_PATH="${javasetting}"
-  # echo "After setting value using javasetting: JAVA_PATH = ${JAVA_PATH}"
-    JAVAC="${javasetting}/bin/javac"
-  else
-    as_fn_error $? "Argument to --with-java should be either a javac executable or a top-level JDK install directory (with bin/javac present)" "$LINENO" 5
-  fi
-elif test -x "${javasetting}"; then
-  case "`pwd`" in #((
-.) JAVA_PATH="`dirname ${javasetting}`/..";;
-*)
-  case "`dirname ${javasetting}`/.." in #(((
-  .) JAVA_PATH="`pwd`";;
-  [\\/]* | ?:[\\/]* ) JAVA_PATH="`dirname ${javasetting}`/..";;
-  *) JAVA_PATH="`pwd`"/"`dirname ${javasetting}`/..";;
-  esac;;
-esac
-  JAVAC="${javasetting}"
-else
-  as_fn_error $? "Argument to --with-java should be either a javac executable or a top-level JDK install directory (with bin/javac present)" "$LINENO" 5
-fi
-
-# echo "USE_JAVA = $USE_JAVA"
-if test "x$USE_JAVA" = x1; then
-# AC_MSG_RESULT([$JAVAC])
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
-$as_echo "yes" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: not requested, internal java support disabled" >&5
-$as_echo "not requested, internal java support disabled" >&6; }
-fi
-
-# echo "Before checking for Java JVM: JAVA_PATH = ${JAVA_PATH}"
-if test "x$USE_JAVA" = x1; then
-
-  echo "Now verifying aspects of the found java software (java, javac, javah, jar)..."
-
-  JAVA_BIN="${JAVA_PATH}/bin"
-  JAVA="${JAVA_BIN}/java"
-# echo "JAVA = ${JAVA}"
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for java" >&5
-$as_echo_n "checking for java... " >&6; }
-  if test -x "${JAVA}"; then
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
-$as_echo "yes" >&6; }
-  else
-    as_fn_error $? "java not found in $JAVA_PATH" "$LINENO" 5
-  fi
-
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for Java JVM include and link options" >&5
-$as_echo_n "checking for Java JVM include and link options... " >&6; }
-# This is a hack, but it seems to work to find the JVM library
-  if test -x /usr/bin/javaconfig; then # We are on a Mac
-    JAVA_JVM_LINK="-framework JavaVM"
-    JAVA_JVM_INCLUDE="-I`/usr/bin/javaconfig Headers`"
-  else
-    JAVA_JVM_FULL_PATH="`env _JAVA_LAUNCHER_DEBUG=x ${JAVA} 2>/dev/null | grep '^JVM path is' | cut -c 13-`" ; # Sun JVM
-    JAVA_JVM_PATH=`dirname "${JAVA_JVM_FULL_PATH}"`
-    if test "x$JAVA_JVM_FULL_PATH" = x; then
-      JAVA_JVM_PATH="`env _JAVA_LAUNCHER_DEBUG=x ${JAVA} 2>&1 | grep '^JavaJVMDir  = ' | cut -c 15-`" # IBM J9 JVM
-      if test "x$JAVA_JVM_PATH" = x; then
-        as_fn_error $? "Unable to find path to JVM library" "$LINENO" 5
-      fi
-    fi
-    JAVA_JVM_LINK="-L${JAVA_JVM_PATH} -ljvm"
-    JAVA_JVM_INCLUDE="-I${JAVA_PATH}/include -I${JAVA_PATH}/include/linux"
-  fi
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $JAVA_JVM_INCLUDE and $JAVA_JVM_LINK" >&5
-$as_echo "$JAVA_JVM_INCLUDE and $JAVA_JVM_LINK" >&6; }
-
-# JAR="${JAVA_PATH}/bin/jar"
-  JAR="${JAVA_BIN}/jar"
-
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for jar" >&5
-$as_echo_n "checking for jar... " >&6; }
-  if test -x "${JAR}"; then
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
-$as_echo "yes" >&6; }
-  else
-      1
-  fi
-
-  JAVAC="${JAVA_BIN}/javac"
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for javac" >&5
-$as_echo_n "checking for javac... " >&6; }
-  if test -x "${JAVAC}"; then
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
-$as_echo "yes" >&6; }
-  else
-      1
-  fi
-
-  JAVAH="${JAVA_BIN}/javah"
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for javah" >&5
-$as_echo_n "checking for javah... " >&6; }
-  if test -x "${JAVAH}"; then
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
-$as_echo "yes" >&6; }
-  else
-      1
-  fi
-fi
-
-# DQ (10/13/2010): Added checking for jar command (common in Linux, but not on some platforms; e.g NMI machines).
-# AC_CHECK_PROGS(JAR, [jar])
-# AM_CONDITIONAL(ROSE_USE_JAR, [test "x$JAR" = "xjar"])
-# echo "value of JAR variable = $JAR"
-# if test $JAR; then
-#   AC_DEFINE([USE_ROSE_JAR_SUPPORT],[],[Controls use of ROSE support for Java.])
-# fi
-
-# DQ (10/18/2010): We would like to have the USE_JAVA macro not appear outside of this file.
-if test "x$USE_JAVA" = x1; then
-# define macros are used for source code and are defined in rose_config.h.
-
-$as_echo "#define USE_ROSE_JAVA_SUPPORT /**/" >>confdefs.h
-
-# DQ (10/18/2010): Renaming this macro to be uniform in ROSE.
-
-$as_echo "#define USE_ROSE_INTERNAL_JAVA_SUPPORT /**/" >>confdefs.h
-
-fi
-
-# DQ (11/3/2010): added test for if jni is available by default.  If this passes then
-# it is because it is in the compiler's include directly and so it is most likely the
-# wrong jni.h (e.g. from GNU's Java, instead of the Java in $JAVA_PATH.  So if this
-# is the case then we want to use the
-for ac_header in jni.h
-do :
-  ac_fn_c_check_header_mongrel "$LINENO" "jni.h" "ac_cv_header_jni_h" "$ac_includes_default"
-if test "x$ac_cv_header_jni_h" = xyes; then :
-  cat >>confdefs.h <<_ACEOF
-#define HAVE_JNI_H 1
-_ACEOF
- have_jni=yes
-else
-  have_jni=no
-fi
-
-done
-
-if test "x$have_jni" = "xyes"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: ROSE has determined that there is a default version of jni.h (likely in the compiler's include directory) this may be the wrong version of jni.h (however, this is not known to be a problem)." >&5
-$as_echo "$as_me: WARNING: ROSE has determined that there is a default version of jni.h (likely in the compiler's include directory) this may be the wrong version of jni.h (however, this is not known to be a problem)." >&2;}
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: ROSE can't find the jni.h in a default directory (this is good since it will be included correctly)." >&5
-$as_echo "ROSE can't find the jni.h in a default directory (this is good since it will be included correctly)." >&6; }
-fi
-# AC_MSG_ERROR([Exiting as a test after checking for jni.h!])
-
-# DQ (10/18/2010): Renaming this macro to be uniform in ROSE.
- if test "x$USE_JAVA" = x1; then
-  ROSE_USE_INTERNAL_JAVA_SUPPORT_AM_CONDITIONAL_TRUE=
-  ROSE_USE_INTERNAL_JAVA_SUPPORT_AM_CONDITIONAL_FALSE='#'
-else
-  ROSE_USE_INTERNAL_JAVA_SUPPORT_AM_CONDITIONAL_TRUE='#'
-  ROSE_USE_INTERNAL_JAVA_SUPPORT_AM_CONDITIONAL_FALSE=
-fi
-
- if test "x$USE_JAVA" = x1; then
-  ROSE_USE_INTERNAL_JAVA_SUPPORT_TRUE=
-  ROSE_USE_INTERNAL_JAVA_SUPPORT_FALSE='#'
-else
-  ROSE_USE_INTERNAL_JAVA_SUPPORT_TRUE='#'
-  ROSE_USE_INTERNAL_JAVA_SUPPORT_FALSE=
-fi
-
-
-
-
-cat >>confdefs.h <<_ACEOF
-#define JAVA_JVM_PATH "$JAVA"
-_ACEOF
-
-
-
-
-
-
-
-
-
-
-
-# End macro ROSE_SUPPORT_JAVA.
-
- # This macro uses JAVA_HOME
-
-# DQ (10/18/2010): Check for gfortran (required for syntax checking and semantic analysis of input Fortran codes)
-
-
-
-
-
-
-
-
-
-
-    if test -z "$GFORTRAN_PATH"; then :
-
-    	{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether gfortran executable path has been provided" >&5
-$as_echo_n "checking whether gfortran executable path has been provided... " >&6; }
-
-# Check whether --with-gfortran was given.
-if test "${with_gfortran+set}" = set; then :
-  withval=$with_gfortran;
-	    if test "$withval" != "yes"; then :
-
-	        GFORTRAN_PATH="$withval"
-		{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $GFORTRAN_PATH" >&5
-$as_echo "$GFORTRAN_PATH" >&6; }
-
-else
-
-		GFORTRAN_PATH=""
-	        { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-
-fi
-
-else
-
-	    { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-
-fi
-
-
-        if test -z "$GFORTRAN_PATH"; then :
-
-	    # Extract the first word of "gfortran", so it can be a program name with args.
-set dummy gfortran; ac_word=$2
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
-$as_echo_n "checking for $ac_word... " >&6; }
-if ${ac_cv_path_GFORTRAN_PATH+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  case $GFORTRAN_PATH in
-  [\\/]* | ?:[\\/]*)
-  ac_cv_path_GFORTRAN_PATH="$GFORTRAN_PATH" # Let the user override the test with a path.
-  ;;
-  *)
-  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-for as_dir in $PATH
-do
-  IFS=$as_save_IFS
-  test -z "$as_dir" && as_dir=.
-    for ac_exec_ext in '' $ac_executable_extensions; do
-  if { test -f "$as_dir/$ac_word$ac_exec_ext" && $as_test_x "$as_dir/$ac_word$ac_exec_ext"; }; then
-    ac_cv_path_GFORTRAN_PATH="$as_dir/$ac_word$ac_exec_ext"
-    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
-    break 2
-  fi
-done
-  done
-IFS=$as_save_IFS
-
-  ;;
-esac
-fi
-GFORTRAN_PATH=$ac_cv_path_GFORTRAN_PATH
-if test -n "$GFORTRAN_PATH"; then
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $GFORTRAN_PATH" >&5
-$as_echo "$GFORTRAN_PATH" >&6; }
-else
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
-$as_echo "no" >&6; }
-fi
-
-
-
-fi
-
-fi
-
-
-
-
-
-
-
-
-if test "x$GFORTRAN_PATH" != "x"; then
-
-$as_echo "#define USE_GFORTRAN_IN_ROSE 1" >>confdefs.h
-
-fi
-
-#########################################################################################
-##
-
-
-#  TOO (3/10/2011):
+#ROSE_SUPPORT_JAVA # This macro uses JAVA_HOME
+
+## DQ (10/18/2010): Check for gfortran (required for syntax checking and semantic analysis of input Fortran codes)
+#AX_WITH_PROG(GFORTRAN_PATH, [gfortran], [])
+#AC_SUBST(GFORTRAN_PATH)
 #
-#	1. Manage language support command-line options
-#	2. Set flags to indicate which languages to support
-#	3. Output language support (debugging)
-#	4. Enabled only one language
-#	5. Set the automake conditional macros that will be used in Makefiles
-#
-#  DQ (4/15/2010): Added support to specify selected languages to support in ROSE.
-#########################################################################################
-echo "------------------------------------------------"
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for user-specified languages to support" >&5
-$as_echo_n "checking for user-specified languages to support... " >&6; }
-echo ""
-
-
-#########################################################################################
-#
-#  Manage language support command-line options:
-#
-#	--enable-languages(=args)
-#	--enable-binary-analysis		TODO: make alias: --enable-binaries
-#	--enable-c
-#	--enable-cxx
-#	--enable-cuda
-#	--enable-fortran
-#	--enable-java
-#	--enable-php
-#	--enable-python
-#	--enable-opencl
-#
-#	TODO:
-#	-Issue warning if user specifies conflicting language options, e.g.
-#	         --enable-languages=binaries --disable-binaries
-#
-#########################################################################################
-
-#########################################################################################
-#
-##
-  #ALL_SUPPORTED_LANGUAGES="binaries c c++ cuda fortran java php python opencl"
-   ALL_SUPPORTED_LANGUAGES="binaries c c++ cuda fortran java php        opencl"
-##
-#
-#########################################################################################
-
-#########################################################################################
-#
-##
-
-#########################################################################################
-#
-#  TOO (3/18/2011):
-#
-#  Out variables:
-#  USER_GAVE_ENABLE_ONLY_LANGUAGE_CONFIG_OPTION(=yes/no)
-#
-#########################################################################################
-
-echo "------------------------------------------------"
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for deprecated language configuration options" >&5
-$as_echo_n "checking for deprecated language configuration options... " >&6; }
-
-
-USER_GAVE_ENABLE_ONLY_LANGUAGE_CONFIG_OPTION=no
-#########################################################################################
-# Check whether --enable-only-binary-analysis was given.
-if test "${enable_only_binary_analysis+set}" = set; then :
-  enableval=$enable_only_binary_analysis; ##########################################################################
-                case "$enableval" in
-                  yes)
-                  	LANGUAGES_TO_SUPPORT="binaries"
-                        USER_GAVE_ENABLE_ONLY_LANGUAGE_CONFIG_OPTION=yes
-                  	;;
-                  no)
-                  	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "--enable-only-binary-analysis='$enableval' and --disable-only-binary-analysis are no longer supported. Use '--disable-binary-analysis' (see ./configure --help)
-See \`config.log' for more details" "$LINENO" 5; }
-                  	;;
-                  *)
-                  	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "--enable-only-binary-analysis='$enableval' is not supported. Use '--enable-only-binary-analysis(=yes)' (see ./configure --help)
-See \`config.log' for more details" "$LINENO" 5; }
-                 	;;
-                esac
-               ##########################################################################
-
-fi
-
-
-#########################################################################################
-# Check whether --enable-only-c was given.
-if test "${enable_only_c+set}" = set; then :
-  enableval=$enable_only_c; ##########################################################################
-                case "$enableval" in
-                  yes)
-                  	LANGUAGES_TO_SUPPORT="c"
-                        USER_GAVE_ENABLE_ONLY_LANGUAGE_CONFIG_OPTION=yes
-                  	;;
-                  no)
-                  	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "--enable-only-c='$enableval' and --disable-only-c are no longer supported. Use '--disable-c' (see ./configure --help)
-See \`config.log' for more details" "$LINENO" 5; }
-                  	;;
-                  *)
-                  	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "--enable-only-c='$enableval' is not supported. Use '--enable-only-c(=yes)' (see ./configure --help)
-See \`config.log' for more details" "$LINENO" 5; }
-                 	;;
-                esac
-               ##########################################################################
-
-fi
-
-
-#########################################################################################
-# Check whether --enable-only-cxx was given.
-if test "${enable_only_cxx+set}" = set; then :
-  enableval=$enable_only_cxx; ##########################################################################
-                case "$enableval" in
-                  yes)
-                  	LANGUAGES_TO_SUPPORT="c++"
-                        USER_GAVE_ENABLE_ONLY_LANGUAGE_CONFIG_OPTION=yes
-                  	;;
-                  no)
-                  	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "--enable-only-cxx='$enableval' and --disable-only-cxx are no longer supported. Use '--disable-cxx' (see ./configure --help)
-See \`config.log' for more details" "$LINENO" 5; }
-                  	;;
-                  *)
-                  	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "--enable-only-cxx='$enableval' is not supported. Use '--enable-only-cxx(=yes)' (see ./configure --help)
-See \`config.log' for more details" "$LINENO" 5; }
-                 	;;
-                esac
-               ##########################################################################
-
-fi
-
-
-#########################################################################################
-# Check whether --enable-only-fortran was given.
-if test "${enable_only_fortran+set}" = set; then :
-  enableval=$enable_only_fortran; ##########################################################################
-                case "$enableval" in
-                  yes)
-                        if test "x$with_java" = "xno" ; then
-                          { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "[Fortran Support] you specified conflicting configure flags: '--enable-only-fortran=$enableval' enables Fortran-language support, which requires Java support, and '--with-java=$with_java' disables Java support
-See \`config.log' for more details" "$LINENO" 5; }
-                        else
-                  	  LANGUAGES_TO_SUPPORT="fortran"
-                          USER_GAVE_ENABLE_ONLY_LANGUAGE_CONFIG_OPTION=yes
-                        fi
-                  	;;
-                  no)
-                  	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "--enable-only-fortran='$enableval' and --disable-only-fortran are no longer supported. Use '--disable-fortran' (see ./configure --help)
-See \`config.log' for more details" "$LINENO" 5; }
-                  	;;
-                  *)
-                  	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "--enable-only-fortran='$enableval' is not supported. Use '--enable-only-fortran(=yes)' (see ./configure --help)
-See \`config.log' for more details" "$LINENO" 5; }
-                 	;;
-                esac
-               ##########################################################################
-
-fi
-
-
-#########################################################################################
-# Check whether --enable-only-java was given.
-if test "${enable_only_java+set}" = set; then :
-  enableval=$enable_only_java; ##########################################################################
-                case "$enableval" in
-                  yes)
-                        if test "x$with_java" = "xno" ; then
-                          { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "[Java Support] you specified conflicting configure flags: '--enable-only-java=$enableval' enables Java-language support, but '--with-java=$with_java' disables it
-See \`config.log' for more details" "$LINENO" 5; }
-                        else
-                  	  LANGUAGES_TO_SUPPORT="java"
-                          USER_GAVE_ENABLE_ONLY_LANGUAGE_CONFIG_OPTION=yes
-                        fi
-                  	;;
-                  no)
-                  	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "--enable-only-java='$enableval' and --disable-only-java are no longer supported. Use '--disable-java' (see ./configure --help)
-See \`config.log' for more details" "$LINENO" 5; }
-                  	;;
-                  *)
-                  	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "--enable-only-java='$enableval' is not supported. Use '--enable-only-java(=yes)' (see ./configure --help)
-See \`config.log' for more details" "$LINENO" 5; }
-                 	;;
-                esac
-               ##########################################################################
-
-fi
-
-
-#########################################################################################
-# Check whether --enable-only-php was given.
-if test "${enable_only_php+set}" = set; then :
-  enableval=$enable_only_php; ##########################################################################
-                case "$enableval" in
-                  yes)
-                  	LANGUAGES_TO_SUPPORT="php"
-                        USER_GAVE_ENABLE_ONLY_LANGUAGE_CONFIG_OPTION=yes
-                  	;;
-                  no)
-                  	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "--enable-only-php='$enableval' and --disable-only-php are no longer supported. Use '--disable-php' (see ./configure --help)
-See \`config.log' for more details" "$LINENO" 5; }
-                  	;;
-                  *)
-                  	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "--enable-only-php='$enableval' is not supported. Use '--enable-only-php(=yes)' (see ./configure --help)
-See \`config.log' for more details" "$LINENO" 5; }
-                 	;;
-                esac
-               ##########################################################################
-
-fi
-
-
-#########################################################################################
-# Check whether --enable-only-python was given.
-if test "${enable_only_python+set}" = set; then :
-  enableval=$enable_only_python; ##########################################################################
-                case "$enableval" in
-                  yes)
-                  	LANGUAGES_TO_SUPPORT="python"
-                        USER_GAVE_ENABLE_ONLY_LANGUAGE_CONFIG_OPTION=yes
-                  	;;
-                  no)
-                  	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "--enable-only-python='$enableval' and --disable-only-python are no longer supported. Use '--disable-python' (see ./configure --help)
-See \`config.log' for more details" "$LINENO" 5; }
-                  	;;
-                  *)
-                  	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "--enable-only-python='$enableval' is not supported. Use '--enable-only-python(=yes)' (see ./configure --help)
-See \`config.log' for more details" "$LINENO" 5; }
-                 	;;
-                esac
-               ##########################################################################
-
-fi
-
-
-#########################################################################################
-# Check whether --enable-only-cuda was given.
-if test "${enable_only_cuda+set}" = set; then :
-  enableval=$enable_only_cuda; ##########################################################################
-                case "$enableval" in
-                  yes)
-                  	LANGUAGES_TO_SUPPORT="cuda"
-                        USER_GAVE_ENABLE_ONLY_LANGUAGE_CONFIG_OPTION=yes
-                  	;;
-                  no)
-                  	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "--enable-only-cuda='$enableval' and --disable-only-cuda are no longer supported. Use '--disable-cuda' (see ./configure --help)
-See \`config.log' for more details" "$LINENO" 5; }
-                  	;;
-                  *)
-                  	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "--enable-only-cuda='$enableval' is not supported. Use '--enable-only-cuda(=yes)' (see ./configure --help)
-See \`config.log' for more details" "$LINENO" 5; }
-                 	;;
-                esac
-               ##########################################################################
-
-fi
-
-
-#########################################################################################
-# Check whether --enable-only-opencl was given.
-if test "${enable_only_opencl+set}" = set; then :
-  enableval=$enable_only_opencl; ##########################################################################
-                case "$enableval" in
-                  yes)
-                  	LANGUAGES_TO_SUPPORT="opencl"
-                        USER_GAVE_ENABLE_ONLY_LANGUAGE_CONFIG_OPTION=yes
-                  	;;
-                  no)
-                  	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "--enable-only-opencl='$enableval' and --disable-only-opencl are no longer supported. Use '--disable-opencl' (see ./configure --help)
-See \`config.log' for more details" "$LINENO" 5; }
-                  	;;
-                  *)
-                  	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "--enable-only-opencl='$enableval' is not supported. Use '--enable-only-opencl(=yes)' (see ./configure --help)
-See \`config.log' for more details" "$LINENO" 5; }
-                 	;;
-                esac
-               ##########################################################################
-
-fi
-
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: done" >&5
-$as_echo "done" >&6; }
-#echo "Finished configuring deprecated user-specified language configuration options"
-# End macro ROSE_SUPPORT_LANGUAGE_CONFIG_OPTIONS_DEPRECATED
-
-##
-#
-#########################################################################################
-
-
-
-#  TOO (3/18/2011): For now, the '--enable-only-LANGUAGE' options will take precedence over
-#  all other language options. It might be useful, however, to add additional testing to
-#  issue warnings/errors when the user mistakenly specifies multiple language options,
-#  especially if they are conflicting.
-if test "x$USER_GAVE_ENABLE_ONLY_LANGUAGE_CONFIG_OPTION" = "xno" ; then
-#########################################################################################
-# Check whether --enable-languages was given.
-if test "${enable_languages+set}" = set; then :
-  enableval=$enable_languages;
-else
-  enableval=all
-fi
-
-
-	       # Default support for all languages
-	       case "$enableval" in
- 	         all|yes)
-		 	LANGUAGES_TO_SUPPORT="$ALL_SUPPORTED_LANGUAGES"
-		 	;;
-                 *)
-                 	LANGUAGES_TO_SUPPORT="$enableval"
-                 	;;
-	       esac
-
-# Convert support-language-list to a space-separated list, stripping
-# leading and trailing whitespace
-LANGUAGES_TO_SUPPORT="`echo $LANGUAGES_TO_SUPPORT | sed -e 's/,/ /g;s/^ \t*//;s/ \t*$//'`"
-#DEBUG#echo "LANGUAGES_TO_SUPPORT='$LANGUAGES_TO_SUPPORT'"
-
-#########################################################################################
-# Check whether --enable-binary-analysis was given.
-if test "${enable_binary_analysis+set}" = set; then :
-  enableval=$enable_binary_analysis; ##########################################################################
-                echo "$LANGUAGES_TO_SUPPORT" | grep --quiet "binaries"
-                if test $? = 0 ; then
-                  list_has_binaries=yes
-                fi
-                case "$enableval" in
-                  yes)
-                  	if test "x$list_has_binaries" != "xyes" ; then
-                          # --enable-languages does not include binaries, but --enable-binary-analysis=yes
-                  	  LANGUAGES_TO_SUPPORT+=" binaries"
-                        fi
-                  	;;
-                  no)
-                        # remove 'binaries' from support languages list
-                  	LANGUAGES_TO_SUPPORT="`echo $LANGUAGES_TO_SUPPORT | sed 's/binaries//g'`"
-                  	;;
-                  *)
-                  	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "--enable-binary-analysis='$enableval' is not supported. Use 'yes' or 'no'
-See \`config.log' for more details" "$LINENO" 5; }
-                 	;;
-                esac
-               ##########################################################################
-
-fi
-
-#########################################################################################
-# Check whether --enable-c was given.
-if test "${enable_c+set}" = set; then :
-  enableval=$enable_c; ##########################################################################
-                echo "$LANGUAGES_TO_SUPPORT" | grep --quiet "\bc\b"
-                if test $? = 0 ; then
-                  list_has_c=yes
-                fi
-                case "$enableval" in
-                  yes)
-                  	if test "x$list_has_c" != "xyes" ; then
-                          # --enable-languages does not include C, but --enable-c=yes
-                  	  LANGUAGES_TO_SUPPORT+=" c"
-                        fi
-                  	;;
-                  no)
-                        list_has_cxx="`echo $LANGUAGES_TO_SUPPORT | awk '{for (i=1; i<=NF; i++) { if ($i == "c++") { printf "yes"; } } }'`"
-                        if test "x$list_has_cxx" = "xyes" && test "x$enable_cxx" != "xno" ; then
-                  	  { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "Can't disable 'C' language support because 'C++' language support is enabled -- currently both are required to be supported together. If you really don't want 'C' language support, please also disable 'C++' language support (see ./configure --help)
-See \`config.log' for more details" "$LINENO" 5; }
-                        else
-                          # remove 'C' from support languages list
-                          # TOO (3/11/2011): couldn't find a nice way to handle with sed, cases: "c", "c c++", ...
-                  	  LANGUAGES_TO_SUPPORT="`echo $LANGUAGES_TO_SUPPORT | awk '{for (i=1; i<=NF; i++) { if ($i != "c") { printf "%s ",$i; } } }'`"
-                        fi
-                  	;;
-                  *)
-                  	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "--enable-c='$enableval' is not supported. Use 'yes' or 'no'
-See \`config.log' for more details" "$LINENO" 5; }
-                 	;;
-                esac
-               ##########################################################################
-
-fi
-
-#########################################################################################
-# Check whether --enable-cxx was given.
-if test "${enable_cxx+set}" = set; then :
-  enableval=$enable_cxx; ##########################################################################
-                case "$enableval" in
-                  yes)
-                  	if test "x$list_has_cxx" != "xyes" ; then
-                          # --enable-languages does not include C++, but --enable-cxx=yes
-                  	  LANGUAGES_TO_SUPPORT+=" c++"
-                        fi
-                  	;;
-                  no)
-                        list_has_c="`echo $LANGUAGES_TO_SUPPORT | awk '{for (i=1; i<=NF; i++) { if ($i == "c") { printf "yes"; } } }'`"
-                        if test "x$list_has_c" = "xyes" && test "x$enable_c" != "xno" ; then
-                  	  { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "Can't disable 'C++' language support because 'C' language support is enabled -- currently both are required to be supported together. If you really don't want 'C++' language support, please also disable 'C' language support (see ./configure --help)
-See \`config.log' for more details" "$LINENO" 5; }
-                        else
-                          # remove 'C++' from support languages list
-                  	  LANGUAGES_TO_SUPPORT="`echo $LANGUAGES_TO_SUPPORT | sed 's/c++//g'`"
-                        fi
-                  	;;
-                  *)
-                  	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "--enable-cxx='$enableval' is not supported. Use 'yes' or 'no'
-See \`config.log' for more details" "$LINENO" 5; }
-                 	;;
-                esac
-               ##########################################################################
-
-fi
-
-#########################################################################################
-# Check whether --enable-cuda was given.
-if test "${enable_cuda+set}" = set; then :
-  enableval=$enable_cuda; ##########################################################################
-                echo "$LANGUAGES_TO_SUPPORT" | grep --quiet "cuda"
-                if test $? = 0 ; then
-                  list_has_cuda=yes
-                fi
-                case "$enableval" in
-                  yes)
-                  	if test "x$list_has_cuda" != "xyes" ; then
-                          # --enable-languages does not include Cuda, but --enable-cuda=yes
-                  	  LANGUAGES_TO_SUPPORT+=" cuda"
-                        fi
-                  	;;
-                  no)
-                        # remove 'Cuda' from support languages list
-                  	LANGUAGES_TO_SUPPORT="`echo $LANGUAGES_TO_SUPPORT | sed 's/cuda//g'`"
-                  	;;
-                  *)
-                  	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "--enable-cuda='$enableval' is not supported. Use 'yes' or 'no'
-See \`config.log' for more details" "$LINENO" 5; }
-                 	;;
-                esac
-               ##########################################################################
-
-fi
-
-#########################################################################################
-# Check whether --enable-fortran was given.
-if test "${enable_fortran+set}" = set; then :
-  enableval=$enable_fortran; ##########################################################################
-                echo "$LANGUAGES_TO_SUPPORT" | grep --quiet "fortran"
-                if test $? = 0 ; then
-                  list_has_fortran=yes
-                fi
-                case "$enableval" in
-                  yes)
-                        if test "x$with_java" = "xno" ; then
-                          { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "[Fortran Support] you specified conflicting configure flags: '--enable-fortran=$enableval' enables Fortran-language support, which requires Java, and '--with-java=$with_java' disables Java
-See \`config.log' for more details" "$LINENO" 5; }
-                        fi
-                        if test "x$USE_JAVA" = "x0" ; then
-                          { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "[Fortran Support] you requested to build Fortran language support with '--enable-fortran=$enableval', which requires Java, but Java was not found. Do you need to explicitly specify your Java using the \"--with-java\" configure-option? (See ./configure --help)
-See \`config.log' for more details" "$LINENO" 5; }
-                        fi
-
-                  	if test "x$list_has_fortran" != "xyes" ; then
-                          # --enable-languages does not include Fortran, but --enable-fortran=yes
-                  	  LANGUAGES_TO_SUPPORT+=" fortran"
-                        fi
-                  	;;
-                  no)
-                        # remove 'Fortran' from support languages list
-                  	LANGUAGES_TO_SUPPORT="`echo $LANGUAGES_TO_SUPPORT | sed 's/fortran//g'`"
-                  	;;
-                  *)
-                  	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "--enable-fortran='$enableval' is not supported. Use 'yes' or 'no'
-See \`config.log' for more details" "$LINENO" 5; }
-                 	;;
-                esac
-               ##########################################################################
-
-else
-  if test "x$with_java" = "xno" ; then
-                  enable_fortran=no
-                  LANGUAGES_TO_SUPPORT="`echo $LANGUAGES_TO_SUPPORT | sed 's/fortran//g'`"
-                  echo "[Fortran support] disabling Fortran language support, which requires Java, because you specified --with-java='$with_java'"
-                fi
-fi
-
-#########################################################################################
-# Check whether --enable-java was given.
-if test "${enable_java+set}" = set; then :
-  enableval=$enable_java; ##########################################################################
-                echo "$LANGUAGES_TO_SUPPORT" | grep --quiet "java"
-                if test $? = 0 ; then
-                  list_has_java=yes
-                fi
-                case "$enableval" in
-                  yes)
-                        if test "x$with_java" = "xno" ; then
-                          { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "[Java Support] you specified conflicting configure flags: '--enable-java=$enableval' enables Java-language support, but '--with-java=$with_java' disables it
-See \`config.log' for more details" "$LINENO" 5; }
-                        fi
-                        if test "x$USE_JAVA" = "x0" ; then
-                          { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "[Java Support] you requested to build Java language support with '--enable-java=$enableval', which requires Java, but Java was not found. Do you need to explicitly specify your Java using the \"--with-java\" configure-option? (See ./configure --help)
-See \`config.log' for more details" "$LINENO" 5; }
-                        fi
-
-                  	if test "x$list_has_java" != "xyes" ; then
-                          # --enable-languages does not include Java, but --enable-java=yes
-                  	  LANGUAGES_TO_SUPPORT+=" java"
-                        fi
-                  	;;
-                  no)
-                        # remove 'Java' from support languages list
-                  	LANGUAGES_TO_SUPPORT="`echo $LANGUAGES_TO_SUPPORT | sed 's/java//g'`"
-                  	;;
-                  *)
-                  	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "--enable-java='$enableval' is not supported. Use 'yes' or 'no'
-See \`config.log' for more details" "$LINENO" 5; }
-                 	;;
-                esac
-               ##########################################################################
-
-else
-  if test "x$with_java" = "xno" ; then
-                  enable_java=no
-                  LANGUAGES_TO_SUPPORT="`echo $LANGUAGES_TO_SUPPORT | sed 's/java//g'`"
-                  echo "[Java support] disabling Java language support, which requires Java, because you specified --with-java='$with_java'"
-                fi
-fi
-
-#########################################################################################
-# Check whether --enable-php was given.
-if test "${enable_php+set}" = set; then :
-  enableval=$enable_php; ##########################################################################
-                echo "$LANGUAGES_TO_SUPPORT" | grep --quiet "php"
-                if test $? = 0 ; then
-                  list_has_php=yes
-                fi
-                case "$enableval" in
-                  yes)
-                  	if test "x$list_has_php" != "xyes" ; then
-                          # --enable-languages does not include PHP, but --enable-php=yes
-                  	  LANGUAGES_TO_SUPPORT+=" php"
-                        fi
-                  	;;
-                  no)
-                        # remove 'PHP' from support languages list
-                  	LANGUAGES_TO_SUPPORT="`echo $LANGUAGES_TO_SUPPORT | sed 's/php//g'`"
-                  	;;
-                  *)
-                  	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "--enable-php='$enableval' is not supported. Use 'yes' or 'no'
-See \`config.log' for more details" "$LINENO" 5; }
-                 	;;
-                esac
-               ##########################################################################
-
-fi
-
-#########################################################################################
-# Check whether --enable-python was given.
-if test "${enable_python+set}" = set; then :
-  enableval=$enable_python; ##########################################################################
-                echo "$LANGUAGES_TO_SUPPORT" | grep --quiet "python"
-                if test $? = 0 ; then
-                  list_has_python=yes
-                fi
-                case "$enableval" in
-                  yes)
-                  	if test "x$list_has_python" != "xyes" ; then
-                          # --enable-languages does not include python, but --enable-python=yes
-                  	  LANGUAGES_TO_SUPPORT+=" python"
-                        fi
-                  	;;
-                  no)
-                        # remove 'python' from support languages list
-                  	LANGUAGES_TO_SUPPORT="`echo $LANGUAGES_TO_SUPPORT | sed 's/python//g'`"
-                  	;;
-                  *)
-                  	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "--enable-python='$enableval' is not supported. Use 'yes' or 'no'
-See \`config.log' for more details" "$LINENO" 5; }
-                 	;;
-                esac
-               ##########################################################################
-
-fi
-
-#########################################################################################
-# Check whether --enable-opencl was given.
-if test "${enable_opencl+set}" = set; then :
-  enableval=$enable_opencl; ##########################################################################
-                echo "$LANGUAGES_TO_SUPPORT" | grep --quiet "opencl"
-                if test $? = 0 ; then
-                  list_has_opencl=yes
-                fi
-                case "$enableval" in
-                  yes)
-                  	if test "x$list_has_opencl" != "xyes" ; then
-                          # --enable-languages does not include OpenCL, but --enable-opencl=yes
-                  	  LANGUAGES_TO_SUPPORT+=" opencl"
-                        fi
-                  	;;
-                  no)
-                        # remove 'OpenCL' from support languages list
-                  	LANGUAGES_TO_SUPPORT="`echo $LANGUAGES_TO_SUPPORT | sed 's/opencl//g'`"
-                  	;;
-                  *)
-                  	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "--enable-opencl='$enableval' is not supported. Use 'yes' or 'no'
-See \`config.log' for more details" "$LINENO" 5; }
-                 	;;
-                esac
-               ##########################################################################
-
-fi
-
-else
-  echo "[enable-only-$LANGUAGES_TO_SUPPORT support:warning] ignoring any other language-support configuration options."
-fi #end-if test "x$USER_GAVE_ENABLE_ONLY_LANGUAGE_CONFIG_OPTION" = "xno" ;
-
-
-#
-# C and C++ are currently required to be supported simultaneously
-#
-list_has_c="`echo $LANGUAGES_TO_SUPPORT | awk '{for (i=1; i<=NF; i++) { if ($i == "c") { printf "yes"; } } }'`"
-list_has_cxx="`echo $LANGUAGES_TO_SUPPORT | awk '{for (i=1; i<=NF; i++) { if ($i == "c++") { printf "yes"; } } }'`"
-
-if test "x$list_has_c" = "xyes" && test "x$list_has_cxx" != "xyes"; then
-  LANGUAGES_TO_SUPPORT+=" c++"
-  echo "[C language support:warning] turning on C++ support (currently required)"
-fi
-
-if test "x$list_has_cxx" = "xyes" && test "x$list_has_c" != "xyes"; then
-  LANGUAGES_TO_SUPPORT+=" c"
-  echo "[C++-only support:warning] turning on C support (currently required)"
-fi
-
-#########################################################################################
-#
-#  Set flags to indicate which languages to support according to the
-#  user specified command-line options; including macros that will be
-#  contained in BUILD_TREE/rose_config.h
-#
-#########################################################################################
-if test "x$LANGUAGES_TO_SUPPORT" = "x" ; then
-  LANGUAGES_TO_SUPPORT=none
-fi
-count_of_languages_to_support=0
-for a_language in $LANGUAGES_TO_SUPPORT ; do
-
-count_of_languages_to_support=`expr $count_of_languages_to_support + 1`
-case "$a_language" in
-
-none|no)
-	support_binaries=no
-	support_c_language=no
-	support_cxx_language=no
-	support_cuda_language=no
-	support_fortran_language=no
-	support_java_language=no
-	support_php_language=no
-	support_python_language=no
-	support_opencl_language=no
-	{ $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: you did not enable any language support" >&5
-$as_echo "$as_me: WARNING: you did not enable any language support" >&2;}
-	;;
-binaries)
-	support_binaries=yes
-
-$as_echo "#define ROSE_BUILD_BINARY_ANALYSIS_SUPPORT /**/" >>confdefs.h
-
-	;;
-c)
-	support_c_language=yes
-
-$as_echo "#define ROSE_BUILD_C_LANGUAGE_SUPPORT /**/" >>confdefs.h
-
-	;;
-c++)
-	support_cxx_language=yes
-
-$as_echo "#define ROSE_BUILD_CXX_LANGUAGE_SUPPORT /**/" >>confdefs.h
-
-	;;
-cuda)
-	support_cuda_language=yes
-
-$as_echo "#define ROSE_BUILD_CUDA_LANGUAGE_SUPPORT /**/" >>confdefs.h
-
-	;;
-fortran)
-	if test "x$USE_JAVA" = x1; then
-	  if test "x$GFORTRAN_PATH" = "x"; then
-            { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "[Fortran support] gfortran not found: required for syntax checking and semantic analysis.
-                           Do you need to explicitly specify gfortran using the \"--with-gfortran=path/to/gfortran\" configure-option? (See ./configure --help)
-See \`config.log' for more details" "$LINENO" 5; }
-          else
-     	    support_fortran_language=yes
-
-$as_echo "#define ROSE_BUILD_FORTRAN_LANGUAGE_SUPPORT /**/" >>confdefs.h
-
-          fi
-        elif test "x$with_java" = "xno" ; then
-	  { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "[Fortran support] can't support the Fortran language because you specified --with-java='$with_java'. You can turn off Fortran support with --disable-fortran (See ./configure --help)
-See \`config.log' for more details" "$LINENO" 5; }
-	else
-	  { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "[Fortran support] Java Virtual Machine (JVM) not found: required by the Open Fortran Parser (OFP).
-                         Do you need to explicitly specify Java using the \"--with-java\" configure-option? (See ./configure --help)
-See \`config.log' for more details" "$LINENO" 5; }
-	fi
-	;;
-java)
-        if test "x$USE_JAVA" = x1; then
-	  support_java_language=yes
-
-$as_echo "#define ROSE_BUILD_JAVA_LANGUAGE_SUPPORT /**/" >>confdefs.h
-
-        else
-          { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "[Java support] Java dependencies not found: required for parser support in ROSE -- uses the  Eclipse Compiler for Java (ECJ).
-                         Do you need to explicitly specify Java (javac, JDk,...) using the \"--with-java\" configure-option? (See ./configure --help)
-See \`config.log' for more details" "$LINENO" 5; }
-        fi
-	;;
-php)
-	support_php_language=yes
-
-$as_echo "#define ROSE_BUILD_PHP_LANGUAGE_SUPPORT /**/" >>confdefs.h
-
-	;;
-python)
-	support_python_language=yes
-
-$as_echo "#define ROSE_BUILD_PYTHON_LANGUAGE_SUPPORT /**/" >>confdefs.h
-
-	;;
-opencl)
-	support_opencl_language=yes
-
-$as_echo "#define ROSE_BUILD_OPENCL_LANGUAGE_SUPPORT /**/" >>confdefs.h
-
-	;;
-*)
-	{ { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "unrecognized language '$a_language'
-See \`config.log' for more details" "$LINENO" 5; }
-	;;
-esac
-done
-
-
-#########################################################################################
-#
-#  Output language support
-#
-#########################################################################################
-function print_isLanguageSupported() {
-  if test ${#} != 2 ; then
-   echo "Usage: print_isLanguageSupported <language> <is_supported>"
-   exit 1
-  else
-   local language=${1}
-   local is_supported=${2}
-  fi
-
-  if test "x$is_supported" = "xyes" ; then
-    echo "  + $language"
-  else
-    echo "  - $language"
-  fi
-}
-#########################################################################################
-#
-#  Enabled only one language: set specific configurations for minimal build of ROSE
-#
-#########################################################################################
-if test $count_of_languages_to_support = 2 ; then
-  #
-  # Only C/C++ (currently required to be supported simultaneously)
-  #
-  if test "x$support_c_language" = "xyes" && test "x$support_cxx_language" = "xyes" ; then
-    with_haskell=no
-    enable_binary_analysis_tests=no
-    enable_projects_directory=no
-    enable_tutorial_directory=no
-  fi
-elif test $count_of_languages_to_support = 1 ; then
-  support_only_one_language=yes
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking $LANGUAGES_TO_SUPPORT-only specific configurations" >&5
-$as_echo_n "checking $LANGUAGES_TO_SUPPORT-only specific configurations... " >&6; }
-  echo ""
-
-  #
-  # Only Java
-  #
-  if test "x$support_java_language" = "xyes" ; then
-    # When using fortran only assume that we are not interested in java language support in ROSE.
-    # However, currently the --with-java option controls the use of java support for both Fortran
-    # and Java language support. Now that we have added Java language support to ROSE this is
-    # unintentionally confusing. So we can't turn this off since the Fortran support requires
-    # internal java (JVM) support.
-    # with_java=no
-
-    with_haskell=no
-    with_php=no
-    with_python=no
-    enable_binary_analysis_tests=no
-
-    # Allow tests directory to be run so that we can run the Fortran tests.
-    # enable_tests_directory=no
-
-    enable_projects_directory=no
-    enable_tutorial_directory=no
-  fi
-
-  #
-  # Only Fortran
-  # requested by Rice University and LANL
-  #
-  if test "x$support_fortran_language" = "xyes" ; then
-    # Scott appears to require CPPFLAGS to be set...
-    #debug#echo "Before setting CPPFLAGS: CPPFLAGS = $CPPFLAGS"
-    CPPFLAGS="$CPPFLAGS $JAVA_JVM_INCLUDE"
-    echo "[Fortran-only support] added JAVA_JVM_INCLUDE ($JAVA_JVM_INCLUDE) to CPPFLAGS ($CPPFLAGS)"
-
-    # DQ: I think that we have to express this option in terms of the "with_"
-    # version of the macro instead of the "without_" version of the macro.
-    # without_haskell=yes
-    with_haskell=no
-
-    # When using fortran only assume that we are not interested in java language support in ROSE.
-    # However, currently the --with-java option controls the use of java support for both Fortran
-    # and Java language support. Now that we have added Java language support to ROSE this is
-    # unintentionally confusing. So we can't turn this off since the Fortran support requires
-    # internal java (JVM) support.
-    # with_java=no
-
-    # So these should be expressed in terms of the "with" and "enable" versions of each option's macro.
-    # without_php=yes
-    with_php=no
-    with_python=no
-
-    # disable_binary_analysis_tests=yes
-    enable_binary_analysis_tests=no
-
-    # Allow tests directory to be run so that we can run the Fortran tests.
-    # enable_tests_directory=no
-
-    enable_projects_directory=no
-    enable_tutorial_directory=no
-
-    # Test disabling a configure test that is on by default
-    # I can't verify that the disable version of the variable effects the option.
-    # Where as the enable version of the macro WILL control the setting of the option.
-    # disable_language_only_restriction_test=yes
-    # disable_language_only_restriction_test=no
-    # enable_language_only_restriction_test=yes
-    # enable_language_only_restriction_test=no
-
-    # This allows testing this mechanism to set configure options from within the configure script...
-    # enable_edg_version=4.5
-  fi
-
-  #
-  # Only PHP
-  #
-  if test "x$support_php_language" = "xyes" ; then
-    with_haskell=no
-    enable_binary_analysis_tests=no
-    enable_projects_directory=no
-    enable_tutorial_directory=no
-  fi
-
-  #
-  # Only Python
-  #
-  if test "x$support_python_language" = "xyes" ; then
-    with_haskell=no
-    enable_binary_analysis_tests=no
-    enable_projects_directory=no
-    enable_tutorial_directory=no
-  fi
-
-  #
-  # Only binary analysis
-  #
-  if test "x$support_binaries" = "xyes" ; then
-    with_haskell=no
-    enable_projects_directory=no
-    enable_tutorial_directory=no
-  fi
-
-#AC_MSG_RESULT([done])
-#end-if $count_of_languages==1 (enable-only-language)
-
-###
-  # Output language-only configuration
-  #
-  #
-
-  #
-  # Haskell
-  #
-  if test "x$with_haskell" = "xyes" ; then
-    echo "[$LANGUAGES_TO_SUPPORT-only support] with haskell"
-  elif test "x$with_haskell" = "xno" ; then
-    echo "[$LANGUAGES_TO_SUPPORT-only support] without haskell"
-  fi
-
-  #
-  # PHP
-  #
-  if test "x$with_php" = "xyes" ; then
-    echo "[$LANGUAGES_TO_SUPPORT-only support] with PHP"
-  elif test "x$with_php" = "xno" ; then
-    echo "[$LANGUAGES_TO_SUPPORT-only support] without PHP"
-  fi
-
-  #
-  # Python
-  #
-  if test "x$with_python" = "xyes" ; then
-    echo "[$LANGUAGES_TO_SUPPORT-only support] with Python"
-  elif test "x$with_python" = "xno" ; then
-    echo "[$LANGUAGES_TO_SUPPORT-only support] without Python"
-  fi
-
-  #
-  # Binary analysis tests
-  #
-  if test "x$enable_binary_analysis_tests" = "xyes" ; then
-    echo "[$LANGUAGES_TO_SUPPORT-only support] enabling binary analysis tests"
-  elif test "x$enable_binary_analysis_tests" = "xno" ; then
-    echo "[$LANGUAGES_TO_SUPPORT-only support] disabling binary analysis tests"
-  fi
-
-  #
-  # Projects/ directory
-  #
-  if test "x$enable_projects_directory" = "xyes" ; then
-    echo "[$LANGUAGES_TO_SUPPORT-only support] enabling ROSE/projects directory"
-  elif test "x$enable_projects_directory" = "xno" ; then
-    echo "[$LANGUAGES_TO_SUPPORT-only support] disabling ROSE/projects directory"
-  fi
-
-  #
-  # Tutorial/ directory
-  #
-  if test "x$enable_tutorial_directory" = "xyes" ; then
-    echo "[$LANGUAGES_TO_SUPPORT-only support] enabling ROSE/tutorial directory"
-  elif test "x$enable_tutorial_directory" = "xno" ; then
-    echo "[$LANGUAGES_TO_SUPPORT-only support] disabling ROSE/tutorial directory"
-  fi
-fi
-#########################################################################################
-#
-# TOO (3/14/2011): not used anymore?
-#
-#########################################################################################
-#AC_ARG_ENABLE([language-only-restriction-test],AS_HELP_STRING([--enable-language-only-restriction-test],[Support language only restriction test]),[],[])
-#if test "x$enableval" = "xyes"; then
-#   echo "Setting: language-only-restriction-test option IS yes"
-#else
-#   echo "Setting: language-only-restriction-test option is NOT yes"
+#if test "x$GFORTRAN_PATH" != "x"; then
+#   AC_DEFINE([USE_GFORTRAN_IN_ROSE], [1], [Mark that GFORTRAN is available])
 #fi
-#if test "x$enable_language_only_restriction_test" = "xyes"; then
-#   echo "Value of: language-only-restriction-test option macro IS yes"
-#else
-#   echo "Value of: language-only-restriction-test option macro is NOT yes"
-#fi
-#echo "enable_languages = $enable_languages"
-#########################################################################################
 #
-# Set the automake conditional macros that will be used in Makefiles.
-#
-#########################################################################################
-echo -n "Creating Automake conditional flags for language support in Makefiles... "
- if test "x$support_c_language" = xyes; then
-  ROSE_BUILD_C_LANGUAGE_SUPPORT_TRUE=
-  ROSE_BUILD_C_LANGUAGE_SUPPORT_FALSE='#'
-else
-  ROSE_BUILD_C_LANGUAGE_SUPPORT_TRUE='#'
-  ROSE_BUILD_C_LANGUAGE_SUPPORT_FALSE=
-fi
-
- if test "x$support_cxx_language" = xyes; then
-  ROSE_BUILD_CXX_LANGUAGE_SUPPORT_TRUE=
-  ROSE_BUILD_CXX_LANGUAGE_SUPPORT_FALSE='#'
-else
-  ROSE_BUILD_CXX_LANGUAGE_SUPPORT_TRUE='#'
-  ROSE_BUILD_CXX_LANGUAGE_SUPPORT_FALSE=
-fi
-
- if test "x$support_fortran_language" = xyes; then
-  ROSE_BUILD_FORTRAN_LANGUAGE_SUPPORT_TRUE=
-  ROSE_BUILD_FORTRAN_LANGUAGE_SUPPORT_FALSE='#'
-else
-  ROSE_BUILD_FORTRAN_LANGUAGE_SUPPORT_TRUE='#'
-  ROSE_BUILD_FORTRAN_LANGUAGE_SUPPORT_FALSE=
-fi
-
- if test "x$support_java_language" = xyes; then
-  ROSE_BUILD_JAVA_LANGUAGE_SUPPORT_TRUE=
-  ROSE_BUILD_JAVA_LANGUAGE_SUPPORT_FALSE='#'
-else
-  ROSE_BUILD_JAVA_LANGUAGE_SUPPORT_TRUE='#'
-  ROSE_BUILD_JAVA_LANGUAGE_SUPPORT_FALSE=
-fi
-
- if test "x$support_php_language" = xyes; then
-  ROSE_BUILD_PHP_LANGUAGE_SUPPORT_TRUE=
-  ROSE_BUILD_PHP_LANGUAGE_SUPPORT_FALSE='#'
-else
-  ROSE_BUILD_PHP_LANGUAGE_SUPPORT_TRUE='#'
-  ROSE_BUILD_PHP_LANGUAGE_SUPPORT_FALSE=
-fi
-
- if test "x$support_python_language" = xyes; then
-  ROSE_BUILD_PYTHON_LANGUAGE_SUPPORT_TRUE=
-  ROSE_BUILD_PYTHON_LANGUAGE_SUPPORT_FALSE='#'
-else
-  ROSE_BUILD_PYTHON_LANGUAGE_SUPPORT_TRUE='#'
-  ROSE_BUILD_PYTHON_LANGUAGE_SUPPORT_FALSE=
-fi
-
- if test "x$support_binaries" = xyes; then
-  ROSE_BUILD_BINARY_ANALYSIS_SUPPORT_TRUE=
-  ROSE_BUILD_BINARY_ANALYSIS_SUPPORT_FALSE='#'
-else
-  ROSE_BUILD_BINARY_ANALYSIS_SUPPORT_TRUE='#'
-  ROSE_BUILD_BINARY_ANALYSIS_SUPPORT_FALSE=
-fi
-
- if test "x$support_cuda_language" = xyes; then
-  ROSE_BUILD_CUDA_LANGUAGE_SUPPORT_TRUE=
-  ROSE_BUILD_CUDA_LANGUAGE_SUPPORT_FALSE='#'
-else
-  ROSE_BUILD_CUDA_LANGUAGE_SUPPORT_TRUE='#'
-  ROSE_BUILD_CUDA_LANGUAGE_SUPPORT_FALSE=
-fi
-
- if test "x$support_opencl_language" = xyes; then
-  ROSE_BUILD_OPENCL_LANGUAGE_SUPPORT_TRUE=
-  ROSE_BUILD_OPENCL_LANGUAGE_SUPPORT_FALSE='#'
-else
-  ROSE_BUILD_OPENCL_LANGUAGE_SUPPORT_TRUE='#'
-  ROSE_BUILD_OPENCL_LANGUAGE_SUPPORT_FALSE=
-fi
-
-echo "done"
-
-echo ""
-print_isLanguageSupported "Binary analysis" "$support_binaries"
-print_isLanguageSupported "C" "$support_c_language"
-print_isLanguageSupported "C++" "$support_cxx_language"
-print_isLanguageSupported "Cuda" "$support_cuda_language"
-print_isLanguageSupported "Fortran" "$support_fortran_language"
-print_isLanguageSupported "Java" "$support_java_language"
-print_isLanguageSupported "PHP" "$support_php_language"
-print_isLanguageSupported "Python" "$support_python_language"
-print_isLanguageSupported "OpenCL" "$support_opencl_language"
-echo ""
-echo "(+)enabled (-)disabled"
-#AC_MSG_RESULT($LANGUAGES_TO_SUPPORT)
-echo "------------------------------------------------"
-
-echo "Finished configuring user-specified languages to support"
-# End macro ROSE_SUPPORT_LANGUAGES.
-
-  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for Curl_connect in -lcurl" >&5
-$as_echo_n "checking for Curl_connect in -lcurl... " >&6; }
-if ${ac_cv_lib_curl_Curl_connect+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lcurl  $LIBS"
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-/* Override any GCC internal prototype to avoid an error.
-   Use char because int might match the return type of a GCC
-   builtin and then its argument prototype would still apply.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-char Curl_connect ();
-int
-main ()
-{
-return Curl_connect ();
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"; then :
-  ac_cv_lib_curl_Curl_connect=yes
-else
-  ac_cv_lib_curl_Curl_connect=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_curl_Curl_connect" >&5
-$as_echo "$ac_cv_lib_curl_Curl_connect" >&6; }
-if test "x$ac_cv_lib_curl_Curl_connect" = xyes; then :
-  HAVE_CURL=yes
-else
-  HAVE_CURL=no
-fi
-
-   if test "x$HAVE_CURL" = "xyes"; then
-  HAS_LIBRARY_CURL_TRUE=
-  HAS_LIBRARY_CURL_FALSE='#'
-else
-  HAS_LIBRARY_CURL_TRUE='#'
-  HAS_LIBRARY_CURL_FALSE=
-fi
-
-
-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking whether your GCC version is supported by ROSE (4.0.x - 4.4.x)" >&5
-$as_echo_n "checking whether your GCC version is supported by ROSE (4.0.x - 4.4.x)... " >&6; }
-# Check whether --enable-gcc-version-check was given.
-if test "${enable_gcc_version_check+set}" = set; then :
-  enableval=$enable_gcc_version_check;
-else
-  enableval=yes
-fi
-
-if test "x$enableval" = "xyes" ; then
-      ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
-      # http://www.gnu.org/s/hello/manual/autoconf/Running-the-Compiler.html
-      cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-
-          #if (__GNUC__ >= 4 && __GNUC_MINOR__ <= 4)
-            int rose_supported_gcc;
-          #else
-            not gcc, or gcc version is not supported by rose
-          #endif
-
-
-_ACEOF
-if ac_fn_c_try_compile "$LINENO"; then :
-  { $as_echo "$as_me:${as_lineno-$LINENO}: result: done" >&5
-$as_echo "done" >&6; }
-else
-  gcc_version=`gcc -dumpversion`
-       { { $as_echo "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "your GCC $gcc_version version is currently NOT supported by ROSE
-See \`config.log' for more details" "$LINENO" 5; }
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.$ac_ext
-      ac_ext=c
-ac_cpp='$CPP $CPPFLAGS'
-ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
-ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
-ac_compiler_gnu=$ac_cv_c_compiler_gnu
-
-else
-    { $as_echo "$as_me:${as_lineno-$LINENO}: result: skipping" >&5
-$as_echo "skipping" >&6; }
-fi
-
-  ROSE_SUPPORT_UPC
-
-###
 ##########################################################################################
+###
 #
+#  ROSE_SUPPORT_LANGUAGE_CONFIG_OPTIONS
+#  AC_CHECK_LIB([curl], [Curl_connect], [HAVE_CURL=yes], [HAVE_CURL=no])
+#  AM_CONDITIONAL([HAS_LIBRARY_CURL], [test "x$HAVE_CURL" = "xyes"])
+#
+#AC_MSG_CHECKING([whether your GCC version is supported by ROSE (4.0.x - 4.4.x)])
+#AC_ARG_ENABLE([gcc-version-check],AS_HELP_STRING([--disable-gcc-version-check],[Disable GCC version 4.0.x - 4.4.x verification check]),,[enableval=yes])
+#if test "x$enableval" = "xyes" ; then
+#      AC_LANG_PUSH([C])
+#      # http://www.gnu.org/s/hello/manual/autoconf/Running-the-Compiler.html
+#      AC_COMPILE_IFELSE([
+#        AC_LANG_SOURCE([[
+#          #if (__GNUC__ >= 4 && __GNUC_MINOR__ <= 4)
+#            int rose_supported_gcc;
+#          #else
+#            not gcc, or gcc version is not supported by rose
+#          #endif
+#        ]])
+#       ],
+#       [AC_MSG_RESULT([done])],
+#       gcc_version=`gcc -dumpversion`
+#       [AC_MSG_FAILURE([your GCC $gcc_version version is currently NOT supported by ROSE])])
+#      AC_LANG_POP([C])
+#else
+#    AC_MSG_RESULT([skipping])
+#fi
+#
+#  ROSE_SUPPORT_UPC
+
+##
+#########################################################################################
+
 ## *******************************************************
 ## ROSE/projects directory compilation & testing
 ## *******************************************************
@@ -7532,17 +5209,17 @@ fi
 #[ echo "Setting up optional DOT-to-GML translator in directory: src/roseIndependentSupport/dot2gml"
 #])
 #AM_CONDITIONAL(DOT_TO_GML_TRANSLATOR,test "$enable_dot2gml_translator" = yes)
-#
-## exit 1
-#
-## Set the value of srcdir so that it will be an absolute path instead of a relative path
-## srcdir=`dirname "ROSE_SUPPORT_ROSE_PART_1"`
-## echo "In ROSE/con figure: srcdir = $srcdir"
-## echo "In ROSE/con figure: ROSE_SUPPORT_ROSE_PART_1"
-## Record the location of the build tree (so it can be substituted into ROSE/docs/Rose/rose.cfg)
-## topSourceDirectory=`dirname "ROSE_SUPPORT_ROSE_PART_1"`
-## echo "In ROSE/con figure: topSourceDirectory = $topSourceDirectory"
-## AC_SUBST(topSourceDirectory)
+
+# exit 1
+
+# Set the value of srcdir so that it will be an absolute path instead of a relative path
+# srcdir=`dirname "ROSE_SUPPORT_ROSE_PART_1"`
+# echo "In ROSE/con figure: srcdir = $srcdir"
+# echo "In ROSE/con figure: ROSE_SUPPORT_ROSE_PART_1"
+# Record the location of the build tree (so it can be substituted into ROSE/docs/Rose/rose.cfg)
+# topSourceDirectory=`dirname "ROSE_SUPPORT_ROSE_PART_1"`
+# echo "In ROSE/con figure: topSourceDirectory = $topSourceDirectory"
+# AC_SUBST(topSourceDirectory)
 
 # echo "Before test for CANONICAL HOST: CC (CC = $CC)"
 
@@ -8019,30 +5696,47 @@ echo "CPPFLAGS = $CPPFLAGS"
 #    Option to define a uniform debug level for ROSE development
 # *****************************************************************
 
-## DQ (10/17/2010): This defines an advanced level of uniform support for debugging and compiler warnings in ROSE.
-#AC_MSG_CHECKING([for enabled advanced warning support])
-## Default is that advanced warnings is off, but this can be changed later so that advanced warnings would have to be explicitly turned off.
-#AC_ARG_ENABLE(advanced_warnings, AS_HELP_STRING([--enable-advanced-warnings], [Support for an advanced uniform warning level for ROSE development]),[enableval=yes],[enableval=no])
-#AM_CONDITIONAL(ROSE_USE_UNIFORM_ADVANCED_WARNINGS_SUPPORT, [test "x$enable_advanced_warnings" = xyes])
-#if test "x$enable_advanced_warnings" = "xyes"; then
-#  AC_MSG_WARN([Using an advanced uniform warning level for ROSE development.])
-#  AC_DEFINE([ROSE_USE_UNIFORM_ADVANCED_WARNINGS_SUPPORT], [], [Support for an advanced uniform warning level for ROSE development])
-#
-## Suggested C++ specific flags (used to be run before Hudson, but fail currently).
-#  CXX_ADVANCED_WARNINGS+=" -D_GLIBCXX_CONCEPT_CHECKS -D_GLIBCXX_DEBUG"
-#
-## Additional flag (suggested by George).
-#  CXX_ADVANCED_WARNINGS+=" -D_GLIBCXX_DEBUG_PEDANTIC"
-#
-## Incrementally add the advanced options
-#  if test "$CXX_ADVANCED_WARNINGS"; then CXXFLAGS="$CXXFLAGS $CXX_ADVANCED_WARNINGS"; fi
-#fi
-## ROSE_USE_UNIFORM_DEBUG_SUPPORT=7
-#AC_SUBST(ROSE_USE_UNIFORM_ADVANCED_WARNINGS_SUPPORT)
-#
-#echo "After processing --enable-advanced-warnings: CXX_ADVANCED_WARNINGS = ${CXX_ADVANCED_WARNINGS}"
-#echo "After processing --enable-advanced-warnings: CXX_WARNINGS = ${CXX_WARNINGS}"
-#echo "After processing --enable-advanced-warnings: C_WARNINGS   = ${C_WARNINGS}"
+# DQ (10/17/2010): This defines an advanced level of uniform support for debugging and compiler warnings in ROSE.
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for enabled advanced warning support" >&5
+$as_echo_n "checking for enabled advanced warning support... " >&6; }
+# Default is that advanced warnings is off, but this can be changed later so that advanced warnings would have to be explicitly turned off.
+# Check whether --enable-advanced_warnings was given.
+if test "${enable_advanced_warnings+set}" = set; then :
+  enableval=$enable_advanced_warnings; enableval=yes
+else
+  enableval=no
+fi
+
+ if test "x$enable_advanced_warnings" = xyes; then
+  ROSE_USE_UNIFORM_ADVANCED_WARNINGS_SUPPORT_TRUE=
+  ROSE_USE_UNIFORM_ADVANCED_WARNINGS_SUPPORT_FALSE='#'
+else
+  ROSE_USE_UNIFORM_ADVANCED_WARNINGS_SUPPORT_TRUE='#'
+  ROSE_USE_UNIFORM_ADVANCED_WARNINGS_SUPPORT_FALSE=
+fi
+
+if test "x$enable_advanced_warnings" = "xyes"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: Using an advanced uniform warning level for ROSE development." >&5
+$as_echo "$as_me: WARNING: Using an advanced uniform warning level for ROSE development." >&2;}
+
+$as_echo "#define ROSE_USE_UNIFORM_ADVANCED_WARNINGS_SUPPORT /**/" >>confdefs.h
+
+
+# Suggested C++ specific flags (used to be run before Hudson, but fail currently).
+  CXX_ADVANCED_WARNINGS+=" -D_GLIBCXX_CONCEPT_CHECKS -D_GLIBCXX_DEBUG"
+
+# Additional flag (suggested by George).
+  CXX_ADVANCED_WARNINGS+=" -D_GLIBCXX_DEBUG_PEDANTIC"
+
+# Incrementally add the advanced options
+  if test "$CXX_ADVANCED_WARNINGS"; then CXXFLAGS="$CXXFLAGS $CXX_ADVANCED_WARNINGS"; fi
+fi
+# ROSE_USE_UNIFORM_DEBUG_SUPPORT=7
+
+
+echo "After processing --enable-advanced-warnings: CXX_ADVANCED_WARNINGS = ${CXX_ADVANCED_WARNINGS}"
+echo "After processing --enable-advanced-warnings: CXX_WARNINGS = ${CXX_WARNINGS}"
+echo "After processing --enable-advanced-warnings: C_WARNINGS   = ${C_WARNINGS}"
 
 # exit 1;
 
@@ -8174,15 +5868,15 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 #AX_LIB_SQLITE3
 #AX_LIB_MYSQL
 #AM_CONDITIONAL(ROSE_USE_MYSQL,test "$found_mysql" = yes)
-
-# DQ (9/15/2009): I have moved this to before the backend compiler selection so that
-# we can make the backend selection a bit more compiler dependent. Actually we likely
-# don't need this!
-# DQ (9/17/2006): These should be the same for both C and C++ (else we will need separate macros)
-# Setup the -D<xxx> defines required to allow EDG to take the same path through the compiler
-# specific and system specific header files as for the backend compiler.  These depend
-# upon the selection of the back-end compiler.
-# GET_COMPILER_SPECIFIC_DEFINES
+#
+## DQ (9/15/2009): I have moved this to before the backend compiler selection so that
+## we can make the backend selection a bit more compiler dependent. Actually we likely
+## don't need this!
+## DQ (9/17/2006): These should be the same for both C and C++ (else we will need separate macros)
+## Setup the -D<xxx> defines required to allow EDG to take the same path through the compiler
+## specific and system specific header files as for the backend compiler.  These depend
+## upon the selection of the back-end compiler.
+## GET_COMPILER_SPECIFIC_DEFINES
 
 # Test this macro here at the start to avoid long processing times (before it fails)
 
@@ -8225,25 +5919,22 @@ else
 fi
 
 
-# DQ (10/3/2008): Added option to specify backend fortran compiler
-
-# Check whether --with-alternate_backend_fortran_compiler was given.
-if test "${with_alternate_backend_fortran_compiler+set}" = set; then :
-  withval=$with_alternate_backend_fortran_compiler;
-    # Use a different compiler for the backend than for the compilation of ROSE source code
-      BACKEND_FORTRAN_COMPILER=$with_alternate_backend_fortran_compiler
-
-      echo "alternative back-end fortran compiler specified for generated translators to use: $BACKEND_FORTRAN_COMPILER"
-
-else
-
-    # Alternatively use the specified fortran compiler
-	 # BACKEND_FORTRAN_COMPILER="$FC"
-	   BACKEND_FORTRAN_COMPILER="gfortran"
-      echo "default back-end fortran compiler for generated translators to use: $BACKEND_FORTRAN_COMPILER"
-
-fi
-
+## DQ (10/3/2008): Added option to specify backend fortran compiler
+#  AC_ARG_WITH(alternate_backend_fortran_compiler,
+#    [  --with-alternate_backend_fortran_compiler=<compiler name>
+#                                Specify an alternative fortran back-end compiler],
+#    [
+#    # Use a different compiler for the backend than for the compilation of ROSE source code
+#      BACKEND_FORTRAN_COMPILER=$with_alternate_backend_fortran_compiler
+#      AC_SUBST(BACKEND_FORTRAN_COMPILER)
+#      echo "alternative back-end fortran compiler specified for generated translators to use: $BACKEND_FORTRAN_COMPILER"
+#    ] ,
+#    [
+#    # Alternatively use the specified fortran compiler
+#	 # BACKEND_FORTRAN_COMPILER="$FC"
+#	   BACKEND_FORTRAN_COMPILER="gfortran"
+#      echo "default back-end fortran compiler for generated translators to use: $BACKEND_FORTRAN_COMPILER"
+#    ])
 
 # DQ (4/2/2011): Added option to specify backend Java compiler
 
@@ -8272,151 +5963,109 @@ fi
   echo "     C++ back-end compiler major version number = $BACKEND_CXX_COMPILER_MAJOR_VERSION_NUMBER"
   echo "     C++ back-end compiler minor version number = $BACKEND_CXX_COMPILER_MINOR_VERSION_NUMBER"
 
-# Use this to get the major and minor version numbers for gfortran (which maps --version to -dumpversion, unlike gcc and g++)
-# gfortran --version | head -1 | cut -f2 -d\) | tr -d \  | cut -d\. -f2
-# Or Jeremiah suggests the alternative:
-# gfortran --version | sed -n '1s/.*) //;1p'
-  echo "BACKEND_FORTRAN_COMPILER = $BACKEND_FORTRAN_COMPILER"
-
-# Testing the 4.0.x compiler
-# BACKEND_FORTRAN_COMPILER="/usr/apps/gcc/4.0.2/bin/gfortran"
-# echo "BACKEND_FORTRAN_COMPILER = $BACKEND_FORTRAN_COMPILER"
-
-# DQ (9/15/2009): Normally we expect a string such as "GNU Fortran 95 (GCC) 4.1.2", but
-# the GNU 4.0.x compiler's gfortran outputs a string such as "GNU Fortran 95 (GCC 4.0.2)"
-# So for this case we detect it explicitly and fill in the values directly!
-  BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER=`echo|$BACKEND_FORTRAN_COMPILER --version | head -1 | cut -f2 -d\) | tr -d \  | cut -d\. -f1`
-  BACKEND_FORTRAN_COMPILER_MINOR_VERSION_NUMBER=`echo|$BACKEND_FORTRAN_COMPILER --version | head -1 | cut -f2 -d\) | tr -d \  | cut -d\. -f2`
-
-# Test if we computed the major and minor version numbers correctly...recompute if required
-  if test x$BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER == x; then
-    echo "Warning: BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER = $BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER (blank) so this is likely the GNU 4.0.x version (try again to get the version number)"
-    BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER=`echo|$BACKEND_FORTRAN_COMPILER --version | head -1 | sed s/"GNU Fortran 95 (GCC "//g | cut -f1 -d \) | cut -d\. -f1`
-    BACKEND_FORTRAN_COMPILER_MINOR_VERSION_NUMBER=`echo|$BACKEND_FORTRAN_COMPILER --version | head -1 | sed s/"GNU Fortran 95 (GCC "//g | cut -f1 -d \) | cut -d\. -f2`
-  fi
-
-# echo "back-end compiler for generated translators to use will be: $BACKEND_CXX_COMPILER"
-  echo "     Fortran back-end compiler major version number = $BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER"
-  echo "     Fortran back-end compiler minor version number = $BACKEND_FORTRAN_COMPILER_MINOR_VERSION_NUMBER"
-
-# Test that we have correctly evaluated the major and minor versions numbers...
-  if test x$BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER == x; then
-    echo "Warning: Could not compute the MAJOR version number of $BACKEND_FORTRAN_COMPILER"
-  # exit 1
-  fi
-
-  if test x$BACKEND_FORTRAN_COMPILER_MINOR_VERSION_NUMBER == x; then
-    echo "Warning: Could not compute the MINOR version number of $BACKEND_FORTRAN_COMPILER"
-  # exit 1
-  fi
-
-# DQ (9/16/2009): GNU gfortran 4.0 has special problems so we avoid some tests where it fails.
-  gfortran_version_4_0=no
-  if test x$BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER == x4; then
-     if test x$BACKEND_FORTRAN_COMPILER_MINOR_VERSION_NUMBER == x0; then
-        echo "Note: we have identified version 4.0 of gfortran!"
-        gfortran_version_4_0=yes
-     fi
-  fi
-   if test "x$gfortran_version_4_0" = "xyes"; then
-  ROSE_USING_GFORTRAN_VERSION_4_0_TRUE=
-  ROSE_USING_GFORTRAN_VERSION_4_0_FALSE='#'
-else
-  ROSE_USING_GFORTRAN_VERSION_4_0_TRUE='#'
-  ROSE_USING_GFORTRAN_VERSION_4_0_FALSE=
-fi
-
-
-# DQ (9/17/2009): GNU gfortran 4.1 has special problems so we avoid some tests where it fails.
-  gfortran_version_4_1=no
-  if test x$BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER == x4; then
-     if test x$BACKEND_FORTRAN_COMPILER_MINOR_VERSION_NUMBER == x1; then
-        echo "Note: we have identified version 4.1 of gfortran!"
-        gfortran_version_4_1=yes
-     fi
-  fi
-   if test "x$gfortran_version_4_1" = "xyes"; then
-  ROSE_USING_GFORTRAN_VERSION_4_1_TRUE=
-  ROSE_USING_GFORTRAN_VERSION_4_1_FALSE='#'
-else
-  ROSE_USING_GFORTRAN_VERSION_4_1_TRUE='#'
-  ROSE_USING_GFORTRAN_VERSION_4_1_FALSE=
-fi
-
-
-# DQ (2/13/2011): GNU gfortran 4.2 is a gnu configuration where I want to have test2010_161.f90 be tested.
-# It has previously demonstrated a statistical failure on 4.1.2 and 4.3.2 (running it on 4.2 machines
-# is an incremental step to getting it into more uniform testing, since I can't get it to fail locally).
-# It also passes valgrind just fine, so this is a bit of a mystery at present.
-  gfortran_version_4_2=no
-  if test x$BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER == x4; then
-     if test x$BACKEND_FORTRAN_COMPILER_MINOR_VERSION_NUMBER == x2; then
-        echo "Note: we have identified version 4.2 of gfortran!"
-        gfortran_version_4_2=yes
-     fi
-  fi
-   if test "x$gfortran_version_4_2" = "xyes"; then
-  ROSE_USING_GFORTRAN_VERSION_4_2_TRUE=
-  ROSE_USING_GFORTRAN_VERSION_4_2_FALSE='#'
-else
-  ROSE_USING_GFORTRAN_VERSION_4_2_TRUE='#'
-  ROSE_USING_GFORTRAN_VERSION_4_2_FALSE=
-fi
-
-
-# DQ (2/1/2011): GNU gfortran 4.4 has special problems so we avoid some tests where it fails.
-  gfortran_version_4_4=no
-  if test x$BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER == x4; then
-     if test x$BACKEND_FORTRAN_COMPILER_MINOR_VERSION_NUMBER == x4; then
-        echo "Note: we have identified version 4.4 of gfortran!"
-        gfortran_version_4_4=yes
-     fi
-  fi
-   if test "x$gfortran_version_4_4" = "xyes"; then
-  ROSE_USING_GFORTRAN_VERSION_4_4_TRUE=
-  ROSE_USING_GFORTRAN_VERSION_4_4_FALSE='#'
-else
-  ROSE_USING_GFORTRAN_VERSION_4_4_TRUE='#'
-  ROSE_USING_GFORTRAN_VERSION_4_4_FALSE=
-fi
-
-
-# DQ (4/10/2011): GNU gfortran 4.5 has special problems so we avoid some tests where it fails.
-  gfortran_version_4_5=no
-  if test x$BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER == x4; then
-     if test x$BACKEND_FORTRAN_COMPILER_MINOR_VERSION_NUMBER == x5; then
-        echo "Note: we have identified version 4.5 of gfortran!"
-        gfortran_version_4_5=yes
-     fi
-  fi
-   if test "x$gfortran_version_4_5" = "xyes"; then
-  ROSE_USING_GFORTRAN_VERSION_4_5_TRUE=
-  ROSE_USING_GFORTRAN_VERSION_4_5_FALSE='#'
-else
-  ROSE_USING_GFORTRAN_VERSION_4_5_TRUE='#'
-  ROSE_USING_GFORTRAN_VERSION_4_5_FALSE=
-fi
-
-
-# DQ (4/10/2011): GNU gfortran 4.6 has special problems so we avoid some tests where it fails.
-  gfortran_version_4_6=no
-  if test x$BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER == x4; then
-     if test x$BACKEND_FORTRAN_COMPILER_MINOR_VERSION_NUMBER == x6; then
-        echo "Note: we have identified version 4.6 of gfortran!"
-        gfortran_version_4_6=yes
-     fi
-  fi
-   if test "x$gfortran_version_4_6" = "xyes"; then
-  ROSE_USING_GFORTRAN_VERSION_4_6_TRUE=
-  ROSE_USING_GFORTRAN_VERSION_4_6_FALSE='#'
-else
-  ROSE_USING_GFORTRAN_VERSION_4_6_TRUE='#'
-  ROSE_USING_GFORTRAN_VERSION_4_6_FALSE=
-fi
-
-
-# echo "Exiting after test of backend version number support ..."
-# exit 1
+## Use this to get the major and minor version numbers for gfortran (which maps --version to -dumpversion, unlike gcc and g++)
+## gfortran --version | head -1 | cut -f2 -d\) | tr -d \  | cut -d\. -f2
+## Or Jeremiah suggests the alternative:
+## gfortran --version | sed -n '1s/.*) //;1p'
+#  echo "BACKEND_FORTRAN_COMPILER = $BACKEND_FORTRAN_COMPILER"
+#
+## Testing the 4.0.x compiler
+## BACKEND_FORTRAN_COMPILER="/usr/apps/gcc/4.0.2/bin/gfortran"
+## echo "BACKEND_FORTRAN_COMPILER = $BACKEND_FORTRAN_COMPILER"
+#
+## DQ (9/15/2009): Normally we expect a string such as "GNU Fortran 95 (GCC) 4.1.2", but
+## the GNU 4.0.x compiler's gfortran outputs a string such as "GNU Fortran 95 (GCC 4.0.2)"
+## So for this case we detect it explicitly and fill in the values directly!
+#  BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER=`echo|$BACKEND_FORTRAN_COMPILER --version | head -1 | cut -f2 -d\) | tr -d \  | cut -d\. -f1`
+#  BACKEND_FORTRAN_COMPILER_MINOR_VERSION_NUMBER=`echo|$BACKEND_FORTRAN_COMPILER --version | head -1 | cut -f2 -d\) | tr -d \  | cut -d\. -f2`
+#
+## Test if we computed the major and minor version numbers correctly...recompute if required
+#  if test x$BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER == x; then
+#    echo "Warning: BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER = $BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER (blank) so this is likely the GNU 4.0.x version (try again to get the version number)"
+#    BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER=`echo|$BACKEND_FORTRAN_COMPILER --version | head -1 | sed s/"GNU Fortran 95 (GCC "//g | cut -f1 -d \) | cut -d\. -f1`
+#    BACKEND_FORTRAN_COMPILER_MINOR_VERSION_NUMBER=`echo|$BACKEND_FORTRAN_COMPILER --version | head -1 | sed s/"GNU Fortran 95 (GCC "//g | cut -f1 -d \) | cut -d\. -f2`
+#  fi
+#
+## echo "back-end compiler for generated translators to use will be: $BACKEND_CXX_COMPILER"
+#  echo "     Fortran back-end compiler major version number = $BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER"
+#  echo "     Fortran back-end compiler minor version number = $BACKEND_FORTRAN_COMPILER_MINOR_VERSION_NUMBER"
+#
+## Test that we have correctly evaluated the major and minor versions numbers...
+#  if test x$BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER == x; then
+#    echo "Warning: Could not compute the MAJOR version number of $BACKEND_FORTRAN_COMPILER"
+#  # exit 1
+#  fi
+#
+#  if test x$BACKEND_FORTRAN_COMPILER_MINOR_VERSION_NUMBER == x; then
+#    echo "Warning: Could not compute the MINOR version number of $BACKEND_FORTRAN_COMPILER"
+#  # exit 1
+#  fi
+#
+## DQ (9/16/2009): GNU gfortran 4.0 has special problems so we avoid some tests where it fails.
+#  gfortran_version_4_0=no
+#  if test x$BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER == x4; then
+#     if test x$BACKEND_FORTRAN_COMPILER_MINOR_VERSION_NUMBER == x0; then
+#        echo "Note: we have identified version 4.0 of gfortran!"
+#        gfortran_version_4_0=yes
+#     fi
+#  fi
+#  AM_CONDITIONAL(ROSE_USING_GFORTRAN_VERSION_4_0, [test "x$gfortran_version_4_0" = "xyes"])
+#
+## DQ (9/17/2009): GNU gfortran 4.1 has special problems so we avoid some tests where it fails.
+#  gfortran_version_4_1=no
+#  if test x$BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER == x4; then
+#     if test x$BACKEND_FORTRAN_COMPILER_MINOR_VERSION_NUMBER == x1; then
+#        echo "Note: we have identified version 4.1 of gfortran!"
+#        gfortran_version_4_1=yes
+#     fi
+#  fi
+#  AM_CONDITIONAL(ROSE_USING_GFORTRAN_VERSION_4_1, [test "x$gfortran_version_4_1" = "xyes"])
+#
+## DQ (2/13/2011): GNU gfortran 4.2 is a gnu configuration where I want to have test2010_161.f90 be tested.
+## It has previously demonstrated a statistical failure on 4.1.2 and 4.3.2 (running it on 4.2 machines
+## is an incremental step to getting it into more uniform testing, since I can't get it to fail locally).
+## It also passes valgrind just fine, so this is a bit of a mystery at present.
+#  gfortran_version_4_2=no
+#  if test x$BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER == x4; then
+#     if test x$BACKEND_FORTRAN_COMPILER_MINOR_VERSION_NUMBER == x2; then
+#        echo "Note: we have identified version 4.2 of gfortran!"
+#        gfortran_version_4_2=yes
+#     fi
+#  fi
+#  AM_CONDITIONAL(ROSE_USING_GFORTRAN_VERSION_4_2, [test "x$gfortran_version_4_2" = "xyes"])
+#
+## DQ (2/1/2011): GNU gfortran 4.4 has special problems so we avoid some tests where it fails.
+#  gfortran_version_4_4=no
+#  if test x$BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER == x4; then
+#     if test x$BACKEND_FORTRAN_COMPILER_MINOR_VERSION_NUMBER == x4; then
+#        echo "Note: we have identified version 4.4 of gfortran!"
+#        gfortran_version_4_4=yes
+#     fi
+#  fi
+#  AM_CONDITIONAL(ROSE_USING_GFORTRAN_VERSION_4_4, [test "x$gfortran_version_4_4" = "xyes"])
+#
+## DQ (4/10/2011): GNU gfortran 4.5 has special problems so we avoid some tests where it fails.
+#  gfortran_version_4_5=no
+#  if test x$BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER == x4; then
+#     if test x$BACKEND_FORTRAN_COMPILER_MINOR_VERSION_NUMBER == x5; then
+#        echo "Note: we have identified version 4.5 of gfortran!"
+#        gfortran_version_4_5=yes
+#     fi
+#  fi
+#  AM_CONDITIONAL(ROSE_USING_GFORTRAN_VERSION_4_5, [test "x$gfortran_version_4_5" = "xyes"])
+#
+## DQ (4/10/2011): GNU gfortran 4.6 has special problems so we avoid some tests where it fails.
+#  gfortran_version_4_6=no
+#  if test x$BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER == x4; then
+#     if test x$BACKEND_FORTRAN_COMPILER_MINOR_VERSION_NUMBER == x6; then
+#        echo "Note: we have identified version 4.6 of gfortran!"
+#        gfortran_version_4_6=yes
+#     fi
+#  fi
+#  AM_CONDITIONAL(ROSE_USING_GFORTRAN_VERSION_4_6, [test "x$gfortran_version_4_6" = "xyes"])
+#
+## echo "Exiting after test of backend version number support ..."
+## exit 1
 
 # We use the name of the backend C++ compiler to generate a compiler name that will be used
 # elsewhere (CXX_ID might be a better name to use, instead we use basename to strip the path).
@@ -8509,18 +6158,10 @@ cat >>confdefs.h <<_ACEOF
 _ACEOF
 
 
-  export BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER
-
-cat >>confdefs.h <<_ACEOF
-#define BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER $BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER
-_ACEOF
-
-  export BACKEND_FORTRAN_COMPILER_MINOR_VERSION_NUMBER
-
-cat >>confdefs.h <<_ACEOF
-#define BACKEND_FORTRAN_COMPILER_MINOR_VERSION_NUMBER $BACKEND_FORTRAN_COMPILER_MINOR_VERSION_NUMBER
-_ACEOF
-
+#  export BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER
+#  AC_DEFINE_UNQUOTED([BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER],$BACKEND_FORTRAN_COMPILER_MAJOR_VERSION_NUMBER,[Major version number of backend Fortran compiler.])
+#  export BACKEND_FORTRAN_COMPILER_MINOR_VERSION_NUMBER
+#  AC_DEFINE_UNQUOTED([BACKEND_FORTRAN_COMPILER_MINOR_VERSION_NUMBER],$BACKEND_FORTRAN_COMPILER_MINOR_VERSION_NUMBER,[Minor version number of backend Fortran compiler.])
 
 ###################################################################################################
 # Backend Compiler Support
@@ -8660,8 +6301,8 @@ fi
 # DQ (9/17/2006): This must be done for BOTH C++ and C compilers (since the
 # compiler-specific header files for each can be different; as is the case
 # for GNU).
-# GENERATE_BACKEND COMPILER_SPECIFIC_HEADERS
-# GENERATE_BACKEND_CXX_COMPILER_SPECIFIC_HEADERS
+#GENERATE_BACKEND COMPILER_SPECIFIC_HEADERS
+#GENERATE_BACKEND_CXX_COMPILER_SPECIFIC_HEADERS
 
 
 # End macro ROSE_SUPPORT_ROSE_PART_1.
@@ -8719,6 +6360,9 @@ $as_echo "$as_me: ROSE_C_HEADERS_DIR set to: $ROSE_C_HEADERS_DIR" >&6;}
    cp ${srcdir}/config/upc_strict.h ./include-staging/${compilerName}_HEADERS
    cp ${srcdir}/config/upc_collective.h ./include-staging/${compilerName}_HEADERS
    cp ${srcdir}/config/bupc_extensions.h ./include-staging/${compilerName}_HEADERS
+
+   cp ${srcdir}/config/rose_specific_emmintrin.h ./include-staging/${compilerName}_HEADERS/emmintrin.h
+   cp ${srcdir}/config/rose_specific_xmmintrin.h ./include-staging/${compilerName}_HEADERS/xmmintrin.h
 
    error_code=$?
    echo "error_code = $error_code"
@@ -8780,6 +6424,9 @@ $as_echo "$as_me: ROSE_CXX_HEADERS_DIR set to: $ROSE_CXX_HEADERS_DIR" >&6;}
    cp ${srcdir}/config/upc_collective.h ./include-staging/${compilerName}_HEADERS
    cp ${srcdir}/config/bupc_extensions.h ./include-staging/${compilerName}_HEADERS
 
+   cp ${srcdir}/config/rose_specific_emmintrin.h ./include-staging/${compilerName}_HEADERS/emmintrin.h
+   cp ${srcdir}/config/rose_specific_xmmintrin.h ./include-staging/${compilerName}_HEADERS/xmmintrin.h
+
    error_code=$?
    echo "error_code = $error_code"
    if test $error_code != 0; then
@@ -8796,16 +6443,16 @@ fi
 
 
 
-## Debugging strange behaviour associated with changing
-## the order of the header file generation.
-#
-## Liao 8/17/2010. A work around a undefined SED on NERSC hopper.
-## I had to promote it here instead of put it into ROSE_SUPPORT_ROSE_PART_2
-## since the expansion order there is wrong.
-#test -z "$SED" && SED=sed
-#
+# Debugging strange behaviour associated with changing
+# the order of the header file generation.
+
+# Liao 8/17/2010. A work around a undefined SED on NERSC hopper.
+# I had to promote it here instead of put it into ROSE_SUPPORT_ROSE_PART_2
+# since the expansion order there is wrong.
+test -z "$SED" && SED=sed
+
 #CONFIGURE_POET
-#
+
 
 # Begin macro ROSE_SUPPORT_ROSE_PART_2.
 
@@ -9578,11 +7225,11 @@ ac_compiler_gnu=$ac_cv_cxx_compiler_gnu
 # echo "Exiting in configure.in ...(after calling: rose C and Cxx header options)"
 # exit 1
 
-## This must go after the setup of the headers options
-## Setup the CXX_INCLUDE_STRING to be used by EDG to find the correct headers
-## SETUP_BACKEND_COMPILER_SPECIFIC_REFERENCES
-## JJW (12/10/2008): We don't preprocess the header files for the new interface,
-## but we still need to use the original C++ header directories
+# This must go after the setup of the headers options
+# Setup the CXX_INCLUDE_STRING to be used by EDG to find the correct headers
+# SETUP_BACKEND_COMPILER_SPECIFIC_REFERENCES
+# JJW (12/10/2008): We don't preprocess the header files for the new interface,
+# but we still need to use the original C++ header directories
 
  # Now setup the include path that we will prepend to any user -I<dir> options so that the
  # required compiler-specific header files can be found (these are often relocated versions
@@ -9662,7 +7309,7 @@ cat >>confdefs.h <<_ACEOF
 _ACEOF
 
 
-#
+
 ## echo "DONE: configure.in ...(after calling: setup backend C and Cxx compiler specific references)"
 ## echo "Exiting in configure.in ...(after calling: setup backend C and Cxx compiler specific references)"
 ## exit 1
@@ -10764,19 +8411,19 @@ _ACEOF
 ## rm -rf '$(CXX_TEMPLATE_REPOSITORY_PATH)'
 #rm -rf Templates.DB
 #
-# End macro ROSE_SUPPORT_ROSE_PART_2.
+## End macro ROSE_SUPPORT_ROSE_PART_2.
 
 
 #ROSE_SUPPORT_ROSE_PART_3
 #ROSE_SUPPORT_ROSE_PART_4
-#
+
 #ROSE_SUPPORT_ROSE_PART_5
-#
+
 #ROSE_SUPPORT_ROSE_PART_6
-#
+
 #ROSE_SUPPORT_ROSE_PART_7
-#
-## Now generate all the output files (specified above)
+
+# Now generate all the output files (specified above)
 cat >confcache <<\_ACEOF
 # This file is a shell script that caches the results of configure
 # tests run on this system so they can be shared between configure
@@ -10950,10 +8597,6 @@ if test -z "${OS_VENDOR_REDHAT_32BIT_TRUE}" && test -z "${OS_VENDOR_REDHAT_32BIT
   as_fn_error $? "conditional \"OS_VENDOR_REDHAT_32BIT\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
-if test -z "${ROSE_USE_SSL_SUPPORT_TRUE}" && test -z "${ROSE_USE_SSL_SUPPORT_FALSE}"; then
-  as_fn_error $? "conditional \"ROSE_USE_SSL_SUPPORT\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
 if test -z "${AMDEP_TRUE}" && test -z "${AMDEP_FALSE}"; then
   as_fn_error $? "conditional \"AMDEP\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
@@ -10962,80 +8605,12 @@ if test -z "${am__fastdepCC_TRUE}" && test -z "${am__fastdepCC_FALSE}"; then
   as_fn_error $? "conditional \"am__fastdepCC\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
-if test -z "${ROSE_USE_INTERNAL_JAVA_SUPPORT_AM_CONDITIONAL_TRUE}" && test -z "${ROSE_USE_INTERNAL_JAVA_SUPPORT_AM_CONDITIONAL_FALSE}"; then
-  as_fn_error $? "conditional \"ROSE_USE_INTERNAL_JAVA_SUPPORT_AM_CONDITIONAL\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${ROSE_USE_INTERNAL_JAVA_SUPPORT_TRUE}" && test -z "${ROSE_USE_INTERNAL_JAVA_SUPPORT_FALSE}"; then
-  as_fn_error $? "conditional \"ROSE_USE_INTERNAL_JAVA_SUPPORT\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${ROSE_BUILD_C_LANGUAGE_SUPPORT_TRUE}" && test -z "${ROSE_BUILD_C_LANGUAGE_SUPPORT_FALSE}"; then
-  as_fn_error $? "conditional \"ROSE_BUILD_C_LANGUAGE_SUPPORT\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${ROSE_BUILD_CXX_LANGUAGE_SUPPORT_TRUE}" && test -z "${ROSE_BUILD_CXX_LANGUAGE_SUPPORT_FALSE}"; then
-  as_fn_error $? "conditional \"ROSE_BUILD_CXX_LANGUAGE_SUPPORT\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${ROSE_BUILD_FORTRAN_LANGUAGE_SUPPORT_TRUE}" && test -z "${ROSE_BUILD_FORTRAN_LANGUAGE_SUPPORT_FALSE}"; then
-  as_fn_error $? "conditional \"ROSE_BUILD_FORTRAN_LANGUAGE_SUPPORT\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${ROSE_BUILD_JAVA_LANGUAGE_SUPPORT_TRUE}" && test -z "${ROSE_BUILD_JAVA_LANGUAGE_SUPPORT_FALSE}"; then
-  as_fn_error $? "conditional \"ROSE_BUILD_JAVA_LANGUAGE_SUPPORT\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${ROSE_BUILD_PHP_LANGUAGE_SUPPORT_TRUE}" && test -z "${ROSE_BUILD_PHP_LANGUAGE_SUPPORT_FALSE}"; then
-  as_fn_error $? "conditional \"ROSE_BUILD_PHP_LANGUAGE_SUPPORT\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${ROSE_BUILD_PYTHON_LANGUAGE_SUPPORT_TRUE}" && test -z "${ROSE_BUILD_PYTHON_LANGUAGE_SUPPORT_FALSE}"; then
-  as_fn_error $? "conditional \"ROSE_BUILD_PYTHON_LANGUAGE_SUPPORT\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${ROSE_BUILD_BINARY_ANALYSIS_SUPPORT_TRUE}" && test -z "${ROSE_BUILD_BINARY_ANALYSIS_SUPPORT_FALSE}"; then
-  as_fn_error $? "conditional \"ROSE_BUILD_BINARY_ANALYSIS_SUPPORT\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${ROSE_BUILD_CUDA_LANGUAGE_SUPPORT_TRUE}" && test -z "${ROSE_BUILD_CUDA_LANGUAGE_SUPPORT_FALSE}"; then
-  as_fn_error $? "conditional \"ROSE_BUILD_CUDA_LANGUAGE_SUPPORT\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${ROSE_BUILD_OPENCL_LANGUAGE_SUPPORT_TRUE}" && test -z "${ROSE_BUILD_OPENCL_LANGUAGE_SUPPORT_FALSE}"; then
-  as_fn_error $? "conditional \"ROSE_BUILD_OPENCL_LANGUAGE_SUPPORT\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${HAS_LIBRARY_CURL_TRUE}" && test -z "${HAS_LIBRARY_CURL_FALSE}"; then
-  as_fn_error $? "conditional \"HAS_LIBRARY_CURL\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
 if test -z "${am__fastdepCXX_TRUE}" && test -z "${am__fastdepCXX_FALSE}"; then
   as_fn_error $? "conditional \"am__fastdepCXX\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
-if test -z "${ROSE_USING_GFORTRAN_VERSION_4_0_TRUE}" && test -z "${ROSE_USING_GFORTRAN_VERSION_4_0_FALSE}"; then
-  as_fn_error $? "conditional \"ROSE_USING_GFORTRAN_VERSION_4_0\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${ROSE_USING_GFORTRAN_VERSION_4_1_TRUE}" && test -z "${ROSE_USING_GFORTRAN_VERSION_4_1_FALSE}"; then
-  as_fn_error $? "conditional \"ROSE_USING_GFORTRAN_VERSION_4_1\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${ROSE_USING_GFORTRAN_VERSION_4_2_TRUE}" && test -z "${ROSE_USING_GFORTRAN_VERSION_4_2_FALSE}"; then
-  as_fn_error $? "conditional \"ROSE_USING_GFORTRAN_VERSION_4_2\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${ROSE_USING_GFORTRAN_VERSION_4_4_TRUE}" && test -z "${ROSE_USING_GFORTRAN_VERSION_4_4_FALSE}"; then
-  as_fn_error $? "conditional \"ROSE_USING_GFORTRAN_VERSION_4_4\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${ROSE_USING_GFORTRAN_VERSION_4_5_TRUE}" && test -z "${ROSE_USING_GFORTRAN_VERSION_4_5_FALSE}"; then
-  as_fn_error $? "conditional \"ROSE_USING_GFORTRAN_VERSION_4_5\" was never defined.
-Usually this means the macro was only invoked conditionally." "$LINENO" 5
-fi
-if test -z "${ROSE_USING_GFORTRAN_VERSION_4_6_TRUE}" && test -z "${ROSE_USING_GFORTRAN_VERSION_4_6_FALSE}"; then
-  as_fn_error $? "conditional \"ROSE_USING_GFORTRAN_VERSION_4_6\" was never defined.
+if test -z "${ROSE_USE_UNIFORM_ADVANCED_WARNINGS_SUPPORT_TRUE}" && test -z "${ROSE_USE_UNIFORM_ADVANCED_WARNINGS_SUPPORT_FALSE}"; then
+  as_fn_error $? "conditional \"ROSE_USE_UNIFORM_ADVANCED_WARNINGS_SUPPORT\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${ALTERNATE_BACKEND_C_CROSS_COMPILER_TRUE}" && test -z "${ALTERNATE_BACKEND_C_CROSS_COMPILER_FALSE}"; then
@@ -12175,6 +9750,7 @@ if test -n "$ac_unrecognized_opts" && test "$enable_option_checking" != no; then
 $as_echo "$as_me: WARNING: unrecognized options: $ac_unrecognized_opts" >&2;}
 fi
 
+
 echo "Creating rose_c_includes"
 grep C_INCLUDE_STRING rose_config.h | sed -e 's/#define C_INCLUDE_STRING//' -e 's/,/\n/g' -e 's/[{}]//g' | awk '{print $1}' | sed -e 's/^"\(.*\)"$/\1/' > rose_c_includes
 echo "Creating rose_cxx_includes"
@@ -12182,6 +9758,16 @@ grep CXX_INCLUDE_STRING rose_config.h | sed -e 's/#define CXX_INCLUDE_STRING//' 
 echo "Moving required headers to include"
 rm -rf include
 mv include-staging include
+
+if [ $BACKEND_GCC_MAJOR -eq 4 -a $BACKEND_GCC_MINOR -lt 4 ]; then
+    echo "Modifying rose_edg_required_macros_and_functions.h for older GCC"
+    sed -e "s/#define __is_pod sizeof.*$//" -e "s/#define __is_empty sizeof.*$//" include/gcc_HEADERS/rose_edg_required_macros_and_functions.h > include/gcc_HEADERS/rose_edg_required_macros_and_functions.h_new
+    sed -e "s/#define __is_pod sizeof.*$//" -e "s/#define __is_empty sizeof.*$//" include/g++_HEADERS/rose_edg_required_macros_and_functions.h > include/g++_HEADERS/rose_edg_required_macros_and_functions.h_new
+    mv include/gcc_HEADERS/rose_edg_required_macros_and_functions.h_new include/gcc_HEADERS/rose_edg_required_macros_and_functions.h
+    mv include/g++_HEADERS/rose_edg_required_macros_and_functions.h_new include/g++_HEADERS/rose_edg_required_macros_and_functions.h
+else
+    echo "GCC is 4.4 or newer or not used; no header modifications needed."
+fi
 
 echo "Creating roseparse script"
 ROSEPARSE_DIR=`pwd`
@@ -12191,10 +9777,11 @@ chmod +x roseparse
 echo "Creating upcparse script"
 sed -e "s,@ROSEPARSE_DIR@,$ROSEPARSE_DIR,g" upcparse.in > upcparse
 chmod +x upcparse
-#
-## echo "Reached base of configure.in file ..."
+
+# echo "Reached base of configure.in file ..."
 echo ""
 echo "******************************"
 echo "Configure Terminated Normally!"
 echo "******************************"
 echo ""
+

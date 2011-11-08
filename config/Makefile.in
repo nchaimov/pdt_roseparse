@@ -73,9 +73,10 @@ am__aclocal_m4_deps = $(top_srcdir)/acmacros/canonicalize-symlink.m4 \
 	$(top_srcdir)/acmacros/compiler-ar.m4 \
 	$(top_srcdir)/acmacros/compiler-id.m4 \
 	$(top_srcdir)/acmacros/configure-log.m4 \
-	$(top_srcdir)/acmacros/pkg.m4 $(top_srcdir)/config/EDG.m4 \
-	$(top_srcdir)/config/ROSE.m4 \
+	$(top_srcdir)/acmacros/pkg.m4 $(top_srcdir)/acmacros/upc.m4 \
+	$(top_srcdir)/config/EDG.m4 $(top_srcdir)/config/ROSE.m4 \
 	$(top_srcdir)/config/ac_pkg_swig.m4 \
+	$(top_srcdir)/config/acinclude.m4 \
 	$(top_srcdir)/config/ax_boost_base.m4 \
 	$(top_srcdir)/config/ax_boost_date_time.m4 \
 	$(top_srcdir)/config/ax_boost_filesystem.m4 \
@@ -106,6 +107,7 @@ am__aclocal_m4_deps = $(top_srcdir)/acmacros/canonicalize-symlink.m4 \
 	$(top_srcdir)/config/support-dwarf.m4 \
 	$(top_srcdir)/config/support-edg-debugging.m4 \
 	$(top_srcdir)/config/support-gcc-omp.m4 \
+	$(top_srcdir)/config/support-git-versioning.m4 \
 	$(top_srcdir)/config/support-gomp-omp.m4 \
 	$(top_srcdir)/config/support-haskell.m4 \
 	$(top_srcdir)/config/support-i386.m4 \
@@ -116,12 +118,15 @@ am__aclocal_m4_deps = $(top_srcdir)/acmacros/canonicalize-symlink.m4 \
 	$(top_srcdir)/config/support-libffi.m4 \
 	$(top_srcdir)/config/support-llvm.m4 \
 	$(top_srcdir)/config/support-maple.m4 \
+	$(top_srcdir)/config/support-ofp.m4 \
 	$(top_srcdir)/config/support-omp.m4 \
 	$(top_srcdir)/config/support-php.m4 \
+	$(top_srcdir)/config/support-projects.m4 \
 	$(top_srcdir)/config/support-purify.m4 \
 	$(top_srcdir)/config/support-python.m4 \
 	$(top_srcdir)/config/support-rose.m4 \
 	$(top_srcdir)/config/support-rted.m4 \
+	$(top_srcdir)/config/support-rtedupc.m4 \
 	$(top_srcdir)/config/support-sat.m4 \
 	$(top_srcdir)/config/support-ssl.m4 \
 	$(top_srcdir)/config/support-visualization.m4 \
@@ -316,6 +321,7 @@ OBJEXT = @OBJEXT@
 OLD_COMPILER_VERSION_FALSE = @OLD_COMPILER_VERSION_FALSE@
 OLD_COMPILER_VERSION_TRUE = @OLD_COMPILER_VERSION_TRUE@
 OPEN_FORTRAN_PARSER_PATH = @OPEN_FORTRAN_PARSER_PATH@
+OPTIONAL_PROJECTS = @OPTIONAL_PROJECTS@
 OS_32BIT_FALSE = @OS_32BIT_FALSE@
 OS_32BIT_TRUE = @OS_32BIT_TRUE@
 OS_64BIT_FALSE = @OS_64BIT_FALSE@
@@ -362,7 +368,6 @@ PYTHON_EXTRA_LDFLAGS = @PYTHON_EXTRA_LDFLAGS@
 PYTHON_EXTRA_LIBS = @PYTHON_EXTRA_LIBS@
 PYTHON_LDFLAGS = @PYTHON_LDFLAGS@
 PYTHON_SITE_PKG = @PYTHON_SITE_PKG@
-PYTHON_VERSION = @PYTHON_VERSION@
 Pxx_INCLUDES = @Pxx_INCLUDES@
 Pxx_LIBS = @Pxx_LIBS@
 QROSE_PREFIX = @QROSE_PREFIX@
@@ -431,9 +436,11 @@ ROSE_MPI_TRUE = @ROSE_MPI_TRUE@
 ROSE_OBJDUMP_PATH = @ROSE_OBJDUMP_PATH@
 ROSE_OFP_CONTAINS_JAVA_FILE_FALSE = @ROSE_OFP_CONTAINS_JAVA_FILE_FALSE@
 ROSE_OFP_CONTAINS_JAVA_FILE_TRUE = @ROSE_OFP_CONTAINS_JAVA_FILE_TRUE@
+ROSE_OFP_JAR_FILE = @ROSE_OFP_JAR_FILE@
 ROSE_OFP_MAJOR_VERSION_NUMBER = @ROSE_OFP_MAJOR_VERSION_NUMBER@
 ROSE_OFP_MINOR_VERSION_NUMBER = @ROSE_OFP_MINOR_VERSION_NUMBER@
 ROSE_OFP_PATCH_VERSION_NUMBER = @ROSE_OFP_PATCH_VERSION_NUMBER@
+ROSE_OFP_VERSION_NUMBER = @ROSE_OFP_VERSION_NUMBER@
 ROSE_PCH_FALSE = @ROSE_PCH_FALSE@
 ROSE_PCH_TRUE = @ROSE_PCH_TRUE@
 ROSE_PS2PDF_PATH = @ROSE_PS2PDF_PATH@
@@ -601,6 +608,8 @@ ROSE_USING_ROSE_TRUE = @ROSE_USING_ROSE_TRUE@
 ROSE_WGET_PATH = @ROSE_WGET_PATH@
 ROSE_WITH_ROSEQT_FALSE = @ROSE_WITH_ROSEQT_FALSE@
 ROSE_WITH_ROSEQT_TRUE = @ROSE_WITH_ROSEQT_TRUE@
+ROSE_WITH_UPC_FALSE = @ROSE_WITH_UPC_FALSE@
+ROSE_WITH_UPC_TRUE = @ROSE_WITH_UPC_TRUE@
 RT_LIBS = @RT_LIBS@
 SCOPLIB_PATH = @SCOPLIB_PATH@
 SED = @SED@
@@ -615,6 +624,8 @@ SWIG_LIB = @SWIG_LIB@
 TCLSH = @TCLSH@
 TEST_SMT_SOLVER = @TEST_SMT_SOLVER@
 UIC = @UIC@
+UPC = @UPC@
+UPCFLAGS = @UPCFLAGS@
 USE_BINARY_ANALYSIS_TESTS_FALSE = @USE_BINARY_ANALYSIS_TESTS_FALSE@
 USE_BINARY_ANALYSIS_TESTS_TRUE = @USE_BINARY_ANALYSIS_TESTS_TRUE@
 USE_GCJ_FALSE = @USE_GCJ_FALSE@
@@ -665,6 +676,7 @@ ac_ct_ROSE_OBJDUMP_PATH = @ac_ct_ROSE_OBJDUMP_PATH@
 ac_ct_ROSE_PS2PDF_PATH = @ac_ct_ROSE_PS2PDF_PATH@
 ac_ct_ROSE_WGET_PATH = @ac_ct_ROSE_WGET_PATH@
 ac_ct_STRIP = @ac_ct_STRIP@
+ac_ct_UPC = @ac_ct_UPC@
 am__fastdepCC_FALSE = @am__fastdepCC_FALSE@
 am__fastdepCC_TRUE = @am__fastdepCC_TRUE@
 am__fastdepCXX_FALSE = @am__fastdepCXX_FALSE@
@@ -896,6 +908,7 @@ ROSE_INCLUDES = \
      -I$(top_srcdir)/src/frontend/SageIII/astHiddenTypeAndDeclarationLists \
      -I$(top_builddir)/src/frontend/SageIII/astFileIO \
      -I$(top_srcdir)/src/frontend/SageIII/astFromString \
+     -I$(top_srcdir)/src/frontend/SageIII/includeDirectivesProcessing \
      -I$(top_srcdir)/src/frontend/OpenFortranParser_SAGE_Connection \
      -I$(top_srcdir)/src/frontend/ECJ_ROSE_Connection \
      -I$(top_srcdir)/src/frontend/PHPFrontend \
@@ -919,6 +932,7 @@ ROSE_INCLUDES = \
      -I$(top_srcdir)/src/util/stringSupport \
      -I$(top_srcdir)/src/util/commandlineProcessing \
      -I$(top_srcdir)/src/midend/abstractHandle \
+     -I$(top_srcdir)/src/midend/abstractMemoryObject \
      -I$(top_srcdir)/src/midend/astDiagnostics \
      -I$(top_srcdir)/src/midend/programTransformation/astInlining \
      -I$(top_srcdir)/src/midend/programTransformation/astOutlining  \
@@ -942,9 +956,11 @@ ROSE_INCLUDES = \
      -I$(top_srcdir)/src/midend/programAnalysis \
      -I$(top_srcdir)/src/midend/programAnalysis/annotationLanguageParser \
      -I$(top_srcdir)/src/midend/programAnalysis/CFG \
+     -I$(top_srcdir)/src/midend/programAnalysis/staticSingleAssignment \
      -I$(top_srcdir)/src/midend/programAnalysis/CallGraphAnalysis \
      -I$(top_srcdir)/src/midend/programAnalysis/OAWrap \
-     -I$(top_srcdir)/src/midend/programAnalysis/dataflowAnalysis \
+     -I$(top_srcdir)/src/midend/programAnalysis/bitvectorDataflow \
+     -I$(top_srcdir)/src/midend/programAnalysis/VirtualFunctionAnalysis \
      -I$(top_srcdir)/src/midend/programAnalysis/defUseAnalysis \
      -I$(top_srcdir)/src/midend/programAnalysis/distributedMemoryAnalysis \
      -I$(top_srcdir)/src/midend/programAnalysis/dominanceAnalysis \
@@ -1075,7 +1091,9 @@ include_HEADERS = \
      rose_stdarg.h \
      rose_varargs.h \
      rose-g++-headerfilefixup.h \
-     rose_specific_cdefs.h
+     rose_specific_cdefs.h \
+     rose_specific_emmintrin.h \
+     rose_specific_xmmintrin.h
 
 
 # DQ (9/15/2010): Added UPC header files.

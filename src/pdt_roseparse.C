@@ -125,6 +125,10 @@ string normalizeTypeName(const string & name) {
     return result;
 }
 
+inline std::string getUniqueTypeName(SgType * type) {
+    return type->get_mangled().str() + normalizeTypeName(type->unparseToString());
+}
+
 // handletype()
 // If we've already handled this type before, we return the ID of the
 // previously generated PDB TYPE entry. Otherwise, we generate an entry
@@ -146,17 +150,23 @@ TypeID handleType(SgType * type, Namespace * parentNamespace, bool isGroup = fal
 		st = normalizeTypeName(type->unparseToString());
 	}
 		
-	std::string mangledName = type->get_mangled().str();
+	std::string mangledName = getUniqueTypeName(type);
 	
 	// Find out if we've already handled this type...
 	if(typeMap.count(mangledName) != 0) {
         // If so, look up the previously generated ID...
 		TypeID prevtid = typeMap[mangledName];
+        if(prevtid.id == 8733) {
+            std::cerr << "Returning previously created 8733: " << mangledName << std::endl;
+        }
 		return typeMap[mangledName];
 		
 	// ... otherwise handle it now.
 	} else {
 		int id = nextTypeID++;
+        if(id == 8733) {
+            std::cerr << "Created new 8733: " << mangledName << std::endl;
+        }
 		Type * t = new Type(id, st); // (id number, name)
 		t->fortran = (lang == LANG_FORTRAN);
         TypeID typeID(id, isGroup, t);    // (id number, is a group)
@@ -355,7 +365,7 @@ TypeID handleType(SgType * type, Namespace * parentNamespace, bool isGroup = fal
 			t->yelem = arrayBaseType.id;
 			t->yelem_group = arrayBaseType.group;
 			
-			// WORKAROUND: This crashes when called on Fortran code.
+            // getArrayElementCount crashes in Fortran code.
 			if(lang != LANG_FORTRAN) {
 				t->ynelem = SageInterface::getArrayElementCount(arr);
 			} else {
@@ -451,7 +461,7 @@ int handleFunctionType(SgFunctionType * type, SgFunctionParameterList * params, 
 	Type * t = new Type(id, st);
     TypeID fnTypeID(id, false, t);
 	t->ykind = Type::FUNC;
-	TypeID tid = typeMap[type->get_return_type()->get_mangled().str()];
+	TypeID tid = typeMap[getUniqueTypeName(type->get_return_type())];
 	t->yrett = tid.id;
     t->yrett_group = tid.group;
 	SgInitializedNamePtrList & ptrList = params->get_args();
@@ -462,7 +472,7 @@ int handleFunctionType(SgFunctionType * type, SgFunctionParameterList * params, 
 				t->yellip = true;
 				continue;
 			}
-			string typeName = pType->get_mangled().str();
+			string typeName = getUniqueTypeName(pType);
 			SourceLocation * loc = new SourceLocation( (*j)->get_file_info() );
 			std::string paramName;
 			if(!cgen) {
@@ -1965,7 +1975,7 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
 		SgEnumDeclaration * enumDecl = isSgEnumDeclaration(n);
 		SgEnumType * enumType = enumDecl->get_type();
 		std::string enumName = enumType->get_name();
-		std::string mangledName = enumType->get_mangled().str();
+		std::string mangledName = getUniqueTypeName(enumType);
 		
         Type * t = NULL;
 		// If we haven't processed this type already, make a TypeID for it.
