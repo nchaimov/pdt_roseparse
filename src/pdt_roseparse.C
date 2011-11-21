@@ -1238,7 +1238,14 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
                 // Create a label to point to the statement after the loop body.
                 const int labelAfterId = parentRoutine->stmtId++;
                 Statement * labelAfter = new Statement(labelAfterId, NULL, Statement::STMT_LABEL);
-                labelAfter->nextSgStmt = SageInterface::getNextStatement(switchStmt);
+                if(isSgIfStmt(switchStmt->get_scope())) {
+                    // getNextStatement aborts if the parent scope is an If statement.
+                    // This only occurs when the body of the If statement is not enclosed
+                    // in a block, in which case there is no next statement.
+                    labelAfter->nextSgStmt = NULL;
+                } else {
+                    labelAfter->nextSgStmt = SageInterface::getNextStatement(switchStmt);
+                }
                 stmt->next = labelAfterId;
                 parentRoutine->rstmts.push_back(labelAfter);
                 afterSwitch = labelAfter;
