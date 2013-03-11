@@ -1,4 +1,4 @@
-/*
+/*          
  *  roseparse
  *  This program uses the ROSE compiler framework to read in C, C++, UPC or
  *  Fortran code, generates an abstract syntax tree, and uses ROSE to
@@ -156,25 +156,22 @@ TypeID handleType(SgType * type, Namespace * parentNamespace, bool isGroup = fal
 	if(typeMap.count(mangledName) != 0) {
         // If so, look up the previously generated ID...
 		TypeID prevtid = typeMap[mangledName];
-        if(prevtid.id == 8733) {
-            std::cerr << "Returning previously created 8733: " << mangledName << std::endl;
-        }
 		return typeMap[mangledName];
 		
 	// ... otherwise handle it now.
 	} else {
 		int id = nextTypeID++;
-        if(id == 8733) {
-            std::cerr << "Created new 8733: " << mangledName << std::endl;
-        }
 		Type * t = new Type(id, st); // (id number, name)
+        if(SgProject::get_verbose() > 5) {
+            std::cerr << "Handling type ty#" << id << " " << st << " for " << type->sage_class_name() << std::endl;
+        }
 		t->fortran = (lang == LANG_FORTRAN);
         TypeID typeID(id, isGroup, t);    // (id number, is a group)
 
 		// TYPE REFERENCE TYPES (modifiers)
 		// Determine if the type is declared const, volatile, or restrict.
 		// In ROSE, modifiers to types are expressed by wrapping the type
-		// in a SgModifierType, which holds a reference to, confusingly enough,
+		// in an SgModifierType, which holds a reference to, confusingly enough,
 		// an SgTypeModifier.
 		SgModifierType * modType = isSgModifierType(type);
 		if(modType != NULL) {
@@ -286,10 +283,8 @@ TypeID handleType(SgType * type, Namespace * parentNamespace, bool isGroup = fal
 			} else if(isSgTypeWchar(type)) {
 				t->yikind = Type::INT_WCHAR;
 			} else {
-				if(SgProject::get_verbose() > 0) {
 					std::cerr	<< "WARNING: Unknown integer type " << type->sage_class_name() 
 								<< " encountered." << endl;
-				}
 			}
 			
 		// FLOAT TYPES
@@ -302,10 +297,8 @@ TypeID handleType(SgType * type, Namespace * parentNamespace, bool isGroup = fal
 			} else if(isSgTypeLongDouble(type)) {
 				t->yfkind = Type::FLOAT_LONGDBL;
 			} else {
-				if(SgProject::get_verbose() > 0) {
 					std::cerr	<< "WARNING: Unknown floating point type " << type->sage_class_name() 
 							<< " encountered." << endl;
-				}
 			}
 			
 		// POINTER TO MEMBER FUNCTION
@@ -372,7 +365,9 @@ TypeID handleType(SgType * type, Namespace * parentNamespace, bool isGroup = fal
 				t->yrank = arr->get_rank();
 			}
 						
-		// tparam is handled during template handling
+        // TPARAM
+        } else if(isSgTemplateType(type)) {
+            t->ykind = Type::TPARAM;
 		
 		// VOID TYPE
 		} else if(isSgTypeVoid(type)) {
@@ -416,10 +411,7 @@ TypeID handleType(SgType * type, Namespace * parentNamespace, bool isGroup = fal
             // are stored separately.
             t->ykind = Type::NA;
         } else {
-			if(SgProject::get_verbose() > 0) {
 				std::cerr << "WARNING: Unhandled type " << type->sage_class_name() << " encountered." << endl;
-				std::cerr << type->unparseToString() << std::endl;
-			}
 		}
 		
 		// ROSE uses SgTypeChar for a FORTRAN character type of length
@@ -438,11 +430,12 @@ TypeID handleType(SgType * type, Namespace * parentNamespace, bool isGroup = fal
 			}
 		}
 		
-		
-		
  		typeMap[mangledName] = typeID;
         if(t->ykind != Type::NA) {
 		    types.push_back(t);
+            if(SgProject::get_verbose() > 5) {
+                std::cerr << "Added a type ty#" << t->id << " " << t->name << std::endl;
+            }
         } else {
 			delete t;
 		}
@@ -458,6 +451,9 @@ TypeID handleType(SgType * type, Namespace * parentNamespace, bool isGroup = fal
 int handleFunctionType(SgFunctionType * type, SgFunctionParameterList * params, bool cgen, Namespace * parentNamespace) {
 	string st = normalizeTypeName(type->unparseToString());
 	int id = nextTypeID++;
+    if(SgProject::get_verbose() > 5) {
+        std::cerr << "Handling function type ty#" << id << " " << st << " for " << type->sage_class_name() <<  std::endl;
+    }
 	Type * t = new Type(id, st);
     TypeID fnTypeID(id, false, t);
 	t->ykind = Type::FUNC;
@@ -524,9 +520,7 @@ Template * handleTemplate(SgTemplateDeclaration * tDecl, Namespace * parentNames
 
 		switch(tDecl->get_template_kind()) {
 			case SgTemplateDeclaration::e_template_none: {
-				if(SgProject::get_verbose() > 0) {
 					std::cerr << "WARNING: ROSE template declaration has no type.\n" << tDecl->unparseToString() << std::endl;
-				}
 				templ->tkind = Template::TKIND_NA;
 			};
 			break;
@@ -543,9 +537,7 @@ Template * handleTemplate(SgTemplateDeclaration * tDecl, Namespace * parentNames
 				templ->tkind = Template::TKIND_STATMEM;		break;
 				
 			default: {
-				if(SgProject::get_verbose() > 0) {
 					std::cerr << "WARNING: Unknown ROSE template declaration type encountered.\n" << tDecl->unparseToString() << std::endl;
-				}
 			};
 		}
 				
@@ -561,9 +553,7 @@ Template * handleTemplate(SgTemplateDeclaration * tDecl, Namespace * parentNames
 			switch(sgParam->get_parameterType()) {
 				case SgTemplateParameter::parameter_undefined: {
 					tparam->tparam_kind = TemplateParameter::TPARAM_NA;
-					if(SgProject::get_verbose() > 0) {
-						std::cerr << "WARNING: ROSE template parameter had no type.\n" << sgParam->unparseToString() << std::endl;
-					}
+                    std::cerr << "WARNING: ROSE template parameter had no type.\n" << sgParam->unparseToString() << std::endl;
 				};
 				break;
 				
@@ -609,8 +599,8 @@ Template * handleTemplate(SgTemplateDeclaration * tDecl, Namespace * parentNames
 				break;
 				
 				case SgTemplateParameter::template_parameter: {
-					tparam->tparam_kind = TemplateParameter::TPARAM_TEMPL;
-					SgTemplateDeclaration * defTempl = sgParam->get_defaultTemplateDeclarationParameter();
+					tparam->tparam_kind = TemplateParameter::TPARAM_TEMPL;                     
+					SgTemplateDeclaration * defTempl = isSgTemplateDeclaration(sgParam->get_defaultTemplateDeclarationParameter());
 					if(defTempl != NULL) {
 						if(templateMap.count(defTempl->get_mangled_name().getString()) != 0) {
 							tparam->id = templateMap[defTempl->get_mangled_name().getString()]->id;
@@ -620,9 +610,7 @@ Template * handleTemplate(SgTemplateDeclaration * tDecl, Namespace * parentNames
 				break;
 				
 				default: {
-					if(SgProject::get_verbose() > 0) {
 						std::cerr << "WARNING: Unknown ROSE template parameter type encountered." << sgParam->unparseToString() << std::endl;
-					}
 				}
 			}
 		}
@@ -655,9 +643,9 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
     Sg_File_Info * s = n->get_startOfConstruct();
     Sg_File_Info * e = n->get_endOfConstruct();
 
-#ifdef DEBUG
-    std::cerr << "Now processing: " << n->class_name() << " parent routine: " << parentRoutine << " " << (parentRoutine != NULL ? parentRoutine->name : std::string()) << "          " << n->unparseToString() << std::endl;
-#endif
+    if(SgProject::get_verbose() > 5) {
+        std::cerr << "Now processing: " << n->class_name() << " parent routine: " << parentRoutine << " " << (parentRoutine != NULL ? parentRoutine->name : std::string()) << "          " << n->unparseToString() << std::endl;
+    }
 
 	// MACROS and COMMENTS
 	SgLocatedNode * locatedNode = isSgLocatedNode(n);
@@ -748,9 +736,9 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
 			def = dec->get_definition();
 		}
 				
-#ifdef DEBUG
-        std::cerr << "Encountering routine: " << dec->get_mangled_name().getString() << std::endl;
-#endif
+        if(SgProject::get_verbose() > 5) {
+            std::cerr << "Encountering routine: " << dec->get_mangled_name().getString() << std::endl;
+        }
 
 		// First check to see if we've handled this function already.
 		if(routineMap.count(dec->get_mangled_name().getString()) == 0) { 
@@ -763,7 +751,7 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
 
 			if(isSgTemplateInstantiationFunctionDecl(dec)) {
 				SgTemplateInstantiationFunctionDecl * instDecl = isSgTemplateInstantiationFunctionDecl(dec);
-				SgTemplateDeclaration * tDecl = instDecl->get_templateDeclaration();
+				SgTemplateFunctionDeclaration * tDecl = instDecl->get_templateDeclaration();
 				std::string templateName = tDecl->get_mangled_name().getString();
 				if(templateMap.count(templateName) != 0) {
 					r->rtempl = templateMap[templateName]->id;
@@ -942,9 +930,11 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
 	            parentNamespace->nmems.push_back(nm);
 	        }
 		} else {
-#ifdef DEBUG
-            std::cerr << "Already processed this routine: " << dec->get_mangled_name().getString() << std::endl;    
-#endif
+
+            if(SgProject::get_verbose() > 5) {
+                std::cerr << "Already processed this routine: " << dec->get_mangled_name().getString() << std::endl;    
+            }
+
             parentRoutine = routineMap[dec->get_mangled_name().getString()]; 
             ROSE_ASSERT(parentRoutine != NULL);
 
@@ -1035,14 +1025,10 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
 						if(varType != NULL) {
 							handleType(varType, parentNamespace);
 						} else {
-							if(SgProject::get_verbose() > 0) {
 								std::cerr << "WARNING: Declared variable had null type" << std::endl;
-							}
 						}
 					} else {
-						if(SgProject::get_verbose() > 0) {
 							std::cerr << "WARNING: Declared variable was null" << std::endl;
-						}
 					}
 				}
 	           
@@ -1064,15 +1050,11 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
                 SgExpression * cExpr = exprStmt->get_expression();
 
 				if(cExpr == NULL) {
-					if(SgProject::get_verbose() > 0) {
 						std::cerr << "WARNING: Expression inside expression statement was null" << std::endl;
-					}
 				} else {
 					SgType * exprType = cExpr->get_type();
 					if(exprType == NULL) {
-						if(SgProject::get_verbose() > 0) {
 							std::cerr << "WARNING: Expression had null type" << std::endl;
-						}
 					} else {
 						handleType(exprType, parentNamespace);
 					}
@@ -1151,7 +1133,32 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
             // RETURN
             } else if(isSgReturnStmt(n)) {
                 stmt->kind = Statement::STMT_RETURN;
+                  // Attempted workaround for missing return statements
+//                if(stmt->end->fileId < 0) {
+//                    SgStatement * prev = SageInterface::getPreviousStatement(isSgReturnStmt(n));
+//                    if(prev != NULL) {
+//                        Sg_File_Info * prevEnd = prev->get_endOfConstruct();
+//                        stmt->start->fileId = prevEnd->get_file_id();
+//                        if(stmt->start->fileId <= 0 && parentRoutine != NULL && parentRoutine->rpos_endBlock != NULL) {
+//                            stmt->start->fileId = parentRoutine->rpos_endBlock->fileId;    
+//                        } else {
+//                            stmt->start->cgen = true;
+//                        }
+//                        stmt->start->line = prevEnd->get_raw_line();
+//                        stmt->start->column = prevEnd->get_raw_col() + 1;
+//                    } else {
+//                        stmt->start->cgen = true;
+//                    }
+//                    if(parentRoutine != NULL && parentRoutine->rpos_endBlock != NULL) {
+//                        stmt->end->fileId = parentRoutine->rpos_endBlock->fileId;
+//                        stmt->end->line = parentRoutine->rpos_endBlock->line;
+//                        stmt->end->column = parentRoutine->rpos_endBlock->column - 1;
+//                    } else {
+//                        stmt->end->cgen = true;
+//                    }
+//                }
             
+
 
             // FOR
             } else if(isSgForStatement(n)) {
@@ -1331,16 +1338,13 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
                 if(afterSwitch != NULL) {
                     stmt->extra = afterSwitch->id;
                 }
-                // TODO Use in loops
+                // Use in loops
 
             // LABEL
             } else if(isSgLabelStatement(n)) {
                 stmt->kind = Statement::STMT_LABEL;
-                // ROSE seems not to attach a valid source location to labels. Rather, they
-                // are located at (0, 0) in a non-existant file with a negative ID.
-                stmt->start = NULL;
-                stmt->end = NULL;
-            
+                stmt->nextSgStmt = SageInterface::getNextStatement(isSgLabelStatement(n));
+                                                  
             // GOTO
             } else if(isSgGotoStatement(n)) {
                 stmt->kind = Statement::STMT_GOTO;
@@ -1349,7 +1353,7 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
             // CONTINUE 
             } else if(isSgContinueStmt(n)) {
                 stmt->kind = Statement::STMT_CONTINUE;
-                // TODO Extra needs to point to label where we jump to.
+                // Extra needs to point to label where we jump to.
             
 
             // WHILE
@@ -1434,9 +1438,7 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
 			} else if(isSgStopOrPauseStatement(n)) {
 				switch(isSgStopOrPauseStatement(n)->get_stop_or_pause()) {
 					case SgStopOrPauseStatement::e_unknown: 
-						if(SgProject::get_verbose() > 0) {
 							std::cerr << "WARNING: Unknown stop/pause type" << std::endl;
-						}
 						break;
 					case SgStopOrPauseStatement::e_stop:
 						stmt->kind = Statement::STMT_FSTOP;
@@ -1445,9 +1447,7 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
 						stmt->kind = Statement::STMT_FPAUSE;
 						break;
 					default:
-						if(SgProject::get_verbose() > 0) {
 							std::cerr << "WARNING: Unrecognized stop/pause type" << std::endl;
-						}
 				}
 			
 			// FORTRAN ARITHMETIC IF
@@ -1653,7 +1653,6 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
                 delete stmt;
             } else if(SgProject::get_verbose() > 0) {
                 std::cerr << "WARNING: Unhandled statement type " << n->class_name() << std::endl;   
-				//cerr << n->unparseToString() << endl;
             }
         }
 
@@ -1705,7 +1704,7 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
         } else if (parentEnum != NULL) {
 			// ignore; we handle enums separately
 		} else {
-            // cerr << "WARNING: Unhandled initializer type " << n->class_name() << endl;
+            //cerr << "WARNING: Unhandled initializer type " << n->class_name() << endl;
             // 			cerr << n->unparseToString() << endl;
         }
     
@@ -1763,13 +1762,13 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
 			// Is this group a template instantiation?
 			if(isSgTemplateInstantiationDecl(classDec)) {
 				SgTemplateInstantiationDecl * instDec = isSgTemplateInstantiationDecl(classDec);
-				SgTemplateDeclaration * templDec = instDec->get_templateDeclaration();
+				SgTemplateClassDeclaration * templDec = instDec->get_templateDeclaration();
 				if(templDec != NULL) {
 					std::string mangledTemplName = templDec->get_mangled_name().getString();
 					if(templateMap.count(mangledTemplName) != 0) {
 						group->gtempl = templateMap[mangledTemplName]->id;
 					}
-					// TODO gsparam
+					// gsparam
 				}
 			}
 			
@@ -1899,9 +1898,7 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
                                     }
                                 }
                             } else {
-								if(SgProject::get_verbose() > 0) {
 	                                std::cerr << "WARNING: Variable declaration had no variables." << std::endl;    
-								}
                             }
                         }
                         group->gmems.push_back(member);
@@ -1969,9 +1966,7 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
 			Namespace * nsTarget = namespaceMap[aliasTarget->get_mangled_name().getString()];
 			ns->nalias = nsTarget->id;
 		} else {
-			if(SgProject::get_verbose() > 0) {
 				std::cerr << "WARNING: No target found for namespace alias." << std::endl;
-			}
 		}
 	} // end namespace alias
 	
@@ -2013,7 +2008,21 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
                     SgExpression * assignExpr = assignInit->get_operand();
                     SgValueExp * valueExpr = isSgValueExp(assignExpr);
                     if(valueExpr != NULL) {
-                        curValue = SageInterface::getIntegerConstantValue(valueExpr);
+                        switch(valueExpr->variantT()) {
+                            case V_SgCharVal:
+                            case V_SgUnsignedCharVal:
+                            case V_SgShortVal:
+                            case V_SgUnsignedShortVal:
+                            case V_SgIntVal:
+                            case V_SgUnsignedIntVal:
+                            case V_SgLongIntVal:
+                            case V_SgUnsignedLongVal:
+                            case V_SgLongLongIntVal:
+                            case V_SgUnsignedLongLongIntVal:
+                                curValue = SageInterface::getIntegerConstantValue(valueExpr);
+                            default:
+                                ; // Do nothing
+                        }
                     }
                 }
             }
@@ -2054,6 +2063,39 @@ inline std::string generatePDBFileName(SgFile * f) {
     const std::string & baseName = StringUtility::stripPathFromFileName(fileName);
     const std::string & noExt = StringUtility::stripFileSuffixFromFileName(baseName);
     return noExt + ".pdb";
+}
+
+bool isVoidType(SgType* t) {
+    if (isSgTypeVoid(t))
+        return true;
+    if (isSgTypedefType(t))
+        return isVoidType(isSgTypedefType(t)->get_base_type());
+    if (isSgModifierType(t)) {
+        return isVoidType(isSgModifierType(t)->get_base_type());
+    }
+    return false;
+}
+
+void insertMissingReturns(SgProject * project) {
+    if(project->get_C_only() || project->get_C99_only() || project->get_Cxx_only()) {
+        Rose_STL_Container<SgNode*> defns = NodeQuery::querySubTree(project, V_SgFunctionDefinition);
+        BOOST_FOREACH(SgNode * node, defns) {
+            SgFunctionDefinition * defn = isSgFunctionDefinition(node);
+            ROSE_ASSERT(defn != NULL);
+            SgFunctionDeclaration * decl = defn->get_declaration();
+            ROSE_ASSERT(decl != NULL);
+            SgFunctionType * type = decl->get_type();
+            ROSE_ASSERT(type != NULL);
+            SgType * retType = type->get_return_type();
+            ROSE_ASSERT(retType != NULL);
+            if(isVoidType(retType)) {
+                SgStatement * lastStmt = SageInterface::getLastStatement(defn);
+                if(lastStmt != NULL && !isSgReturnStmt(lastStmt)) {
+                    SageInterface::insertStatementAfter(lastStmt, SageBuilder::buildReturnStmt());
+                }
+            }
+        }
+    }
 }
 
 
@@ -2216,9 +2258,8 @@ int main ( int argc, char* argv[] ) {
 			case LANG_JAVA: outfile << "java"; break;
 			case LANG_MULTI: outfile << "multi"; break;
             case LANG_UPC:   outfile << "upc"; break;
-            default: if(SgProject::get_verbose() > 0) {
+            default: 
 				std::cerr << "WARNING: Unknown language type encountered." << std::endl;
-			}
 		}
 	}
 	outfile << "\n\n";

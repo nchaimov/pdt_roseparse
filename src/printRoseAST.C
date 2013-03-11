@@ -95,7 +95,9 @@ visitorTraversal::evaluateInheritedAttribute(SgNode* n, InheritedAttribute inher
     } else {
         printf("%s : %s", n->sage_class_name(), verbose ? n->unparseToString().c_str() : "");
     }
-    printf(" succ# %lu", n->get_numberOfTraversalSuccessors());
+    //printf(" succ# %lu", n->get_numberOfTraversalSuccessors());
+    //AbstractHandle::abstract_handle * handle = SageBuilder::buildAbstractHandle(n);
+    //printf("handle: %s", handle->toString().c_str());
 	printf("\n");
      return InheritedAttribute(inheritedAttribute.depth+1);
    }

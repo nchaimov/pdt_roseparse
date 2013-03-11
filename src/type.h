@@ -414,6 +414,11 @@ public:
 			break;
 			
 			// TPARAM
+            case TPARAM: {
+            
+            }
+            break;
+
             default: 
 				std::cerr << "WARNING: Unknown PDB type kind encountered!\n";
 				std::cerr << "Type: " << ykind << "\n";
