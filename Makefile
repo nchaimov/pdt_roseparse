@@ -26,6 +26,8 @@ ROSE_SOURCE_DIR = ./src
 
 executableFiles = functionLocator printRoseAST pdt_roseparse preproc nodeFromHandle
 
+default: pdt_roseparse
+
 # Default make rule to use
 all: $(executableFiles)
 	@if [ x$${ROSE_IN_BUILD_TREE:+present} = xpresent ]; then echo "ROSE_IN_BUILD_TREE should not be set" >&2; exit 1; fi
