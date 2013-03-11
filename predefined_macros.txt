@@ -1,0 +1,30 @@
+# EDG C/C++ predefined macro definition file.
+# 
+# The format of the entries in this file is:
+# 
+# mode,!mode,mode   cannot_redefine   macro_name   macro_value
+# 
+# - "mode" is a label from the predefined macro modes table.  The macro is
+#   defined if the mode is set, or if the mode is not set when "!mode" is
+#   used.  The macro is defined if any of the mode tests is TRUE.  The
+#   mode table can be customized, but the current set of supported modes is:
+# 
+#     gnu:        gcc or g++ mode
+#     gcc:        gcc mode
+#     gpp:        g++ mode
+#     microsoft:  Microsoft mode
+#     strict:     strict C or C++ mode
+#     cpp:        any C++ mode
+#     all:        all modes
+# 
+# - cannot_redefine indicates whether the predefined macro may later be
+#   redefined.  The value must be "yes" or "no".
+# 
+# - macro_name is the name of the macro to be defined.
+# 
+# - macro_value is the value to which the macro should be defined.  All of
+#   the characters until the end of the line are used as the macro value.
+# 
+# See also the make_predef_macro_table script in the "misc" directory,
+# which can create this file for a given version of the gcc compiler.
+#

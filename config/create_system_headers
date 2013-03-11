@@ -255,13 +255,13 @@ sh "$roseHome/config/get_compiler_header_dirs" "$1" | while read dirName
 
 # DQ (6/27/2006): We really should verify that "/usr/include/sys/cdefs.h" exists since we reference it explicitly 
 # in the ROSE specific generated "sys/cdefs.h" header file.
-if [ -f /usr/include/sys/cdefs.h ]
-then
-    echo "Verified \"/usr/include/sys/cdefs.h\" exists ... (referenced by ROSE specific \"sys/cdefs.h\" header file)"
- else
-    echo "ERROR: Could not find \"/usr/include/sys/cdefs.h\" system header file ... (referenced by ROSE specific \"sys/cdefs.h\" header file)"
-    exit 5
-fi
+#if [ -f /usr/include/sys/cdefs.h ]
+#then
+#    echo "Verified \"/usr/include/sys/cdefs.h\" exists ... (referenced by ROSE specific \"sys/cdefs.h\" header file)"
+# else
+#    echo "ERROR: Could not find \"/usr/include/sys/cdefs.h\" system header file ... (referenced by ROSE specific \"sys/cdefs.h\" header file)"
+#    exit 5
+#fi
 
 # DQ (1/14/2007): The variable target_parent_dir is not set in this shell procedure, so it causes an error.
 system_headers_directory="$mainTargetDir/hdrs"

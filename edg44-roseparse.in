@@ -12,7 +12,7 @@ then
     exit 1
 fi
 
-if [ ! -f $ROSEPARSE_DIR/pdt_roseparse ];
+if [ ! -f $ROSEPARSE_DIR/edg44-pdt_roseparse ];
 then
     echo "Error: pdt_roseparse not found; make sure ROSEPARSE_DIR is set."
     exit 1
@@ -20,4 +20,4 @@ fi
 
 ROSE_OPTIONS="-I$PWD -pdtConfDir=$ROSEPARSE_DIR"
 
-exec $ROSEPARSE_DIR/pdt_roseparse $ROSE_OPTIONS $@
+exec $ROSEPARSE_DIR/edg44-pdt_roseparse $ROSE_OPTIONS "$@"
