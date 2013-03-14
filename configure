@@ -4514,7 +4514,7 @@ done
 # DQ (2/11/2010): Jeremiah reported this as bad syntax, I think he is correct.
 # I'm not sure how this made it into this file.
 # AMTAR ?= $(TAR)
-AMTAR = $(TAR)
+# AMTAR = $(TAR)
 
 # DQ (9/9/2009): Added output to test values of am__tar and am__untar (fails on nmi:x86_sles_9).
 echo "Defined: am__tar   = $am__tar"
@@ -9771,12 +9771,12 @@ fi
 
 echo "Creating roseparse script"
 ROSEPARSE_DIR=`pwd`
-sed -e "s,@ROSEPARSE_DIR@,$ROSEPARSE_DIR,g" roseparse.in > roseparse
-chmod +x roseparse
+sed -e "s,@ROSEPARSE_DIR@,$ROSEPARSE_DIR,g" edg44-roseparse.in > edg44-roseparse
+chmod +x edg44-roseparse
 
 echo "Creating upcparse script"
-sed -e "s,@ROSEPARSE_DIR@,$ROSEPARSE_DIR,g" upcparse.in > upcparse
-chmod +x upcparse
+sed -e "s,@ROSEPARSE_DIR@,$ROSEPARSE_DIR,g" edg44-upcparse.in > edg44-upcparse
+chmod +x edg44-upcparse
 
 # echo "Reached base of configure.in file ..."
 echo ""
