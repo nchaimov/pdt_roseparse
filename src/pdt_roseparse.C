@@ -1402,14 +1402,18 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
 
                 // NEXT needs to point to the next CATCH statement, if there is one.
                 SgTryStmt * tryStmt = catchStmt->get_trystmt();
-                SgCatchStatementSeq * stmtSeq = tryStmt->get_catch_statement_seq_root();
-                const SgStatementPtrList & ptrList = stmtSeq->get_catch_statement_seq();
-                const SgStatementPtrList::const_iterator & begin = ptrList.begin();
-                const SgStatementPtrList::const_iterator & end = ptrList.end();
-                SgStatementPtrList::const_iterator found = std::find(begin, end, catchStmt);
-                ++found;
-                if(found != end) {
-                    stmt->nextSgStmt = (*found);
+                if(tryStmt != NULL) {
+                    SgCatchStatementSeq * stmtSeq = tryStmt->get_catch_statement_seq_root();
+                    if(stmtSeq != NULL) {
+                        const SgStatementPtrList & ptrList = stmtSeq->get_catch_statement_seq();
+                        const SgStatementPtrList::const_iterator & begin = ptrList.begin();
+                        const SgStatementPtrList::const_iterator & end = ptrList.end();
+                        SgStatementPtrList::const_iterator found = std::find(begin, end, catchStmt);
+                        ++found;
+                        if(found != end) {
+                            stmt->nextSgStmt = (*found);
+                        }
+                    }
                 }
             
 			// FORTRAN ALLOCATE 
@@ -1828,11 +1832,18 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
                         gfrgroup->loc = new SourceLocation(friendClass->get_startOfConstruct());
                         group->gfrgroups.push_back(gfrgroup);  
 
+                    } else if(isSgUsingDeclarationStatement(memDecl)) {
+                        if(SgProject::get_verbose() > 5) {
+                            std::cerr << "Skipping using declaration as class member: " << memDecl->unparseToString() << std::endl;
+                        }
+
                     // gmem (data member)
                     } else {
                         Member * member = new Member(SageInterface::get_name(memDecl), new SourceLocation(memDecl->get_startOfConstruct()));
 
-                        //std::cerr << member->name << " " << memDecl->class_name() << std::endl;
+                        if(SgProject::get_verbose() > 5) {
+                            std::cerr << "Adding class member: " << member->name << " " << memDecl->class_name() << std::endl;
+                        }
 
                         // access modifier
                         if(memAccMod.isPublic()) {
