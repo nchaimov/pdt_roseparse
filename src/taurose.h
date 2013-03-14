@@ -20,18 +20,21 @@ class InheritedAttribute {
             Namespace * ns;
 			Type * parentEnum;
 			Template * parentTemplate;
+            SgTemplateFunctionDefinition * templateFunctionDefinition;
 
             InheritedAttribute (int d, Routine * r = NULL, Statement * s = NULL, Statement * sc = NULL,
                                 Statement * as = NULL, Group * g = NULL, Namespace * n = NULL, Type * pe = NULL,
-								Template * pt = NULL) :
+								Template * pt = NULL, SgTemplateFunctionDefinition * tfd = NULL) :
                                     depth(d), routine(r), statement(s), switchCase(sc), afterSwitch(as),
-                                    group(g), ns(n), parentEnum(pe), parentTemplate(pt) {}; 
+                                    group(g), ns(n), parentEnum(pe), parentTemplate(pt),
+                                    templateFunctionDefinition(tfd) {}; 
 
             InheritedAttribute (const InheritedAttribute & X) : depth(X.depth), routine(X.routine), 
                                                                 statement(X.statement), switchCase(X.switchCase),
                                                                 afterSwitch(X.afterSwitch), group(X.group),
                                                                 ns(X.ns), parentEnum(X.parentEnum),
- 																parentTemplate(X.parentTemplate){}; 
+ 																parentTemplate(X.parentTemplate),
+                                                                templateFunctionDefinition(X.templateFunctionDefinition){}; 
 };
 
 class SynthesizedAttribute {

@@ -1,5 +1,3 @@
-/* JJW (12/8/2008): Do not include these definitions for EDG 3.10 */
-#ifndef ROSE_USE_NEW_EDG_INTERFACE
 
 /* Must use C style comments so that "--edg:old_c" options will work! */
 /* DQ (7/13/2006): Undefine these before defining them to avoid warnings. */
@@ -70,6 +68,8 @@
   #error "Macro ROSE_LANGUAGE_MODE should have been defined ROSE_LANGUAGE_MODE == 0 for C and C99 and ROSE_LANGUAGE_MODE == 1 for C++ (CUDA == 2, OpenCL == 3)"
 #endif
 
+/* JJW (12/8/2008): Do not include these definitions for EDG 3.10 */
+#ifndef ROSE_USE_NEW_EDG_INTERFACE
 /* PC (9/25/2006): Define __builtin_va_start to the EDG expected symbol
    __builtin_stdarg_start */
 #define __builtin_va_start __builtin_stdarg_start

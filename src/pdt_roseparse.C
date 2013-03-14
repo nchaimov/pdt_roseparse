@@ -627,8 +627,6 @@ Template * handleTemplate(SgTemplateDeclaration * tDecl, Namespace * parentNames
 // called on each node as we do a depth-first traversal of the AST. Whatever
 // we store in the InheritedAttribute is passed down to children of this node.
 InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, InheritedAttribute inheritedAttribute) {
-	
-
 	// Grab information about our parent.
 	Routine * parentRoutine = inheritedAttribute.routine;
     Statement * parentStatement = inheritedAttribute.statement;
@@ -638,6 +636,7 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
     Statement * afterSwitch = inheritedAttribute.afterSwitch;
 	Type * parentEnum = inheritedAttribute.parentEnum;
 	Template * parentTemplate = inheritedAttribute.parentTemplate;
+    SgTemplateFunctionDefinition * templateFunctionDefinition = inheritedAttribute.templateFunctionDefinition;
     PDTAttribute * pdtAttr = new PDTAttribute();
 
     Sg_File_Info * s = n->get_startOfConstruct();
@@ -998,7 +997,7 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
         }
 
     // *** STATEMENTS ***    
-	} else if(isSgStatement(n)) {
+	} else if(templateFunctionDefinition == NULL && isSgStatement(n)) {
         if(parentRoutine != NULL) {
             Statement * stmt = new Statement(-1, isSgStatement(n)); 
             stmt->depth = inheritedAttribute.depth;
@@ -1660,7 +1659,7 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
         
     // FUNCTION CALLs
     // (Handled as rcalls)
-    } else if(isSgFunctionCallExp(n))  {
+    } else if(templateFunctionDefinition == NULL && isSgFunctionCallExp(n))  {
         if(lang != LANG_FORTRAN) {
             if(parentRoutine == NULL) {
                 std::cerr << "BUG: function call without parent routine!" << std::endl;
@@ -2034,13 +2033,15 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
 	// TEMPLATES
 	if(isSgTemplateDeclaration(n)) {
         parentTemplate = handleTemplate(isSgTemplateDeclaration(n), parentNamespace);
-	} // end templates
-	
-	
+	} 
     
+    if(isSgTemplateFunctionDefinition(n)) {
+        templateFunctionDefinition = isSgTemplateFunctionDefinition(n);
+    } // end templates
+
     n->setAttribute(PDT_ATTRIBUTE, pdtAttr);
     return InheritedAttribute(inheritedAttribute.depth+1, parentRoutine, parentStatement, switchCase,
-            afterSwitch, parentGroup, parentNamespace, parentEnum, parentTemplate);
+            afterSwitch, parentGroup, parentNamespace, parentEnum, parentTemplate, templateFunctionDefinition);
 }
 
 // Called on the way back up the tree.
