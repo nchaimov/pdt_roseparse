@@ -12,7 +12,7 @@ ROSE_INCLUDE_DIR = $(ROSE_HOME)/include
 # Location of library directory after "make install"
 ROSE_LIB_DIR =  $(ROSE_HOME)/lib
 # Location of Boost include directory
-BOOST_CPPFLAGS = -I$(HOME)/include
+BOOST_CPPFLAGS = -I$(BOOST_HOME)/include
 
 CC                    = gcc
 CXX                   = g++
