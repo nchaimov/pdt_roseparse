@@ -264,15 +264,15 @@ TypeID handleType(SgType * type, Namespace * parentNamespace, bool isGroup = fal
                 // if it is of length 1, but SgStringType if it is
                 // of any other length.
 				t->yikind = Type::INT_CHAR;
-			} else if(isSgTypeShort(type)) {
+			} else if(isSgTypeShort(type) || isSgTypeSignedShort(type)) {
 				t->yikind = Type::INT_SHORT;
 			} else if(isSgTypeUnsignedShort(type)) {
 				t->yikind = Type::INT_USHORT;
-			} else if(isSgTypeInt(type)) {
+			} else if(isSgTypeInt(type) || isSgTypeSignedInt(type)) {
 				t->yikind = Type::INT_INT;
 			} else if(isSgTypeUnsignedInt(type)) {
 				t->yikind = Type::INT_UINT;
-			} else if(isSgTypeLong(type)) {
+			} else if(isSgTypeLong(type) || isSgTypeSignedLong(type)) {
 				t->yikind = Type::INT_LONG;
 			} else if(isSgTypeUnsignedLong(type)) {
 				t->yikind = Type::INT_ULONG;

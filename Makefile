@@ -7,6 +7,7 @@
 
 # ROSE install directory
 ROSE_HOME =  $(HOME)/edg4x-edgsrc-rose-inst
+BOOST_HOME = $(HOME)
 # Location of include directory after "make install"
 ROSE_INCLUDE_DIR = $(ROSE_HOME)/include
 # Location of library directory after "make install"
@@ -24,9 +25,9 @@ LDFLAGS               = -L$(ROSE_LIB_DIR) -L$(BOOST_HOME)/lib -L$(BOOST_HOME)/gl
 # Location of source code
 ROSE_SOURCE_DIR = ./src
 
-executableFiles = functionLocator printRoseAST pdt_roseparse preproc nodeFromHandle swap_test
+executableFiles = functionLocator printRoseAST edg44-pdt_roseparse preproc nodeFromHandle swap_test
 
-default: pdt_roseparse
+default: edg44-pdt_roseparse
 
 # Default make rule to use
 all: $(executableFiles)
