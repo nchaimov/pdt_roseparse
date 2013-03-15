@@ -19,7 +19,7 @@ CXX                   = g++
 CPPFLAGS              = $(BOOST_CPPFLAGS) -I$(ROSE_INCLUDE_DIR) -I$(HOME)/glibc-inst/include 
 #CXXCPPFLAGS           = @CXXCPPFLAGS@
 CXXFLAGS              = -g -Wall 
-LDFLAGS               = -L$(ROSE_LIB_DIR) -L$(HOME)/lib -L$(HOME)/glibc-inst/lib -static -pthread -Wl,--start-group -lpthread_nonshared -lboost_system -lboost_wave -lhpdf -lrose -lm -lboost_date_time -lboost_thread -lboost_filesystem -lgcrypt -lgpg-error -lboost_program_options -lboost_regex dlstubs.o -Wl,--end-group 
+LDFLAGS               = -L$(ROSE_LIB_DIR) -L$(BOOST_HOME)/lib -L$(BOOST_HOME)/glibc-inst/lib -static -pthread -Wl,--start-group -lpthread_nonshared -lboost_system -lboost_wave -lhpdf -lrose -lm -lboost_date_time -lboost_thread -lboost_filesystem -lgcrypt -lgpg-error -lboost_program_options -lboost_regex dlstubs.o -Wl,--end-group 
 
 # Location of source code
 ROSE_SOURCE_DIR = ./src
