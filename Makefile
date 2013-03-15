@@ -24,7 +24,7 @@ LDFLAGS               = -L$(ROSE_LIB_DIR) -L$(HOME)/lib -L$(HOME)/glibc-inst/lib
 # Location of source code
 ROSE_SOURCE_DIR = ./src
 
-executableFiles = functionLocator printRoseAST pdt_roseparse preproc nodeFromHandle
+executableFiles = functionLocator printRoseAST pdt_roseparse preproc nodeFromHandle swap_test
 
 default: pdt_roseparse
 
@@ -33,8 +33,10 @@ all: $(executableFiles)
 	@if [ x$${ROSE_IN_BUILD_TREE:+present} = xpresent ]; then echo "ROSE_IN_BUILD_TREE should not be set" >&2; exit 1; fi
 
 clean:
-	rm -f $(executableFiles)
+	rm -f $(executableFiles) *.o
 
-$(executableFiles): 
+$(executableFiles): dlstubs.o
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -o $@ $(ROSE_SOURCE_DIR)/$@.C $(LDFLAGS) 
 
+dlstubs.o: dlstubs.c
+	$(CC) -c dlstubs.c
