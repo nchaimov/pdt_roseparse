@@ -156,6 +156,9 @@ TypeID handleType(SgType * type, Namespace * parentNamespace, bool isGroup = fal
 	if(typeMap.count(mangledName) != 0) {
         // If so, look up the previously generated ID...
 		TypeID prevtid = typeMap[mangledName];
+        if(prevtid.id == 6750) {
+            std::cerr << "Returning previously handled type 6750.\n" << std::endl;
+        }
 		return typeMap[mangledName];
 		
 	// ... otherwise handle it now.
@@ -163,7 +166,8 @@ TypeID handleType(SgType * type, Namespace * parentNamespace, bool isGroup = fal
 		int id = nextTypeID++;
 		Type * t = new Type(id, st); // (id number, name)
         if(SgProject::get_verbose() > 5) {
-            std::cerr << "Handling type ty#" << id << " " << st << " for " << type->sage_class_name() << std::endl;
+            const std::string tlabel = isGroup ? "gr" : "ty";
+            std::cerr << "Handling type " << tlabel << "#" << id << " " << st << " for " << type->sage_class_name() << std::endl;
         }
 		t->fortran = (lang == LANG_FORTRAN);
         TypeID typeID(id, isGroup, t);    // (id number, is a group)
@@ -391,7 +395,10 @@ TypeID handleType(SgType * type, Namespace * parentNamespace, bool isGroup = fal
 				}
 				Group * group = new Group(typeID.id, name, new SourceLocation(declStmt->get_startOfConstruct()));
 	            groups.push_back(group);
-	            groupMap[classDec->get_mangled_name().getString()] = group;
+                if(SgProject::get_verbose() > 5) {
+                    std::cerr << "Added a group gr#" << group->id << " " << group->name << std::endl;
+                }
+	            groupMap[getUniqueTypeName(classDec->get_type())] = group;
 				if(classDec != NULL) {
 					switch(classDec->get_class_type()) {
 		                case SgClassDeclaration::e_class: 
@@ -1711,24 +1718,30 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
             // 			cerr << n->unparseToString() << endl;
         }
     
-    // *** CLASSES (GROUPS) ***
     } 
+
+    // *** CLASSES (GROUPS) ***
     if(isSgClassDeclaration(n)) {
         SgClassDeclaration * classDec = isSgClassDeclaration(n);
         SgClassDefinition * classDef = classDec->get_definition();
         if(classDec != NULL) {
-
 			// Don't reprocess a group we've already seen before
 			// (e.g. forward declaration)
 			Group * group = NULL;
-			if(groupMap.count(classDec->get_mangled_name().getString()) == 0) {
+			if(groupMap.count(getUniqueTypeName(classDec->get_type())) == 0) {
 				// Passing in parentNamespace will set ynspace in the generated type.
 	            TypeID tid = handleType(classDec->get_type(), parentNamespace, true);
 	            group = new Group(tid.id, classDec->get_name().getString(), new SourceLocation(s));
 	            groups.push_back(group);
-	            groupMap[classDec->get_mangled_name().getString()] = group;
+                if(SgProject::get_verbose() > 5) {
+                    std::cerr << "Added a group gr#" << group->id << " " << group->name << " from a declaration." << std::endl;
+                }
+	            groupMap[getUniqueTypeName(classDec->get_type())] = group;
 			} else {
-				group = groupMap[classDec->get_mangled_name().getString()];
+				group = groupMap[getUniqueTypeName(classDec->get_type())];
+                if(group == NULL) {
+                    std::cerr << "Error: should not have retrieved NULL group from group map for " << n->unparseToString() << std::endl;
+                }
 			}
 
             if(parentGroup != NULL) {
@@ -1795,7 +1808,7 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
                     baseGroup->prot = accMod.isProtected();
                     baseGroup->priv = accMod.isPrivate();
                     baseGroup->sgClass = base->get_base_class();
-                    baseGroup->name = baseGroup->sgClass->get_mangled_name().getString();
+                    baseGroup->name = getUniqueTypeName(baseGroup->sgClass->get_type());
                     group->gbases.push_back(baseGroup); 
                 }
             }
@@ -1828,7 +1841,7 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
                         SgClassDeclaration * friendClass = isSgClassDeclaration(memDecl);
                         BaseGroup * gfrgroup = new BaseGroup();
                         gfrgroup->sgClass = friendClass;
-                        gfrgroup->name = friendClass->get_mangled_name().getString();
+                        gfrgroup->name = getUniqueTypeName(friendClass->get_type());
                         gfrgroup->loc = new SourceLocation(friendClass->get_startOfConstruct());
                         group->gfrgroups.push_back(gfrgroup);  
 
