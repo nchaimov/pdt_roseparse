@@ -9769,10 +9769,15 @@ else
     echo "GCC is 4.4 or newer or not used; no header modifications needed."
 fi
 
-echo "Creating roseparse script"
+echo "Creating edg44-c-roseparse script"
 ROSEPARSE_DIR=`pwd`
-sed -e "s,@ROSEPARSE_DIR@,$ROSEPARSE_DIR,g" edg44-roseparse.in > edg44-roseparse
-chmod +x edg44-roseparse
+sed -e "s,@ROSEPARSE_DIR@,$ROSEPARSE_DIR,g" edg44-c-roseparse.in > edg44-c-roseparse
+chmod +x edg44-c-roseparse
+
+echo "Creating edg44-cxx-roseparse script"
+ROSEPARSE_DIR=`pwd`
+sed -e "s,@ROSEPARSE_DIR@,$ROSEPARSE_DIR,g" edg44-cxx-roseparse.in > edg44-cxx-roseparse
+chmod +x edg44-cxx-roseparse
 
 echo "Creating upcparse script"
 sed -e "s,@ROSEPARSE_DIR@,$ROSEPARSE_DIR,g" edg44-upcparse.in > edg44-upcparse

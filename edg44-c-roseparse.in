@@ -1,0 +1,23 @@
+#!/bin/bash
+
+PWD="$(pwd)"
+ROSEPARSE_DIR="@ROSEPARSE_DIR@"
+
+C_INCLUDES="$ROSEPARSE_DIR/rose_c_includes"
+CXX_INCLUDES="$ROSEPARSE_DIR/rose_cxx_includes"
+
+if [ ! -f $C_INCLUDES -o ! -f $CXX_INCLUDES ];
+then
+    echo "Error: configuration files not found; run configure first."
+    exit 1
+fi
+
+if [ ! -f $ROSEPARSE_DIR/edg44-pdt_roseparse ];
+then
+    echo "Error: pdt_roseparse not found; make sure ROSEPARSE_DIR is set."
+    exit 1
+fi
+
+ROSE_OPTIONS="-I$PWD -pdtConfDir=$ROSEPARSE_DIR"
+
+exec $ROSEPARSE_DIR/edg44-pdt_roseparse $ROSE_OPTIONS "$@"
