@@ -2,4 +2,5 @@
 
 ROSEPARSE_DIR="@ROSEPARSE_DIR@"
 
-exec $ROSEPARSE_DIR/edg44-roseparse -rose:UPC -rose:upc_threads 4 "$@" 
+exec $ROSEPARSE_DIR/edg44-c-roseparse -rose:UPC -rose:upc_threads 4 "$@" 
+
