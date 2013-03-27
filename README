@@ -1,3 +1,16 @@
 This is roseparse based on the edg4x-rose branch of ROSE.
 
 Before using roseparse, first generate required headers and configuration files by running ./configure.
+
+It uses ROSE_HOME in the Makefile to point to the edg44-rose repo. 
+module unload gcc
+setenv BOOST_HOME /home9/nchaimov
+
+./configure
+make clean
+make
+
+It picks up the installed directory (specified explicitly in Makefile) from here:
+[sameer@cn180 edg44-roseparse]$ ls -lt ~/edg4x-edgsrc-rose-inst
+lrwxrwxrwx 1 sameer cas_cis 38 Mar 14 17:30 /home3/sameer/edg4x-edgsrc-rose-inst -> apps/pdtrose/pkgs/edg4x-rose-installed
+
