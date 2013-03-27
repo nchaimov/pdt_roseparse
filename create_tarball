@@ -1,5 +1,5 @@
 mkdir -p tmp-dist/roseparse
-cp -r config configure edg44-c-roseparse.in edg44-cxx-roseparse.in edg44-upcparse.in rose_config.h.in edg44-pdt_roseparse tmp-dist/roseparse
+cp -r README config configure edg44-c-roseparse.in edg44-cxx-roseparse.in edg44-upcparse.in rose_config.h.in edg44-pdt_roseparse tmp-dist/roseparse
 cd tmp-dist
 tar cvf roseparse.tar roseparse
 gzip roseparse.tar
