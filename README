@@ -1,3 +1,19 @@
+NOTES for APPLE:
+================
+Please build on 10.7 so binaries will work on 10.8.3+. If you build on Mountain Lion, binaries will not
+work on Lion. 
+Please use the libstdc++.a and libgcc_eh.a provided in the Apple directory. 
+
+For APPLE, it is very important that $(BOOST_HOME)/lib not contain any .dylib files so boost libraries are
+statically linked. Hence, the make clean target has the:
+rm -f $(BOOST_HOME)/lib/*.dylib
+
+For Apple, we use perl -p -e 's/,/\n/g' instead of sed. And config/rose_edg_required_macros_and_functions.h 
+has a masked declaration of __builtin_bswap64:
+#ifndef __APPLE__
+long int __builtin_bswap64 (long int x);
+#endif
+
 This is roseparse based on the edg4x-rose branch of ROSE.
 
 Before using roseparse, first generate required headers and configuration files by running ./configure.
