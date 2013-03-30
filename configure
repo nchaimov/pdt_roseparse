@@ -9758,9 +9758,18 @@ fi
 
 
 echo "Creating rose_c_includes"
-grep C_INCLUDE_STRING rose_config.h | sed -e 's/#define C_INCLUDE_STRING//' -e 's/,/\n/g' -e 's/[{}]//g' | awk '{print $1}' | sed -e 's/^"\(.*\)"$/\1/' > rose_c_includes
+if test "x$APPLE"  = xyes ; then
+# SSS: BSD sed doesn't like sed -e 's/,/\n/g' for adding newlines. We use perl instead, which works. 
+  echo "Using APPLE perl -p -e for inserting newlines instead of sed"
+  grep C_INCLUDE_STRING rose_config.h | sed -e 's/#define C_INCLUDE_STRING//' | perl -p -e 's/,/\n/g' | sed -e 's/[{}]//g' | awk '{print $1}' | sed -e 's/^"\(.*\)"$/\1/' > rose_c_includes
+  echo "Creating rose_cxx_includes"
+  grep CXX_INCLUDE_STRING rose_config.h | sed -e 's/#define CXX_INCLUDE_STRING//' | perl -p -e 's/,/\n/g' | sed -e 's/[{}]//g' | awk '{print $1}' | sed -e 's/^"\(.*\)"$/\1/' > rose_cxx_includes
+else 
+# Linux and other OSes have no issues with sed
+  grep C_INCLUDE_STRING rose_config.h | sed -e 's/#define C_INCLUDE_STRING//' -e 's/,/\n/g' -e 's/[{}]//g' | awk '{print $1}' | sed -e 's/^"\(.*\)"$/\1/' > rose_c_includes
 echo "Creating rose_cxx_includes"
-grep CXX_INCLUDE_STRING rose_config.h | sed -e 's/#define CXX_INCLUDE_STRING//' -e 's/,/\n/g' -e 's/[{}]//g' | awk '{print $1}' | sed -e 's/^"\(.*\)"$/\1/' > rose_cxx_includes
+  grep CXX_INCLUDE_STRING rose_config.h | sed -e 's/#define CXX_INCLUDE_STRING//' -e 's/,/\n/g' -e 's/[{}]//g' | awk '{print $1}' | sed -e 's/^"\(.*\)"$/\1/' > rose_cxx_includes
+fi
 echo "Moving required headers to include"
 rm -rf include
 mv include-staging include
