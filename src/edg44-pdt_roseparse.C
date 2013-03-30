@@ -1504,7 +1504,7 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
             } else if(isSgUpcBarrierStatement(n)) {
                 stmt->kind = Statement::STMT_UPC_BARRIER;
                 SgExpression * expr = isSgUpcBarrierStatement(n)->get_barrier_expression();
-                if(expr != NULL) {
+                if(expr != NULL && !isSgNullExpression(expr)) {
                     if(stmt->end != NULL) {
                         delete stmt->end;
                     }
@@ -1538,7 +1538,7 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
             } else if(isSgUpcNotifyStatement(n)) {
                 stmt->kind = Statement::STMT_UPC_NOTIFY;
                 SgExpression * expr = isSgUpcNotifyStatement(n)->get_notify_expression();
-                if(expr != NULL) {
+                if(expr != NULL && !isSgNullExpression(expr)) {
                     if(stmt->end != NULL) {
                         delete stmt->end;
                     }
@@ -1559,7 +1559,7 @@ InheritedAttribute VisitorTraversal::evaluateInheritedAttribute(SgNode* n, Inher
             } else if(isSgUpcWaitStatement(n)) {
                 stmt->kind = Statement::STMT_UPC_WAIT;
                 SgExpression * expr = isSgUpcWaitStatement(n)->get_wait_expression();
-                if(expr != NULL) {
+                if(expr != NULL && !isSgNullExpression(expr)) {
                     if(stmt->end != NULL) {
                         delete stmt->end;
                     }
