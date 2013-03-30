@@ -2175,7 +2175,9 @@ int __builtin_ia32_psrlqi(long long,int);
 // explictly e.g. int32_t __builtin_bswap32 (int32_t x)
 // However, integer types such as int32_t are not defined here.
 int __builtin_bswap32 (int x);
+#ifndef __APPLE__
 long int __builtin_bswap64 (long int x);
+#endif /* __APPLE__ */
 
 /* matching else for SKIP_ROSE_BUILTIN_DECLARATIONS */
 #else
